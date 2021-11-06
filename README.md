@@ -1,6 +1,7 @@
 # DiscordAMX
 
 A .NET Console App that lets you script your Discord Bots using the awesome [PAWN](https://github.com/pawn-lang) scripting language.
+The core goal is to make Discord Bots for everyone!
 ```
 forward UpdateDiscordActivity();
 
