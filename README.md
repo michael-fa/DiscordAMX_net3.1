@@ -1,5 +1,7 @@
 # DiscordAMX
 
+## :de: [German](https://github.com/michael-fa/DiscordAMX/blob/master/german_readme.md) translation is also available.
+
 A .NET Console App that lets you script your Discord Bots using the awesome [PAWN](https://github.com/pawn-lang) scripting language.
 The core goal is to make Discord Bots for everyone!
 ```
@@ -7,7 +9,7 @@ forward UpdateDiscordActivity();
 
 main()
 {
-	DC_SetToken("aBzDxYzaBzDxYzaBzDxYz1aBzDxYz");
+    DC_SetToken("aBzDxYzaBzDxYzaBzDxYz1aBzDxYz");
     DC_SetMinLogLevel(1);
 }
 
