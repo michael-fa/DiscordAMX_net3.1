@@ -22,8 +22,18 @@ namespace bot
         public static DiscordConfiguration dConfig = new DiscordConfiguration()
         {
 
-           // Token = "",
+            // Token = "",
             TokenType = TokenType.Bot,
+            Intents = DiscordIntents.DirectMessageReactions
+            | DiscordIntents.DirectMessages
+            | DiscordIntents.GuildBans
+            | DiscordIntents.GuildEmojis
+            | DiscordIntents.GuildInvites
+            | DiscordIntents.GuildMembers
+            | DiscordIntents.GuildMessages
+            | DiscordIntents.Guilds
+            | DiscordIntents.GuildVoiceStates
+            | DiscordIntents.GuildWebhooks,
             AutoReconnect = true
         };
 

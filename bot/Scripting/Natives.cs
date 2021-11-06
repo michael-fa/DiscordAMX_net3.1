@@ -92,6 +92,14 @@ namespace bot.Scripting
             return 1;
         }
 
+        public static int DC_SetGuild(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
+
+            Program.dConfig.Token = args1[0].AsString();
+            return 1;
+        }
+
 
 
 

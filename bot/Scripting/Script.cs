@@ -51,6 +51,7 @@ namespace bot.Scripting
         {
             amx.Register("printc", (amx1, args1) => Natives.printc(amx1, args1, this));
             amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DC_SetMinLogLevel(amx1, args1, this));
+            amx.Register("DC_SetGuild", (amx1, args1) => Natives.DC_SetGuild(amx1, args1, this));
             amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DC_SetActivityText(amx1, args1, this));
             amx.Register("DC_SetToken", (amx1, args1) => Natives.DC_SetToken(amx1, args1, this));
             amx.Register("LoadScript", (amx1, args1) => Natives.loadscript(amx1, args1, this));
@@ -58,7 +59,6 @@ namespace bot.Scripting
             amx.Register("KillTimer", (amx1, args1) => Natives.KillTimer(amx1, args1, this));
             amx.Register("UnloadScript", (amx1, args1) => Natives.unloadscript(amx1, args1, this));
             amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
-
             amx.Register("ALTV_GetPublicServerInfo", (amx1, args1) => Natives.ALTV_GetPublicServerInfo(amx1, args1, this));
 
 

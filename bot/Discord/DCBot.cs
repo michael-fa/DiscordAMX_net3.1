@@ -22,6 +22,8 @@ namespace bot.Discord
         public InteractivityExtension Interactivity { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
 
+        public string m_GuildID;
+
 
         public bool WaitingForResponse = false;
 
@@ -54,12 +56,14 @@ namespace bot.Discord
 
             Client.GuildDownloadCompleted += GuildDownloadCompleted;
             Client.Heartbeated += OnHeartbeated;
+            Client.GuildMemberAdded += OnMemberJoin;
+            Client.GuildMemberRemoved += OnMemberLeave;
 
             var commandsConfig = new CommandsNextConfiguration
             {
                 StringPrefixes = new string[] { "?" },
                 EnableMentionPrefix = true,
-                
+             
                 EnableDms = true
             };
             Commands = Client.UseCommandsNext(commandsConfig);
@@ -96,7 +100,7 @@ namespace bot.Discord
             await Client.DisconnectAsync();
         }
 
-        private Task GuildDownloadCompleted(DiscordClient c,  GuildDownloadCompletedEventArgs a)
+        private Task GuildDownloadCompleted(DiscordClient c, GuildDownloadCompletedEventArgs a)
         {
 
             //Console.WriteLine("Bot ready | " + a.Guilds.Count + " Guilds.");
@@ -104,7 +108,11 @@ namespace bot.Discord
             );
             InfoUpdate.Start();*/
             AMXPublic p = Program.Scripts[0].amx.FindPublic("OnInit");
-            p.Execute();
+            if (p != null)
+            {
+                p.Execute();
+                
+            }
             return Task.CompletedTask;
         }
 
@@ -126,7 +134,57 @@ namespace bot.Discord
         private static Task OnHeartbeated(DiscordClient c, HeartbeatEventArgs e)
         {
             AMXPublic p = Program.Scripts[0].amx.FindPublic("OnHeartbeat");
+            if (p == null) return Task.CompletedTask;
             p.Execute();
+            return Task.CompletedTask;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private Task OnMemberJoin(DiscordClient c, GuildMemberAddEventArgs arg)
+        {
+            // Console.WriteLine("\n\nmember joined " + arg.Member.Id.ToString() + "\n\n");
+            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnMemberJoin");
+            if (p != null)
+            {
+                var tmp = p.AMX.Push(arg.Member.Id.ToString());
+                p.Execute();
+                p.AMX.Release(tmp);
+                GC.Collect();
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnMemberLeave(DiscordClient c, GuildMemberRemoveEventArgs arg)
+        {
+            //  Console.WriteLine("\n\nmember joined " + arg.Member.Id.ToString() + "\n\n");
+            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnMemberLeave");
+            if (p != null)
+            {
+                var tmp = p.AMX.Push(arg.Member.Id.ToString());
+                p.Execute();
+                p.AMX.Release(tmp);
+                GC.Collect();
+            }
+
             return Task.CompletedTask;
         }
     }
