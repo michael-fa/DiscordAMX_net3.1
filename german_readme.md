@@ -7,7 +7,8 @@ forward Spieleranzahl_Refresh();
 
 main()
 {
-  	DC_SetToken("aBzDxYzaBzDxYzaBzDxYz1aBzDxYz");
+    DC_SetToken("aBzDxYzaBzDxYzaBzDxYz1aBzDxYz"); // <- sonst funzt nichts.
+    DC_SetGuild("012345678912345678"); // <- sonst funzt nichts.
     DC_SetMinLogLevel(1);
 }
 
