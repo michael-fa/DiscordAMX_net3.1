@@ -94,9 +94,9 @@ namespace bot.Scripting
 
         public static int DC_SetGuild(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
+             if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
 
-            Program.dConfig.Token = args1[0].AsString();
+            Program.m_GuildID = args1[0].AsString();
             return 1;
         }
 
@@ -220,7 +220,7 @@ namespace bot.Scripting
             // Program.botr.Client.GetGuildAsync(guild);
             DiscordGuild guild;
 
-            bot.Program.botr.Client.Guilds.TryGetValue(906110121233514506, out guild);
+            bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
             try
             {
                 //Console.WriteLine("guild + " +  guild + " | id: " + args1[0].AsString());

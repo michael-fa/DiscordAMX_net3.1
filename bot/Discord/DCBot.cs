@@ -22,7 +22,7 @@ namespace bot.Discord
         public InteractivityExtension Interactivity { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
 
-        public string m_GuildID;
+        
 
 
         public bool WaitingForResponse = false;
@@ -36,13 +36,11 @@ namespace bot.Discord
 
         public async Task RunAsync(DiscordConfiguration dConfig)
         {
-            /*var json = string.Empty;
-            using (var fs = File.OpenRead("config.json"))
-            using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
-                json = await sr.ReadToEndAsync().ConfigureAwait(false);
-
-            var configJson = JsonConvert.DeserializeObject<ConfigJson>(json);
-            */
+            if(Program.m_GuildID == null || Program.m_GuildID.Length == 0 )
+            {
+                Utilities.Log.WriteLine("\nScript main needs SetGuild function called!\n");
+                return;
+            }
 
             try
             {
@@ -58,6 +56,7 @@ namespace bot.Discord
             Client.Heartbeated += OnHeartbeated;
             Client.GuildMemberAdded += OnMemberJoin;
             Client.GuildMemberRemoved += OnMemberLeave;
+            Client.MessageCreated += OnMessage;
 
             var commandsConfig = new CommandsNextConfiguration
             {
@@ -73,14 +72,6 @@ namespace bot.Discord
 
             });
 
-            //Commands.RegisterCommands<Commands.AdminCommands>();
-
-            //Initial steps of something
-            //string gettet = Utils.HttpGet("https://api.altstats.net/api/v1/server/723");
-            //var srvInfo = JsonConvert.DeserializeObject<Program.ServerInfo>(gettet);
-
-            // Program.UserCount = srvInfo.Players;
-
             try
             {
                 await Client.ConnectAsync();
@@ -89,11 +80,9 @@ namespace bot.Discord
             {
                 Utilities.Log.Print(ex);
             }
-
-
-
-            //await Task.Delay(-1);
         }
+
+
 
         public async Task DisconnectAsync()
         {
@@ -103,10 +92,13 @@ namespace bot.Discord
         private Task GuildDownloadCompleted(DiscordClient c, GuildDownloadCompletedEventArgs a)
         {
 
-            //Console.WriteLine("Bot ready | " + a.Guilds.Count + " Guilds.");
-            /*Task InfoUpdate = new Task(() => UpdateServerInfo()
-            );
-            InfoUpdate.Start();*/
+            if(a.Guilds.Count == 0)
+            {
+                Utilities.Log.WriteLine("Script main has no valid Discord Server ID declared!\nMake sure u are using DC_SetGuild() in script main!");
+                return Task.CompletedTask;
+            }
+
+
             AMXPublic p = Program.Scripts[0].amx.FindPublic("OnInit");
             if (p != null)
             {
@@ -115,21 +107,6 @@ namespace bot.Discord
             }
             return Task.CompletedTask;
         }
-
-        /* private void UpdateServerInfo()
-         {
-             while (Program.runme)
-             {
-                 Console.WriteLine("OnServerInfoUpdate");
-                 string gettet = Utils.HttpGet("https://api.altstats.net/api/v1/server/671"); //Unser 723
-                 var srvInfo = JsonConvert.DeserializeObject<Program.ServerInfo>(gettet);
-                 Program.UserCount = srvInfo.Players;
-
-                 var act = new DiscordActivity("Spieler: " + robomonkey.Program.UserCount, ActivityType.Playing);
-                 this.Client.UpdateStatusAsync(act);
-                 Thread.Sleep(10000);
-             }
-         }*/
 
         private static Task OnHeartbeated(DiscordClient c, HeartbeatEventArgs e)
         {
@@ -182,6 +159,25 @@ namespace bot.Discord
                 var tmp = p.AMX.Push(arg.Member.Id.ToString());
                 p.Execute();
                 p.AMX.Release(tmp);
+                GC.Collect();
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task OnMessage(DiscordClient c, MessageCreateEventArgs arg)
+        {
+            //  Console.WriteLine("\n\nmember joined " + arg.Member.Id.ToString() + "\n\n");
+            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnMessage");
+            if (p != null)
+            {
+                var tmp2 = p.AMX.Push(arg.Message.Content);
+                var tmp1 = p.AMX.Push(arg.Message.Author.Id.ToString());
+                var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                p.Execute();
+                p.AMX.Release(tmp);
+                p.AMX.Release(tmp1);
+                p.AMX.Release(tmp2);
                 GC.Collect();
             }
 

@@ -18,6 +18,7 @@ namespace bot
         public static Discord.DCBot botr;
         public static List<Scripting.ScriptTimer> ScriptTimers;
         public static List<Scripting.Script> Scripts;
+        public static string m_GuildID = null;
 
         public static DiscordConfiguration dConfig = new DiscordConfiguration()
         {
@@ -115,7 +116,7 @@ namespace bot
             string cmd = Console.ReadLine();
 
             if (cmd.Equals("exit"))
-                _ = botr.DisconnectAsync();
+                StopSafely();
             goto cmdloop;
         }
 
@@ -136,6 +137,8 @@ namespace bot
                 script.amx = null;
                 Utilities.Log.WriteLine("Script " + script._amxFile + " unloaded.");
             }
+
+            _ = botr.DisconnectAsync();
 
             File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old on
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");
