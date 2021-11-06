@@ -46,9 +46,8 @@ Run it on windows and make sure you have <b>.NET Framework 4.7.2</b> !
 
 
 ## Planned for first release
-* DC_OnChannelMessage()
-* DC_OnMemberJoin()
-* DC_OnReactionAdded()
+* Built in MySQL Support
+* Music streaming support
 * DC_RegisterCommand()
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
