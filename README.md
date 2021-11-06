@@ -10,6 +10,7 @@ forward UpdateDiscordActivity();
 main()
 {
     DC_SetToken("aBzDxYzaBzDxYzaBzDxYz1aBzDxYz");
+    DC_SetGuild("012345678912345678");
     DC_SetMinLogLevel(1);
 }
 
