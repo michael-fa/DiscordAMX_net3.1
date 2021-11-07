@@ -80,6 +80,7 @@ Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.
 * Music streaming support
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
+* File handling
 
 ### Third party info
 * Using [PAWN Wrapper by ikkentim](https://github.com/ikkentim/AMXWrapper)
