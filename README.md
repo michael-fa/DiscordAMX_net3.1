@@ -1,6 +1,7 @@
 # DiscordAMX  [![Generic badge](https://img.shields.io/github/v/release/michael-fa/DiscordAMX?include_prereleases)](https://github.com/michael-fa/DiscordAMX/releases)
 
 ## :de: [German](https://github.com/michael-fa/DiscordAMX/blob/master/german_readme.md) translation is also available.
+## [Read the Wiki](https://github.com/michael-fa/DiscordAMX/wiki)
 
 A .NET Console App that lets you script your Discord Bots using the awesome [PAWN](https://github.com/pawn-lang) scripting language.
 The core goal is to make Discord Bots for everyone!
