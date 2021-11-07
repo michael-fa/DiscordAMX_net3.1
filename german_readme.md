@@ -34,7 +34,7 @@ public Spieleranzahl_Refresh()
 Hier ist noch nichts perfekt, garantiert oder fertig! Bitte schaut später vorbei wenn ich keine PAWN Scripter seid!
 Watch anklicken nicht vergessen!
 
-Bitte geht sicher dass ihr mindestens .NET Framework 4.7.2 installiert habt!
+Bitte geht sicher dass ihr mindestens .NET Runtime 5.0 installiert habt!
 
 
 ## Features
