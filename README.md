@@ -45,12 +45,12 @@ Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.
 * Set the DiscordActivity ('playing' for now only) Text 
 * Send Messages to any channel
 * Setting timers
+* Receive onReaction, onMemberJoin, onMemberLeave, onMessage, on onCommand! **(Note until wiki is done: Commands in DiscordAMX are all handled with / as prefix!)**
 
 
 ## Planned for first release
 * Built in MySQL Support
 * Music streaming support
-* DC_RegisterCommand()
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
 
