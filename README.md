@@ -38,6 +38,8 @@ The whole project is still in its early days, meaning there will be huge changes
 The current RELEASE is meant for experienced scripters and is only for pure testing.
 Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.microsoft.com/download/dotnet/5.0)</b> ! 
 
+* ##' :warning: (ALPHA NOTE: ONLY ONE SCRIPT SUPPORTED FOR NOW! Your own Script must be put in /Scripts/ folder AND renamed to 'main.amx')
+
 
 ## Current Features
 * Set the DiscordActivity ('playing' for now only) Text 
