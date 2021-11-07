@@ -43,13 +43,12 @@ Bitte geht sicher dass ihr mindestens .NET Runtime 5.0 installiert habt!
 * Empfange bereits schon: OnMessage, OnMemberJoin, OnMemberLeave, OnCommand, OnReactionAdded
 * Nachrichten an beliebigen Channel senden
 * Timer verwenden (ansync, multithreadded)
-* Empfange 
+* GetMember -Name/NickName/Discriminator Funktion
 
 
-## Geplant ist
+## Voraussichtlich geplant ist:
 * Nativer MySQL Support
 * Natives YT->MP3 & Music Streaming
-* More detailed User, Message, Guild & other -Natives (z.B Nutzer per Name oder ID getten, PMs, usw)
 * Eine eigene, bessere printf  funktion (die jetzte ist dennoch sehr gut)
 
 ### 'Dritthersteller' info
