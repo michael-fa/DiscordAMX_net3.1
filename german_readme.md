@@ -39,8 +39,11 @@ Bitte geht sicher dass ihr mindestens .NET Runtime 5.0 installiert habt!
 
 ## Features
 * DiscordActivity Text setzen (fürs erste nur als 'playing')  
+* DC_Token, DC_Guild setzen, beides notwendig in Script main(). Momentan ist nur eine Guild (Discord Server) pro DiscordAMX Instanz unterstützt.
+* Empfange bereits schon: OnMessage, OnMemberJoin, OnMemberLeave, OnCommand, OnReactionAdded
 * Nachrichten an beliebigen Channel senden
 * Timer verwenden (ansync, multithreadded)
+* Empfange 
 
 
 ## Geplant ist
