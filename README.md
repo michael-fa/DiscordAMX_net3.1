@@ -35,7 +35,22 @@ public OnUnload()
     return 1;
 }
 
-public OnHeartbeat()
+public OnMemberJoin(memberid[])
+{
+    return 1;
+}
+
+public OnMemberLeave(memberid[])
+{
+    return 1;
+}
+
+public OnMessage(channelid[], memberid[], message[])
+{
+    return 1;
+}
+
+public OnMessageDeleted(messageid[])
 {
     return 1;
 }
