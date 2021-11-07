@@ -7,27 +7,37 @@
 A .NET Console App that lets you script your Discord Bots using the awesome [PAWN](https://github.com/pawn-lang) scripting language.
 The core goal is to make Discord Bots for everyone!
 ```
-forward UpdateDiscordActivity();
+#include <a_dcamx>
+
+#define MY_BOT_TOKEN "YOUR_BOT_TOKEN"
+#define MY_GUILD_ID "YOUR_GUILD_ID"
+#define EXAMPLE_CHANNEL "CHANNEL_ID_AS_STRING"
+
+
 
 main()
 {
-    DC_SetToken("aBzDxYzaBzDxYzaBzDxYz1aBzDxYz");
-    DC_SetGuild("012345678912345678");
-    DC_SetMinLogLevel(1);
+	DC_SetToken(MY_BOT_TOKEN);
+        DC_SetGuild(MY_GUILD_ID);
+        DC_SetMinLogLevel(1);
+	print(" => Awesome Discord Bot starting!\n");
 }
 
 public OnInit()
 {
-    DC_SetActivityText("DiscordAMX!");
-    printc("OnInit called.");
+	DC_SendChannelMessage(EXAMPLE_CHANNEL, "I just scripted my own Discord Bot! Hurraay!");
+	print(" => Awesome Discord Bot is started!\n");
+	return 1;
+}
 
-    SetTimer("UpdateDiscordActivity", 5000);
+public OnUnload()
+{
     return 1;
 }
 
-public UpdateDiscordActivity()
+public OnHeartbeat()
 {
-	DC_SendChannelMessage("000000000000000000", "My awesome bot!");
+    return 1;
 }
 ```
 
