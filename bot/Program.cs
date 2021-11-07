@@ -10,6 +10,7 @@ using bot.Utilities;
 using System.Drawing;
 using DSharpPlus;
 using System.IO;
+using System.Threading;
 
 namespace bot
 {
@@ -26,7 +27,8 @@ namespace bot
             // Token = "",
             TokenType = TokenType.Bot,
             Intents = DiscordIntents.DirectMessageReactions
-            | DiscordIntents.DirectMessages
+            | DiscordIntents.DirectMessages 
+            | DiscordIntents.GuildMessageReactions
             | DiscordIntents.GuildBans
             | DiscordIntents.GuildEmojis
             | DiscordIntents.GuildInvites
@@ -94,8 +96,10 @@ namespace bot
 
             if(!File.Exists("Scripts/main.amx"))
             {
-                Utilities.Log.WriteLine("no scripts found!");
+                Utilities.Log.WriteLine("no scripts found! (Alpha release note: make sure your script is called main.amx inside /Scripts/ folder!");
+                Thread.Sleep(5000);
                 StopSafely();
+                return;
             }
 
             try
@@ -123,7 +127,7 @@ namespace bot
         static private void StopSafely()
         {
             
-
+            
             foreach (Scripting.Script script in Scripts)
             {
                 if (script.amx == null) continue;
@@ -138,7 +142,7 @@ namespace bot
                 Utilities.Log.WriteLine("Script " + script._amxFile + " unloaded.");
             }
 
-            _ = botr.DisconnectAsync();
+            if(botr != null) _ = botr.DisconnectAsync();
 
             File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old on
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");

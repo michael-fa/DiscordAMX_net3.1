@@ -48,6 +48,7 @@ namespace bot.Discord
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message + ex.Source + "\n" + ex.StackTrace);
                 Utilities.Log.Print(ex);
             }
 
@@ -57,6 +58,9 @@ namespace bot.Discord
             Client.GuildMemberAdded += OnMemberJoin;
             Client.GuildMemberRemoved += OnMemberLeave;
             Client.MessageCreated += OnMessage;
+            Client.MessageDeleted += OnMessageDeleted;
+            Client.MessageReactionAdded += OnReactionAdded;
+            Client.MessageReactionRemoved += OnReactionRemoved;
 
             var commandsConfig = new CommandsNextConfiguration
             {
@@ -78,6 +82,7 @@ namespace bot.Discord
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message + ex.Source + "\n" + ex.StackTrace);
                 Utilities.Log.Print(ex);
             }
         }
@@ -167,21 +172,101 @@ namespace bot.Discord
 
         private Task OnMessage(DiscordClient c, MessageCreateEventArgs arg)
         {
-            //  Console.WriteLine("\n\nmember joined " + arg.Member.Id.ToString() + "\n\n");
-            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnMessage");
+
+            if(arg.Message.Content.StartsWith("/"))
+            {
+                //  Console.WriteLine("\n\nmember joined " + arg.Member.Id.ToString() + "\n\n");
+                AMXPublic p = Program.Scripts[0].amx.FindPublic("OnCommand");
+                if (p != null)
+                {
+                    var tmp2 = p.AMX.Push(arg.Message.Content.Remove(0, 1));
+                    var tmp1 = p.AMX.Push(arg.Message.Author.Id.ToString());
+                    var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                    p.Execute();
+                    p.AMX.Release(tmp);
+                    p.AMX.Release(tmp1);
+                    p.AMX.Release(tmp2);
+                    GC.Collect();
+                }
+            }
+            else
+            {
+                //  Console.WriteLine("\n\nmember joined " + arg.Member.Id.ToString() + "\n\n");
+                AMXPublic p = Program.Scripts[0].amx.FindPublic("OnMessage");
+                if (p != null)
+                {
+
+                    var tmp2 = p.AMX.Push(arg.Message.Content);
+                    var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
+                    var tmp1 = p.AMX.Push(arg.Message.Author.Id.ToString());
+                    var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                    p.Execute();
+                    p.AMX.Release(tmp);
+                    p.AMX.Release(tmp1);
+                    p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp3);
+                    GC.Collect();
+                }
+
+
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task OnMessageDeleted(DiscordClient c, MessageDeleteEventArgs arg)
+        {
+            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnMessageDeleted");
             if (p != null)
             {
-                var tmp2 = p.AMX.Push(arg.Message.Content);
-                var tmp1 = p.AMX.Push(arg.Message.Author.Id.ToString());
-                var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                var tmp = p.AMX.Push(arg.Message.Id.ToString());
+                p.Execute();
+                p.AMX.Release(tmp);
+                GC.Collect();
+            }
+            return Task.CompletedTask;
+        }
+
+        private Task OnReactionAdded(DiscordClient c, MessageReactionAddEventArgs arg)
+        {
+            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnReactionAdded");
+            if (p != null)
+            {
+                var tmp = p.AMX.Push(arg.Channel.Id.ToString());
+                var tmp1 = p.AMX.Push(arg.User.Id.ToString());
+                var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+
+
                 p.Execute();
                 p.AMX.Release(tmp);
                 p.AMX.Release(tmp1);
                 p.AMX.Release(tmp2);
+                p.AMX.Release(tmp3);
                 GC.Collect();
             }
-
             return Task.CompletedTask;
         }
+
+        private Task OnReactionRemoved(DiscordClient c, MessageReactionRemoveEventArgs arg)
+        {
+            AMXPublic p = Program.Scripts[0].amx.FindPublic("OnReactionRemoved");
+            if (p != null)
+            {
+                var tmp = p.AMX.Push(arg.Channel.Id.ToString());
+                var tmp1 = p.AMX.Push(arg.User.Id.ToString());
+                var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+
+
+                p.Execute();
+                p.AMX.Release(tmp);
+                p.AMX.Release(tmp1);
+                p.AMX.Release(tmp2);
+                p.AMX.Release(tmp3);
+                GC.Collect();
+            }
+            return Task.CompletedTask;
+        }
+
     }
 }

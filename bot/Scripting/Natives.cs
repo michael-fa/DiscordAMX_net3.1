@@ -109,10 +109,43 @@ namespace bot.Scripting
 
         public static int DC_SetActivityText(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
+            try
+            {
 
-            //ActivityType.
-            var act = new DiscordActivity(args1[0].AsString(), ActivityType.Playing);
+                if (String.IsNullOrEmpty(args1[0].AsString()))
+                {
+                    Utilities.Log.WriteLine("[ERROR] DC_SetActivityText -> argument 1 is empty! (choose from 0-3)", System.Drawing.Color.Red);
+                    return 0;
+                }
+                if (args1[1].AsInt32() > 2 || args1[1].AsInt32() < 0)
+                {
+                    Utilities.Log.WriteLine("[ERROR] DC_SetActivityText -> argument 2 is invalid number! (choose from 0-3)", System.Drawing.Color.Red);
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utilities.Log.Print(ex);
+            }
+            var act = new DiscordActivity();
+            act.Name = args1[0].AsString();
+
+
+            switch (args1[1].AsInt32())
+            {
+                case 0:
+                    act.ActivityType = ActivityType.Playing;
+                    break;
+                case 1:
+                    act.ActivityType = ActivityType.ListeningTo;
+                    break;
+                case 2:
+                    act.ActivityType = ActivityType.Competing;
+                    break;
+                
+
+            }
+            
             Program.botr.Client.UpdateStatusAsync(act);
             return 1;
         }
@@ -153,11 +186,34 @@ namespace bot.Scripting
 
 
 
+        /*
+        
         public static int loadscript(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             Program.Scripts.Add(new Script(args1[0].AsString()));
             return 1;
         }
+        
+        public static int unloadscript(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            foreach (Script scr in Program.Scripts)
+            {
+                if (scr.amx == amx1)
+                {
+                    if (scr.amx.FindPublic("OnUnload") != null)
+                        scr.amx.FindPublic("OnUnload").Execute();
+
+                    amx1.Dispose();
+                    amx1 = null;
+                    Program.Scripts.Remove(scr);
+                }
+
+
+            }
+            return 1;
+        }
+         
+        */
 
 
 
@@ -188,31 +244,22 @@ namespace bot.Scripting
         }
 
 
-
-
-        public static int unloadscript(AMX amx1, AMXArgumentList args1, Script caller_script)
+        public static int DC_DeleteMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            foreach (Script scr in Program.Scripts)
+            if (args1.Length != 3) return 0;
+            try
             {
-                if (scr.amx == amx1)
-                {
-                    if (scr.amx.FindPublic("OnUnload") != null)
-                        scr.amx.FindPublic("OnUnload").Execute();
+                DiscordGuild guild;
 
-                    amx1.Dispose();
-                    amx1 = null;
-                    Program.Scripts.Remove(scr);
-                }
-
-
+                bool suc = bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
+                guild.GetChannel(Convert.ToUInt64(args1[0].AsString())).GetMessageAsync(Convert.ToUInt64(args1[1].AsString())).Result.DeleteAsync(args1[2].AsString()).Wait();
+            }
+            catch (Exception ex)
+            {
+                Utilities.Log.Print(ex + "\nAMX: In native 'DC_DeleteMessage' (Invalid Channel or Message ID, wrong ID format, or you have not the right role permissions)   SCRIPT: " + caller_script._amxFile, 4, caller_script._amxFile);
             }
             return 1;
         }
-
-
-
-
-
 
 
         public static int DC_SendChannelMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
@@ -220,7 +267,7 @@ namespace bot.Scripting
             // Program.botr.Client.GetGuildAsync(guild);
             DiscordGuild guild;
 
-            bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
+            bool suc = bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
             try
             {
                 //Console.WriteLine("guild + " +  guild + " | id: " + args1[0].AsString());
@@ -228,12 +275,79 @@ namespace bot.Scripting
             }
             catch (Exception ex)
             {
-                Utilities.Log.Print(ex);
+                Utilities.Log.Print(ex + "\nAMX: In native 'DC_SendChannelMessage' (Invalid Channel or Message, wrong ID format, or you have not the right role permissions)   SCRIPT: " + caller_script._amxFile, 4, caller_script._amxFile);
             }
-
-
             return 1;
         }
+
+
+
+
+        
+
+
+
+
+
+
+        public static int DC_GetMemberName(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            DiscordGuild guild;
+
+            bool suc = bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
+            try
+            {
+                AMX.SetString(args1[1].AsCellPtr(), guild.GetMemberAsync(Convert.ToUInt64(args1[0].AsString())).Result.Username, true);
+            }
+            catch (Exception ex)
+            {
+                Utilities.Log.Print(ex + "\nAMX: In native 'DC_GetMemberName' (dest_string must be a array!)." + caller_script._amxFile, 4, caller_script._amxFile);
+            }
+            return 1;
+        }
+
+        public static int DC_GetMemberDisplayName(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            DiscordGuild guild;
+
+            bool suc = bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
+            try
+            {
+                AMX.SetString(args1[1].AsCellPtr(), guild.GetMemberAsync(Convert.ToUInt64(args1[0].AsString())).Result.DisplayName, true);
+            }
+            catch (Exception ex)
+            {
+                Utilities.Log.Print(ex + "\nAMX: In native 'DC_GetMemberDisplayName' (dest_string must be a array!)." + caller_script._amxFile, 4, caller_script._amxFile);
+            }
+            return 1;
+        }
+
+        public static int DC_GetMemberDiscriminator(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            DiscordGuild guild;
+
+            bool suc = bot.Program.botr.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
+            try
+            {
+                AMX.SetString(args1[1].AsCellPtr(), guild.GetMemberAsync(Convert.ToUInt64(args1[0].AsString())).Result.Discriminator, true);
+            }
+            catch (Exception ex)
+            {
+                Utilities.Log.Print(ex + "\nAMX: In native 'DC_GetMemberDiscriminator' (dest_string must be a array!)." + caller_script._amxFile, 4, caller_script._amxFile);
+            }
+            return 1;
+        }
+
+
+
+
+
+
+
+
 
 
 
@@ -255,7 +369,7 @@ namespace bot.Scripting
 
         }
 
-        public static int ALTV_GetPublicServerInfo(AMX amx1, AMXArgumentList args1, Script caller_script)
+        /*public static int ALTV_GetPublicServerInfo(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
 
             string gettet = bot.Utilities.HTTP.Get(args1[0].AsString().ToString());
@@ -273,6 +387,6 @@ namespace bot.Scripting
             }
 
             return 1;
-        }
+        }*/
     }
 }
