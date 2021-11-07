@@ -44,11 +44,9 @@ Bitte geht sicher dass ihr mindestens .NET Runtime 5.0 installiert habt!
 
 
 ## Geplant ist
-* DC_OnChannelMessage()
-* DC_OnMemberJoin()
-* DC_OnReactionAdded()
-* DC_RegisterCommand()
-* User Functions (Nutzer per Name oder ID getten, PMs, usw)
+* Nativer MySQL Support
+* Natives YT->MP3 & Music Streaming
+* More detailed User, Message, Guild & other -Natives (z.B Nutzer per Name oder ID getten, PMs, usw)
 * Eine eigene, bessere printf  funktion (die jetzte ist dennoch sehr gut)
 
 ### 'Dritthersteller' info
