@@ -1,6 +1,6 @@
 # DiscordAMX  [![Generic badge](https://img.shields.io/github/v/release/michael-fa/DiscordAMX?include_prereleases)](https://github.com/michael-fa/DiscordAMX/releases)
 
-## :de: [German](https://github.com/michael-fa/DiscordAMX/blob/master/german_readme.md) translation is also available.
+## :de: [German](https://github.com/michael-fa/DiscordAMX/blob/master/german_readme.md) translation is also available. (Outdated)
 ## [Read the Wiki for help](https://github.com/michael-fa/DiscordAMX/wiki)
 
 
