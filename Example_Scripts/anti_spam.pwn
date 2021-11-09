@@ -64,3 +64,4 @@ public OnMessage(channelid[], memberid, messageid[], content[])
     ClientSpam[1][last_msg_time] = pSpamData:tstamp;
     return 1;
     }
+}
