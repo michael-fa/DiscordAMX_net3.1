@@ -6,6 +6,7 @@
 
 A .NET Console App that lets you script your Discord Bots using the awesome [PAWN](https://github.com/pawn-lang) scripting language.
 The core goal is to make Discord Bots for everyone!
+For more about PAWN [click here](https://www.compuphase.com/pawn/pawn.htm).
 ```
 #include <a_dcamx>
 
