@@ -88,4 +88,4 @@ Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.
 * Using [DSharpPlus](https://github.com/DSharpPlus/DSharpPlus)
 * Using [Colorful Console](https://github.com/tomakita/Colorful.Console)
 
-[Vist CompuPhase Pawn Language](https://www.compuphase.com/pawn/pawn.htm) site for more info!
+[Visit CompuPhase Pawn Language](https://www.compuphase.com/pawn/pawn.htm) site for more info!
