@@ -68,11 +68,11 @@ The current RELEASE is meant for experienced scripters and is only for pure test
 Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.microsoft.com/download/dotnet/5.0)</b> ! 
 
 **If you are an experienced PAWN coder, and you're interested in testing this (given you can thoroughly test the program on your discord)
-I'll offer to host a bot for TESTERS.**
+I'll offer to host a bot for TESTERS -> I am currently looking for 2-3 official project testers!**
 
 :warning: The current aim of this is self-hosting - remember: NOT SELF-BOT. You need (to rent) a (v)Server running either Linux or Windows on it!
 Linux support is coming soon!
-I am currently looking for 2-3 testers!
+
 
 ## :warning: We're slowly getting towards supporting multiple scripts! If there are problems regarding your scripts, other then your main.amx, report this under Issues! 
 
