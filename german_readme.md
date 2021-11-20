@@ -61,9 +61,10 @@ DiscordAMX befindet sich noch in der Alpha-Phase! Wir bauen gerade alle nötigen
 Bridge: Spiele API zugriff, wie Minecraft, San Andreas Multiplayer, MTA:SA, CS:GO und so weiter, auch andere Programme kommen in Frage.
 
 ## Tester
-## **OFFER** Wenn du Pawn bereits mittel- bis gut drauf hast, und über einen Discord Server verfügst, der mehrere Mitglieder aufbringt, ist es möglich mich (michael-fa) nach einem Hosting für Testzwecke zu fragen! Es werden aber nur 2-3 "Offizielle" Tester gesucht - wichtig ist andauerndes Feedback!
+**Wenn du Pawn bereits mittel- bis gut drauf hast, und über einen Discord Server verfügst, der mehrere Mitglieder aufbringt, ist es möglich mich (michael-fa) nach einem Hosting für Testzwecke zu fragen! Es werden aber nur 2-3 "Offizielle" Tester gesucht - wichtig ist andauerndes Feedback!**
 
-Du möchtest jetzt schon Testen? Du kannst! Das aktuelleste Release ist für Tester da! Aber denk daran, DiscordAMX ist ein self-host Bot-Programm!
+__Desweiteren__:
+Du möchtest jetzt schon Testen? Du kannst! Das aktuelleste Release ist für private Tester da! Aber denk daran, DiscordAMX ist ein self-host Bot-Programm!
 Das bedeutet, ihr müsst euch einen Linux/Windows (v)Server bereitstellen lassen, und ein wenig Know-How mitbringen.
 Da das ganze für jeden Scriptanfänger machbar sein sollte, wird es bald eine Linux - Windows Komplett-Guide geben, was das minimale nötig zum Starten des Bot's auflistet und für euch so der Einstieg einfacher fällt.
 
