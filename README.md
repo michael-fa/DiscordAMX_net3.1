@@ -63,13 +63,17 @@ public OnMessageDeleted(messageid[])
 
 The whole project is still in its alpha, meaning there will be many changes and if you are not experienced in PAWN Scripting you should come back later! Leave a watch! 
 
+## Testers
 The current RELEASE is meant for experienced scripters and is only for pure testing.
 Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.microsoft.com/download/dotnet/5.0)</b> ! 
 
-## **OFFER** If you are an experienced PAWN coder, and you're interested in testing this (given you can thoroughly test the program on your discord)
-I'll offer to host a bot for TESTERS. (Since the current aim of this is self-hosting) - remember: NOT SELF-BOT!
+## **OFFER If you are an experienced PAWN coder, and you're interested in testing this (given you can thoroughly test the program on your discord)
+I'll offer to host a bot for TESTERS.**
+:warning: The current aim of this is self-hosting - remember: NOT SELF-BOT. You need (to rent) a (v)Server running either Linux or Windows on it!
+Linux support is coming soon!
+I am currently looking for 2-3 testers!
 
-## :warning: (ALPHA NOTE: ONLY ONE SCRIPT SUPPORTED FOR NOW! Your own Script must be put in /Scripts/ folder AND renamed to 'main.amx')
+## :warning: We're slowly getting towards supporting multiple scripts! If there are problems regarding your scripts, other then your main.amx, report this under Issues! 
 
 
 ## Current Features
@@ -85,6 +89,7 @@ I'll offer to host a bot for TESTERS. (Since the current aim of this is self-hos
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
 * File handling
+* LINUX SUPPORT
 
 ### Third party info
 * Using [PAWN Wrapper by ikkentim](https://github.com/ikkentim/AMXWrapper)
