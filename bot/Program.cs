@@ -110,7 +110,7 @@ namespace dcamx
             //Print a time and date to log file
             File.AppendAllText("Logs/current.txt", "\n++++++++++++++++++++ | LOG " + DateTime.Now + " | ++++++++++++++++++++\n");//Print out log file header (file only)
             //Console initial message
-            Log.Info("-> Discord AMX Bot © 2021 - www.fanter.eu <-");
+            Log.Info("-> Discord AMX Bot © 2021 - www.fanter.eu <-"); 
             Log.Info("RUNNING ON " + Environment.OSVersion.VersionString + "\n\n");
 
 
@@ -153,8 +153,14 @@ namespace dcamx
         _CMDLOOP:
             string cmd = Console.ReadLine();
 
-            if (cmd.Equals("exit"))
+            if (cmd.StartsWith("exit"))
                 goto __EXIT;
+
+            else if(cmd.StartsWith("help") || cmd.StartsWith("?"))
+            {
+                Console.WriteLine("\n\nCommmands available from console:\n   /help                                          (Shows a list of commands)\n   /exit                                          (Stops the server safely)\n" +
+                "   /loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   /unloadscript <scriptfile>                     (Unloads a script that is loaded)");
+            }
 
             else if (cmd.StartsWith("loadscript"))
             {
