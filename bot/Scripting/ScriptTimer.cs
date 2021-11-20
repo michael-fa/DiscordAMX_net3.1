@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading;
 using System.Timers;
 
-namespace bot.Scripting
+namespace dcamx.Scripting
 {
     public class ScriptTimer
     {
@@ -18,13 +17,12 @@ namespace bot.Scripting
         DateTime m_lastCalled;
         TimeSpan m_TimeElapsed;
         Script m_ParentScript;
-        Thread m_Thread;
         System.Threading.Timer m_Timer;
         AMXPublic m_AMXCallback;
         public ScriptTimer(int interval, string funcCall, Script arg_parent_Script)
         {
             m_ParentScript = arg_parent_Script;
-            m_AMXCallback = Program.Scripts[0].amx.FindPublic(funcCall);
+            m_AMXCallback = Program.m_Scripts[0].amx.FindPublic(funcCall);
             if (m_AMXCallback == null)
             {
                 return;
@@ -34,8 +32,8 @@ namespace bot.Scripting
             m_lastCalled = DateTime.Now;
             m_Active = true;
   
-            Program.ScriptTimers.Add(this);
-            this.ID = Program.ScriptTimers.Count;
+            Program.m_ScriptTimers.Add(this);
+            this.ID = Program.m_ScriptTimers.Count;
 
             System.Threading.TimerCallback TimerDelegate =
             new System.Threading.TimerCallback(OnTimedEvent);
@@ -58,7 +56,7 @@ namespace bot.Scripting
             }
             catch ( Exception ex)
             {
-                Utilities.Log.Print(ex);
+                Utils.Log.Exception(ex, m_ParentScript);
             }
 
             //Thread.Sleep(m_msWait);

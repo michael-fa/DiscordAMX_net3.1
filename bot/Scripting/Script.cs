@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bot.Scripting
+namespace dcamx.Scripting
 {
     public class Script
     {
@@ -13,34 +13,36 @@ namespace bot.Scripting
         public AMX amx;
 
        
-        public Script(string _amxFile)
+        public Script(string _amxFile, bool _isFilterscript = false)
         {
             this._amxFile = _amxFile;
             try
             {
-                 amx = new AMX("Scripts/" + _amxFile + ".amx");
+                amx = new AMX("Scripts/" + _amxFile + ".amx");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Utilities.Log.WriteLine("AMX File Error: " + e.InnerException + e.Message + e.Source + e.StackTrace);
-                //server.utils.Log.Print(e);
-               // server.utils.Log.Print("'" + _amxFile + "' script not loaded.", 2);
-                return; 
+                Utils.Log.Exception(e);
+                return;
             }
 
             amx.LoadLibrary(AMXDefaultLibrary.Core);
 
             amx.LoadLibrary(AMXDefaultLibrary.String);
             amx.LoadLibrary(AMXDefaultLibrary.Console);
+            amx.LoadLibrary(AMXDefaultLibrary.DGram);
+            amx.LoadLibrary(AMXDefaultLibrary.Float);
+            amx.LoadLibrary(AMXDefaultLibrary.Time);
+            amx.LoadLibrary(AMXDefaultLibrary.Fixed);
             this.RegisterNatives();
 
-            bot.Program.Scripts.Add(this);
+            Program.m_Scripts.Add(this);
             return;
         }
 
         public void StopAllTimers()
         {
-            foreach(ScriptTimer timer in Program.ScriptTimers)
+            foreach(ScriptTimer timer in Program.m_ScriptTimers)
             {
                 timer.KillTimer();
             }
@@ -55,6 +57,7 @@ namespace bot.Scripting
             //amx.Register("UnloadScript", (amx1, args1) => Natives.unloadscript(amx1, args1, this));
             amx.Register("SetTimer", (amx1, args1) => Natives.SetTimer(amx1, args1, this));
             amx.Register("KillTimer", (amx1, args1) => Natives.KillTimer(amx1, args1, this));
+            amx.Register("gettimestamp", (amx1, args1) => Natives.gettimestamp(amx1, args1, this));
 
             amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DC_SetMinLogLevel(amx1, args1, this));
             amx.Register("DC_SetGuild", (amx1, args1) => Natives.DC_SetGuild(amx1, args1, this));

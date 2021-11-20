@@ -1,70 +1,69 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using Console = Colorful.Console;
 
-namespace bot.Utilities
+namespace dcamx.Utils
 {
     public static class Log
     {
-        public static void Print(string _msg, int loglevel, string _scriptName = "none")
-        {
-            bool isDebug = false;
-            string built_message = null;
-            if (_msg.Length < 1 || loglevel > 4 || loglevel < -1) return;
-            switch (loglevel)
-            {
-                case 0: built_message = "[INFO] " + _msg; break;
-                case 1: built_message = "[WARNING] " + _msg; break;
-                case 2: built_message = "[ERROR] " + _msg; break;
-                case 3:
-#if DEBUG
-                    isDebug = true;
-                    built_message = "[DEBUG] " + _msg;
-#endif
-                    break;
-                case 4: built_message = "[SCRIPT] <" + _scriptName + "> " + _msg; break;
-            }
-            if (loglevel == 3 && isDebug) Console.Write(built_message);
-            else if (loglevel == 4) Console.WriteLine(built_message);
-            //else Console.Write(built_message);
-
-
-            try
-            {
-                if (built_message != null && built_message.Length > 0) File.AppendAllText("Logs/current.txt", built_message + "\n");
-            }
-            catch { }
-        }
-
-        public static void WriteLine(string _msg, Color col)
-        {
-            Console.WriteLine(_msg, col);
-            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
-        }
-
         public static void WriteLine(string _msg)
         {
             Console.WriteLine(_msg);
             if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
         }
-
-        public static void Write(string _msg, Color col)
+        public static void Info(string _msg, dcamx.Scripting.Script _source = null)
         {
-            Console.Write(_msg, col);
-            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg);
+            if (_source != null) Console.WriteLine("[INFO] [" + _source._amxFile + "] " + _msg);
+            else Console.WriteLine("[INFO] " + _msg);
+
+            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
         }
 
-        public static void Write(string _msg)
+        public static void Error(string _msg, dcamx.Scripting.Script _source = null)
         {
-            Console.Write(_msg);
-            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg);
+            if (_source != null) Console.WriteLine("[ERROR] [" + _source._amxFile + "] " + _msg);
+            else Console.WriteLine("[ERROR] " + _msg);
+            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
         }
 
-        public static void Print(Exception e)
+        public static void Warning(string _msg, dcamx.Scripting.Script _source = null)
+        {
+            if (_source != null) Console.WriteLine("[WARNING] [" + _source._amxFile + "] " + _msg);
+            else Console.WriteLine("[WARNING] " + _msg);
+            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
+        }
+
+#warning buggy
+        public static void Debug(string _msg, dcamx.Scripting.Script _source = null)
+        {
+#if DEBUG
+            if (_source != null) _msg.Insert(0, "[DEBUG] " + "[" + _source._amxFile + "] ");
+            else _msg.Insert(0, "[DEBUG] ");
+            Console.WriteLine(_msg);
+            if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
+#endif
+        }
+
+        public static void Exception(Exception e)
         {
             Console.WriteLine("---------------------------------------\n[EXCEPTION] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n---------------------------------------\n");
             File.AppendAllText("Logs/current.txt", "---------------------------------------\n[EXCEPTION] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n-------------------------------------- -\n");
+        }
+
+        public static void Exception(Exception e, dcamx.Scripting.Script _source = null)
+        {
+            if (_source == null)
+            {
+                Console.WriteLine("---------------------------------------\n[EXCEPTION] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n---------------------------------------\n");
+                File.AppendAllText("Logs/current.txt", "---------------------------------------\n[EXCEPTION] [" + _source._amxFile + "] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n-------------------------------------- -\n");
+
+            }
+            else
+            {
+                Console.WriteLine("---------------------------------------\n[EXCEPTION] [" + _source._amxFile + "] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n---------------------------------------\n");
+                File.AppendAllText("Logs/current.txt", "---------------------------------------\n[EXCEPTION] [" + _source._amxFile + "] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n-------------------------------------- -\n");
+
+            }
         }
     }
 }

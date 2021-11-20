@@ -6,25 +6,35 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using bot.Utilities;
 using System.Drawing;
 using DSharpPlus;
 using System.IO;
 using System.Threading;
+using System.Text.RegularExpressions;
+using dcamx.Utils;
+using dcamx.Scripting;
+using System.Runtime.InteropServices;
 
-namespace bot
+namespace dcamx
 {
     class Program
     {
-        public static Discord.DCBot botr;
-        public static List<Scripting.ScriptTimer> ScriptTimers;
-        public static List<Scripting.Script> Scripts;
+
+        //Kerninformationen
+        static bool m_isWindows;
+        static bool m_isLinux;
+
+
+        public static Discord.DCBot m_Discord = null;
+        public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
+        public static List<Scripting.Script> m_Scripts = null;
+        public static List<Scripting.Member> m_ScriptMembers = null; 
         public static string m_GuildID = null;
+        public static bool m_ScriptingInited = false;
+
 
         public static DiscordConfiguration dConfig = new DiscordConfiguration()
         {
-
-            // Token = "",
             TokenType = TokenType.Bot,
             Intents = DiscordIntents.DirectMessageReactions
             | DiscordIntents.DirectMessages 
@@ -43,7 +53,7 @@ namespace bot
 
 
 
-        [System.Runtime.InteropServices.DllImport("Kernel32")]
+        [DllImport("Kernel32")]
         private static extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
 
         private delegate bool EventHandler(CtrlType sig);
@@ -77,75 +87,171 @@ namespace bot
 
         static void Main(string[] args)
         {
+            //Environment - Set the OS
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) m_isWindows = true;
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) m_isLinux = true;
+            else goto __EXIT;
+
+            //Set the console handler, catching events such as close.
             _handler += new EventHandler(Handler);
             SetConsoleCtrlHandler(_handler, true);
+
 
             //Check if LOG Dir exists
             if (!Directory.Exists("Logs/"))
                 Directory.CreateDirectory("Logs/");
 
+            //Check if Scripts dir exists
             if (!Directory.Exists("Scripts/"))
                 Directory.CreateDirectory("Scripts/");
 
+            
+
+            //Print a time and date to log file
             File.AppendAllText("Logs/current.txt", "\n++++++++++++++++++++ | LOG " + DateTime.Now + " | ++++++++++++++++++++\n");//Print out log file header (file only)
-            Log.WriteLine("Discord AMX Bot © fanter.eu", Color.Cyan);
+            //Console initial message
+            Log.Info("-> Discord AMX Bot © 2021 - www.fanter.eu <-");
+            Log.Info("RUNNING ON " + Environment.OSVersion.VersionString + "\n\n");
+
+
 
             //Setting everything up
-            ScriptTimers = new List<Scripting.ScriptTimer>();
-            Scripts = new List<Scripting.Script>();   //Create list for scripts
+            Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
+            Program.m_ScriptMembers = new List<Scripting.Member>();
+            Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
 
-            if(!File.Exists("Scripts/main.amx"))
+
+
+            //Load main.amx, or error out if not available
+            if (!File.Exists("Scripts/main.amx"))
             {
-                Utilities.Log.WriteLine("no scripts found! (Alpha release note: make sure your script is called main.amx inside /Scripts/ folder!");
-                Thread.Sleep(5000);
-                StopSafely();
-                return;
+                Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
+                goto __EXIT;
             }
+            else new Script("main");
 
+            //Now add all other scripts
             try
             {
-                Scripting.Script scr = new Scripting.Script("main"); //The MAIN Script! ALWAYS 0 INDEX IN LIST "Scripts"!
+                foreach (string fl in Directory.GetFiles("Scripts/"))
+                {
+                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
+                    Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
+                    new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Utilities.Log.Print(ex);
+                Log.Exception(ex);
+                goto __EXIT;
             }
 
-            botr = new Discord.DCBot(); //AMX -> MAIN()
-            botr.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
+            m_Discord = new Discord.DCBot(); //AMX -> MAIN()
+            m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
 
 
-
-        cmdloop:
+        _CMDLOOP:
             string cmd = Console.ReadLine();
 
             if (cmd.Equals("exit"))
-                StopSafely();
-            goto cmdloop;
+                goto __EXIT;
+
+            else if (cmd.StartsWith("loadscript"))
+            {
+                string[] spl;
+                try
+                {
+                    spl = cmd.Split(' ');
+                }
+                catch
+                {
+                    goto _CMDLOOP;
+                }
+                if (spl.Length != 2) goto _CMDLOOP;
+                if (spl[1] == null)
+                {
+                    Log.Error(" [command] You did not specify a correct script file!");
+                    goto _CMDLOOP;
+                }
+                if (!File.Exists("Scripts/" + spl[1] + ".amx"))
+                {
+                    Log.Error(" [command] The script file " + spl[1] + ".amx does not exists in /Scripts/ folder.");
+                    goto _CMDLOOP;
+                }
+                Script scr = new Script(spl[1]);
+                AMXWrapper.AMXPublic pub = scr.amx.FindPublic("OnInit");
+                if (pub != null) pub.Execute();
+            }
+
+
+
+
+            else if (cmd.StartsWith("unloadscript"))
+            {
+                string[] spl;
+                try
+                {
+                    spl = cmd.Split(' ');
+                }
+                catch
+                {
+                    goto _CMDLOOP;
+                }
+                if (spl.Length != 2) goto _CMDLOOP;
+                if (spl[1] == null)
+                {
+                    Log.Error(" [command] You did not specify a correct script name (without .amx)");
+                    goto _CMDLOOP;
+                }
+
+                foreach (Script sc in m_Scripts)
+                {
+                    if (sc._amxFile.Equals(spl[1]))
+                    {
+                        AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
+                        if (pub != null) pub.Execute();
+                        sc.amx.Dispose();
+                        sc.amx = null;
+                        m_Scripts.Remove(sc);
+                        Log.Info("[CORE] Script '" + spl[1] + "' unloaded.");
+                        goto _CMDLOOP;
+                    }
+                }
+                Log.Error(" [command] The script '" + spl[1] +  "' is not running.");
+                
+            }
+
+            goto _CMDLOOP;
+
+
+        __EXIT:
+            StopSafely();
         }
 
-        static private void StopSafely()
+        static public void StopSafely()
         {
             
             
-            foreach (Scripting.Script script in Scripts)
+            foreach (Script script in m_Scripts)
             {
                 if (script.amx == null) continue;
 
                 script.StopAllTimers();
-                
+
                 if (script.amx.FindPublic("OnUnload") != null)
                     script.amx.FindPublic("OnUnload").Execute();
 
                 script.amx.Dispose();
                 script.amx = null;
-                Utilities.Log.WriteLine("Script " + script._amxFile + " unloaded.");
+                Log.WriteLine("Script " + script._amxFile + " unloaded.");
             }
 
-            if(botr != null) _ = botr.DisconnectAsync();
+            if(m_Discord != null) _ = m_Discord.DisconnectAsync();
 
             File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old on
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");
+
+            Thread.CurrentThread.Abort();
         }
     }
 }

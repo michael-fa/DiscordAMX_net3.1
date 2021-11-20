@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B6E90EA7-728E-435B-944C-2167E0338FE8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>bot</RootNamespace>
-    <AssemblyName>bot</AssemblyName>
+    <RootNamespace>damx</RootNamespace>
+    <AssemblyName>discordamx</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -88,14 +88,11 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>bot.Program</StartupObject>
+    <StartupObject>dcamx.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AMXWrapper, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AMXWrapper.1.1.0\lib\net40\AMXWrapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Colorful.Console, Version=1.2.15.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Colorful.Console.1.2.15\lib\net461\Colorful.Console.dll</HintPath>
     </Reference>
     <Reference Include="ConcurrentCollections, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ConcurrentHashSet.1.1.0\lib\net461\ConcurrentCollections.dll</HintPath>
@@ -217,6 +214,7 @@
   <ItemGroup>
     <Compile Include="Discord\Commands.cs" />
     <Compile Include="Discord\DCBot.cs" />
+    <Compile Include="Scripting\Member.cs" />
     <Compile Include="Scripting\Natives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,6 +223,7 @@
     <Compile Include="Utils\HTTP.cs" />
     <Compile Include="Utils\INI.cs" />
     <Compile Include="Utils\LogFunctions.cs" />
+    <Compile Include="Utils\Scripting.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -242,5 +241,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="todo.txt" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

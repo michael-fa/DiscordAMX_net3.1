@@ -12,7 +12,7 @@ using DSharpPlus.Interactivity.Extensions;
 using AMXWrapper;
 using System.Windows.Forms;
 
-namespace bot.Commands
+namespace dcamx.Discord.Commands
 {
     class AdminCommands : BaseCommandModule
     {

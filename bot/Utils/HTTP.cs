@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace bot.Utilities
+namespace dcamx.Utils
 {
     public static class HTTP
     {
@@ -21,6 +21,4 @@ namespace bot.Utilities
             }
         }
     }
-
-    
 }
