@@ -28,7 +28,8 @@ namespace dcamx
         public static Discord.DCBot m_Discord = null;
         public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
         public static List<Scripting.Script> m_Scripts = null;
-        public static List<Scripting.Member> m_ScriptMembers = null; 
+        public static List<Scripting.Member> m_ScriptMembers = null;
+        public static List<Scripting.Guild> m_ScriptGuilds = null;
         public static string m_GuildID = null;
         public static bool m_ScriptingInited = false;
 
@@ -119,6 +120,7 @@ namespace dcamx
             Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
             Program.m_ScriptMembers = new List<Scripting.Member>();
             Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
+            Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
 
 
 

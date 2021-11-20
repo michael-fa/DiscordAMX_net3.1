@@ -1,8 +1,6 @@
 ﻿
 //BOT::CORE
- - General code cleanup (variable names, comments, space betw. codeblocks to ease the pain in reader's eye)
  - Add reloadall / reload <scriptname>
- - Add in console loadScript/unloadScript
  - Handle Discord Servers as class, pool them -> support multiple servers this way. 
 	- Add "guildid" as INTEGER to all natives and callbacks -> similar to Scripting.Members
 	- OnGuildAdded AMX callback

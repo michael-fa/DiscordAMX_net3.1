@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B6E90EA7-728E-435B-944C-2167E0338FE8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>damx</RootNamespace>
+    <RootNamespace>dcamx</RootNamespace>
     <AssemblyName>discordamx</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -214,6 +214,11 @@
   <ItemGroup>
     <Compile Include="Discord\Commands.cs" />
     <Compile Include="Discord\DCBot.cs" />
+    <Compile Include="Discord\Events\GuildDownloadCompleted.cs" />
+    <Compile Include="Discord\Events\MemberJoinLeave.cs" />
+    <Compile Include="Discord\Events\OnHeartbeated.cs" />
+    <Compile Include="Discord\Events\MessageActions.cs" />
+    <Compile Include="Scripting\Guild.cs" />
     <Compile Include="Scripting\Member.cs" />
     <Compile Include="Scripting\Natives.cs" />
     <Compile Include="Program.cs" />
