@@ -59,7 +59,7 @@ public OnMessageDeleted(messageid[])
 
 ---
 
-## :construction: --EARLY-- ALPHA
+## :construction: ~~EARLY ALPHA~~
 
 The whole project is still in its early days, meaning there will be huge changes and if you are not experienced in PAWN Scripting you should come back later! Leave a watch! 
 
