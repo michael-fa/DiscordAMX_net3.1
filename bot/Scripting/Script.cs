@@ -37,6 +37,7 @@ namespace dcamx.Scripting
             this.RegisterNatives();
 
             Program.m_Scripts.Add(this);
+            Utils.Log.WriteLine("ID " + this._amxFile + ": " + (Program.m_Scripts.Count - 1));
             return;
         }
 

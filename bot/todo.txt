@@ -1,10 +1,8 @@
-﻿
-//BOT::CORE
- - Add reloadall / reload <scriptname>
+﻿ - Add reloadall / reload <scriptname>
  - Handle Discord Servers as class, pool them -> support multiple servers this way. 
 	- Add "guildid" as INTEGER to all natives and callbacks -> similar to Scripting.Members
 	- OnGuildAdded AMX callback
 	- OnGuildRemoved AMX callback
-
-//BOT:NATIVES | EVENTS
-	Split up events inside dcamx.Discord
+ - Add "CallRemoteFunction" function
+ - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String"
+ - Add native AddReaction, RemoveReaction

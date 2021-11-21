@@ -229,6 +229,53 @@ namespace dcamx
                 
             }
 
+            else if(cmd.StartsWith("reloadall"))
+            {
+                foreach (Script script in m_Scripts)
+                {
+                    if (script.amx == null) continue;
+
+                    script.StopAllTimers();
+
+                    if (script.amx.FindPublic("OnUnload") != null)
+                        script.amx.FindPublic("OnUnload").Execute();
+
+                    script.amx.Dispose();
+                    script.amx = null;
+                    Log.WriteLine("Script " + script._amxFile + " unloaded.");
+                }
+
+                m_Scripts.Clear();
+                //Start all the stuff
+
+
+                //Load main.amx, or error out if not available
+                if (!File.Exists("Scripts/main.amx"))
+                {
+                    Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
+                    goto __EXIT;
+                }
+                else new Script("main");
+
+                //Now add all other scripts
+                try
+                {
+                    foreach (string fl in Directory.GetFiles("Scripts/"))
+                    {
+                        if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
+                        Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
+                        new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Exception(ex);
+                    goto __EXIT;
+                }
+
+                Log.WriteLine("->    All scripts reloaded.");
+            }
+
             goto _CMDLOOP;
 
 
@@ -238,8 +285,8 @@ namespace dcamx
 
         static public void StopSafely()
         {
-            
-            
+
+
             foreach (Script script in m_Scripts)
             {
                 if (script.amx == null) continue;
@@ -254,7 +301,7 @@ namespace dcamx
                 Log.WriteLine("Script " + script._amxFile + " unloaded.");
             }
 
-            if(m_Discord != null) _ = m_Discord.DisconnectAsync();
+            if (m_Discord != null) _ = m_Discord.DisconnectAsync();
 
             File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old on
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");

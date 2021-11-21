@@ -37,9 +37,8 @@ namespace dcamx.Utils
         public static void Debug(string _msg, dcamx.Scripting.Script _source = null)
         {
 #if DEBUG
-            if (_source != null) _msg.Insert(0, "[DEBUG] " + "[" + _source._amxFile + "] ");
-            else _msg.Insert(0, "[DEBUG] ");
-            Console.WriteLine(_msg);
+            if (_source != null) Console.WriteLine("[DEBUG] [" + _source._amxFile + "] " + _msg);
+            else Console.WriteLine("[DEBUG] " + _msg);
             if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
 #endif
         }
