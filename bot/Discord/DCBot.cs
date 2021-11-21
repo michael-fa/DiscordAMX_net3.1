@@ -33,13 +33,6 @@ namespace dcamx.Discord
 
         public async Task RunAsync(DiscordConfiguration dConfig)
         {
-            //Is a guild set?
-            if(Program.m_GuildID == null || Program.m_GuildID.Length == 0 )
-            {
-                Utils.Log.WriteLine("\nScript main needs SetGuild function called!\n");
-                return;
-            }
-
             //Try to create a new discord client, this is in the scope of the DC+' code.. 
             try
             {
@@ -64,7 +57,7 @@ namespace dcamx.Discord
             Client.MessageReactionRemoved               += Events.MessageActions.ReactionRemoved;
 
 
-            var commandsConfig = new CommandsNextConfiguration
+            /*var commandsConfig = new CommandsNextConfiguration
             {
                 StringPrefixes = new string[] { "?" },
                 EnableMentionPrefix = true,
@@ -72,7 +65,7 @@ namespace dcamx.Discord
                 EnableDms = true
             };
             Commands = Client.UseCommandsNext(commandsConfig);
-
+            */
             Client.UseInteractivity(new InteractivityConfiguration
             {
 

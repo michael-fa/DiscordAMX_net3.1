@@ -28,9 +28,7 @@ namespace dcamx
         public static Discord.DCBot m_Discord = null;
         public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
         public static List<Scripting.Script> m_Scripts = null;
-        public static List<Scripting.Member> m_ScriptMembers = null;
         public static List<Scripting.Guild> m_ScriptGuilds = null;
-        public static string m_GuildID = null;
         public static bool m_ScriptingInited = false;
 
 
@@ -118,7 +116,6 @@ namespace dcamx
 
             //Setting everything up
             Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
-            Program.m_ScriptMembers = new List<Scripting.Member>();
             Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
             Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
 
@@ -161,7 +158,8 @@ namespace dcamx
             else if(cmd.StartsWith("help") || cmd.StartsWith("?"))
             {
                 Console.WriteLine("\n\nCommmands available from console:\n   /help                                          (Shows a list of commands)\n   /exit                                          (Stops the server safely)\n" +
-                "   /loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   /unloadscript <scriptfile>                     (Unloads a script that is loaded)");
+                "   /loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   /unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
+                "\n/reload <scriptfile>                           (Reloads a script- Pass scriptfile without '.amx')\n/reloadall                        (Reloads all scripts)");
             }
 
             else if (cmd.StartsWith("loadscript"))
@@ -229,6 +227,50 @@ namespace dcamx
                 
             }
 
+            else if(cmd.StartsWith("reload"))
+            {
+                string[] spl;
+                try
+                {
+                    spl = cmd.Split(' ');
+                }
+                catch
+                {
+                    goto _CMDLOOP;
+                }
+                if (spl.Length != 2) goto _CMDLOOP;
+                if (spl[1] == null)
+                {
+                    Log.Error(" [command] You did not specify a correct script name (without .amx)");
+                    goto _CMDLOOP;
+                }
+                //Find the actual script
+                foreach (Script sc in m_Scripts)
+                {
+                    if (sc._amxFile.Equals(spl[1]))
+                    {
+                        AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
+                        if (pub != null) pub.Execute();
+                        sc.amx.Dispose();
+                        sc.amx = null;
+                        m_Scripts.Remove(sc);
+
+                        if (!File.Exists("Scripts/" + spl[1] + ".amx"))
+                        {
+                            Log.Error(" [command] The script file " + spl[1] + ".amx does not exists in /Scripts/ folder.");
+                            goto _CMDLOOP;
+                        }
+                        Script scr = new Script(spl[1]);
+                        pub = scr.amx.FindPublic("OnInit");
+                        if (pub != null) pub.Execute();
+
+                        Log.Info("[CORE] Script '" + spl[1] + "' reloaded.");
+                        goto _CMDLOOP;
+                    }
+                }
+
+            }
+
             else if(cmd.StartsWith("reloadall"))
             {
                 foreach (Script script in m_Scripts)
@@ -285,8 +327,6 @@ namespace dcamx
 
         static public void StopSafely()
         {
-
-
             foreach (Script script in m_Scripts)
             {
                 if (script.amx == null) continue;

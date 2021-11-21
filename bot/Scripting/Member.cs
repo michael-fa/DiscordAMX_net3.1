@@ -11,17 +11,20 @@ namespace dcamx.Scripting
     {
         public DiscordMember m_DiscordMember;
         public int m_ID;
-        public Member(DiscordMember _Member)
+        public Scripting.Guild m_DiscordGuild;
+        public Member(DiscordMember _Member, Scripting.Guild _Guild)
         {
             this.m_DiscordMember = _Member;
-            Program.m_ScriptMembers.Add(this);
-            this.m_ID = Program.m_ScriptMembers.Count;
+            this.m_DiscordGuild = _Guild;
+
+            m_DiscordGuild.m_ScriptMembers.Add(this);
+            this.m_ID = m_DiscordGuild.m_ScriptMembers.Count;
 
         }
 
         public void Remove()
         {
-            Program.m_ScriptMembers.Remove(this);
+            m_DiscordGuild.m_ScriptMembers.Remove(this);
             this.m_ID = 0; 
         }
 

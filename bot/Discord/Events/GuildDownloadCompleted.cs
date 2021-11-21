@@ -29,18 +29,22 @@ namespace dcamx.Discord.Events
             }
 
 
-            //This piece of code is for the AMX (Scripting) side.. so you can work with AMX Int cells that basically make it way easier to script 
-            //and work with instead of long hashes. 
-            DiscordGuild guild;
+            //Loop through all discord guilds, add them to Guilds list.
+            //While that, all the discord members to Guild's Members list.
 
-            bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(Program.m_GuildID), out guild);
-            Program.m_ScriptMembers.Add(new Scripting.Member(guild.Owner)); // <- The Owner somehow is not included in guild.Members .. Owner is separate member of the guild class instance.
-
-
-            //Getting all members every bot startup and to make scripters happy.
-            foreach (DiscordMember mem in guild.Members.Values)
+            foreach (DiscordGuild gld in Program.m_Discord.Client.Guilds.Values)
             {
-                Program.m_ScriptMembers.Add(new Scripting.Member(mem));
+                Scripting.Guild _guild = new Scripting.Guild(gld);
+                Program.m_ScriptGuilds.Add(_guild);
+
+                _guild.m_ScriptMembers.Add(new Scripting.Member(gld.Owner, _guild)); // <- The Owner somehow is not included in guild.Members .. Owner is a separate member of the guild class instance.
+               
+                //Add all the guilds members to the guild's ScriptMembers list
+                foreach (DiscordMember mem in gld.Members.Values)
+                {
+                    _guild.m_ScriptMembers.Add(new Scripting.Member(mem, _guild));
+
+                }
             }
 
 

@@ -32,14 +32,16 @@ namespace dcamx.Discord.Events
                     if (p != null)
                     {
                         var tmp2 = p.AMX.Push(arg.Message.Content.Remove(0, 1));
-                        p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author));
+                        p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                         var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                        p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                         p.Execute();
                         p.AMX.Release(tmp);
                         p.AMX.Release(tmp2);
+                        p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                         GC.Collect();
                     }
-
+                    p = null;
                 }
 
             }
@@ -51,17 +53,17 @@ namespace dcamx.Discord.Events
                     p = scr.amx.FindPublic("OnMessage");
                     if (p != null)
                     {
-
                         var tmp2 = p.AMX.Push(arg.Message.Content);
                         var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
-                        p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author));
+                        p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                         var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                        p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                         p.Execute();
                         p.AMX.Release(tmp);
                         p.AMX.Release(tmp2);
-                        p.AMX.Release(tmp3);
                         GC.Collect();
                     }
+                    p = null;
                 }
             }
             return Task.CompletedTask;
@@ -77,6 +79,7 @@ namespace dcamx.Discord.Events
             if (p != null)
             {
                 var tmp = p.AMX.Push(arg.Message.Id.ToString());
+                p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                 p.Execute();
                 p.AMX.Release(tmp);
                 GC.Collect();
@@ -93,9 +96,10 @@ namespace dcamx.Discord.Events
             if (p != null)
             {
                 var tmp = p.AMX.Push(arg.Channel.Id.ToString());
-                p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User));
+                p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                 var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
                 var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+                p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
 
 
                 p.Execute();
@@ -115,9 +119,10 @@ namespace dcamx.Discord.Events
             if (p != null)
             {
                 var tmp = p.AMX.Push(arg.Channel.Id.ToString());
-                p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User));
+                p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                 var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
                 var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+                p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
 
 
                 p.Execute();

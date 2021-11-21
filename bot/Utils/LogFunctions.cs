@@ -33,7 +33,6 @@ namespace dcamx.Utils
             if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
         }
 
-#warning buggy
         public static void Debug(string _msg, dcamx.Scripting.Script _source = null)
         {
 #if DEBUG

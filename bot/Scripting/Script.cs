@@ -37,7 +37,7 @@ namespace dcamx.Scripting
             this.RegisterNatives();
 
             Program.m_Scripts.Add(this);
-            Utils.Log.WriteLine("ID " + this._amxFile + ": " + (Program.m_Scripts.Count - 1));
+            Utils.Log.Debug("Loaded script as ID: " + (Program.m_Scripts.Count - 1));
             return;
         }
 
@@ -61,7 +61,6 @@ namespace dcamx.Scripting
             amx.Register("gettimestamp", (amx1, args1) => Natives.gettimestamp(amx1, args1, this));
 
             amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DC_SetMinLogLevel(amx1, args1, this));
-            amx.Register("DC_SetGuild", (amx1, args1) => Natives.DC_SetGuild(amx1, args1, this));
             amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DC_SetActivityText(amx1, args1, this));
             amx.Register("DC_SetToken", (amx1, args1) => Natives.DC_SetToken(amx1, args1, this));
             
