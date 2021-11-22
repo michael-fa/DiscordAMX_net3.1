@@ -37,6 +37,20 @@ namespace dcamx.Scripting
             this.RegisterNatives();
 
             Program.m_Scripts.Add(this);
+<<<<<<< HEAD
+
+            if(_isFilterscript)
+            {
+                AMXPublic p = null;
+                p = amx.FindPublic("OnFilterscriptInit");
+                if (p != null)
+                {
+                    p.Execute();
+
+                }
+            }
+=======
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             Utils.Log.Debug("Loaded script as ID: " + (Program.m_Scripts.Count - 1));
             return;
         }

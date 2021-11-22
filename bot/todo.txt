@@ -1,8 +1,18 @@
-﻿ - Add reloadall / reload <scriptname>
- - Handle Discord Servers as class, pool them -> support multiple servers this way. 
-	- Add "guildid" as INTEGER to all natives and callbacks -> similar to Scripting.Members
-	- OnGuildAdded AMX callback
-	- OnGuildRemoved AMX callback
- - Add "CallRemoteFunction" function
- - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String"
- - Add native AddReaction, RemoveReaction
+﻿ - OnInit including OnGuildsDownloaded, or some other way 
+ - OnGuildAdd, OnGuildRemove Callback
+ - LoadScript, UnloadScript Natives
+ - Add "CallRemoteFunction" function Natives
+ - Script file names beginning with '!' will not be loaded on startup!
+ - Add DC_GetDiscordID
+ - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives
+ - Add native AddReaction, RemoveReaction Natives 
+ - TIMER: Make sure they work with parameters provides
+ - GetMemberCount(guild), GetGuildCount()
+ - GetPlayerGuild Callback
+ - OnConsoleInput Callback
+ - Find a way to call AMX Publics with (unlimited) parameters as a SINGLE function. CallAmxPublic(amx, "", string param1, int32 param2, float param3, idk param4, .... and so on.);
+
+
+
+ - Add ping to heartbeat (?) --------------------------------------------------------------- [DONE]
+

@@ -213,9 +213,13 @@ namespace dcamx.Scripting
             if (args1.Length != 4) return 0;
             try
             {
+<<<<<<< HEAD
+                DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+=======
                 DiscordGuild guild;
 
                 bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
                 guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync(args1[3].AsString()).Wait();
             }
             catch (Exception ex)
@@ -231,9 +235,14 @@ namespace dcamx.Scripting
         {
             if (args1.Length != 3) return 0;
 
+<<<<<<< HEAD
+
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+=======
             DiscordGuild guild;
 
             bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             try
             {
                 guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(args1[2].AsString());
@@ -259,9 +268,14 @@ namespace dcamx.Scripting
         public static int DC_GetMemberName(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
+<<<<<<< HEAD
+
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+=======
             DiscordGuild guild;
 
             bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             try
             {
                 AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Username, true);
@@ -272,14 +286,18 @@ namespace dcamx.Scripting
                 Utils.Log.Error("In native 'DC_GetMemberName' (dest_string must be a array!)" + caller_script);
             }
             return 1;
-        }
+        } 
 
         public static int DC_GetMemberDisplayName(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
+<<<<<<< HEAD
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+=======
             DiscordGuild guild;
 
             bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             try
             {
                 AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).DisplayName, true);
@@ -295,12 +313,20 @@ namespace dcamx.Scripting
         public static int DC_GetMemberDiscriminator(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
+<<<<<<< HEAD
+
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            try
+            {
+                AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Discriminator, true);
+=======
             DiscordGuild guild;
 
             bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
             try
             {
                 AMX.SetString(args1[1].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[0].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Discriminator, true);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             }
             catch (Exception ex)
             {

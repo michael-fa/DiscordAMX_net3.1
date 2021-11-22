@@ -75,14 +75,29 @@ namespace dcamx.Discord.Events
             if (c.CurrentUser == arg.Message.Author) return Task.CompletedTask;
             if (arg.Message.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
 
-            AMXPublic p = Program.m_Scripts[0].amx.FindPublic("OnMessageDeleted");
-            if (p != null)
+
+
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
             {
+<<<<<<< HEAD
+                p = scr.amx.FindPublic("OnMessageDeleted");
+                if (p != null)
+                {
+                    var tmp = p.AMX.Push(arg.Message.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp);
+                    GC.Collect();
+                }
+                p = null;
+=======
                 var tmp = p.AMX.Push(arg.Message.Id.ToString());
                 p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                 p.Execute();
                 p.AMX.Release(tmp);
                 GC.Collect();
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             }
             return Task.CompletedTask;
         }
@@ -91,45 +106,72 @@ namespace dcamx.Discord.Events
         public static Task ReactionAdded(DiscordClient c, MessageReactionAddEventArgs arg)
         {
             //If the trigger was the bot itself, skip calling the public
-            if (c.CurrentUser == arg.Message.Author) return Task.CompletedTask;
-            AMXPublic p = Program.m_Scripts[0].amx.FindPublic("OnReactionAdded");
-            if (p != null)
+            if (arg.User == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
+
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
             {
+<<<<<<< HEAD
+                p = scr.amx.FindPublic("OnReactionAdded");
+                if (p != null)
+                {
+                    var tmp = p.AMX.Push(arg.Channel.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                    var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                    var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+=======
                 var tmp = p.AMX.Push(arg.Channel.Id.ToString());
                 p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                 var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
                 var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
                 p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
 
 
-                p.Execute();
-                p.AMX.Release(tmp);
-                p.AMX.Release(tmp2);
-                p.AMX.Release(tmp3);
-                GC.Collect();
+                    p.Execute();
+                    p.AMX.Release(tmp);
+                    p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp3);
+                    GC.Collect();
+                }
+                p = null;
             }
             return Task.CompletedTask;
         }
 
         public static Task ReactionRemoved(DiscordClient c, MessageReactionRemoveEventArgs arg)
         {
-            //If the trigger was the bot itself, skip calling the public
-            if (c.CurrentUser == arg.Message.Author) return Task.CompletedTask;
-            AMXPublic p = Program.m_Scripts[0].amx.FindPublic("OnReactionRemoved");
-            if (p != null)
+            //If the trigger was the bot itself, skip calling the public 
+            if (arg.User == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
             {
+<<<<<<< HEAD
+                p = scr.amx.FindPublic("OnReactionRemoved");
+                if (p != null)
+                {
+                    var tmp = p.AMX.Push(arg.Channel.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                    var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                    var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+=======
                 var tmp = p.AMX.Push(arg.Channel.Id.ToString());
                 p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                 var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
                 var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
                 p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+>>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
 
 
-                p.Execute();
-                p.AMX.Release(tmp);
-                p.AMX.Release(tmp2);
-                p.AMX.Release(tmp3);
-                GC.Collect();
+                    p.Execute();
+                    p.AMX.Release(tmp);
+                    p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp3);
+                    GC.Collect();
+                }
+                p = null;
             }
             return Task.CompletedTask;
         }

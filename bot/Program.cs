@@ -14,6 +14,8 @@ using System.Text.RegularExpressions;
 using dcamx.Utils;
 using dcamx.Scripting;
 using System.Runtime.InteropServices;
+using AMXWrapper;
+using System.Runtime.CompilerServices;
 
 namespace dcamx
 {
@@ -129,12 +131,16 @@ namespace dcamx
             }
             else new Script("main");
 
-            //Now add all other scripts
+            m_Discord = new Discord.DCBot(); //AMX -> MAIN()
+            m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
+
+
+            //Now add all filterscripts
             try
             {
                 foreach (string fl in Directory.GetFiles("Scripts/"))
-                {
-                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
+                {                                                       //no autoload
+                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx") || Regex.Match(fl, "(?=/!).*(?=.amx)").Success ) continue;
                     Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
                     new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
                 }
@@ -145,8 +151,7 @@ namespace dcamx
                 goto __EXIT;
             }
 
-            m_Discord = new Discord.DCBot(); //AMX -> MAIN()
-            m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
+
 
 
         _CMDLOOP:

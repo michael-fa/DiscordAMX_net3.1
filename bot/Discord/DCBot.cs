@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Entities;
@@ -76,6 +77,7 @@ namespace dcamx.Discord
             try
             {
                 await Client.ConnectAsync();
+
             }
             catch (Exception ex)
             {
@@ -83,6 +85,8 @@ namespace dcamx.Discord
                 Utils.Log.Exception(ex);
                 Program.StopSafely();
             }
+
+            
         }
 
 

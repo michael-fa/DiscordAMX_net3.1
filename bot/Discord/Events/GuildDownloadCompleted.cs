@@ -24,7 +24,7 @@ namespace dcamx.Discord.Events
             //Getting the first and only discord ID (for now)
             if (a.Guilds.Count == 0)
             {
-                Utils.Log.WriteLine("Script main has no valid Discord Server ID declared!\nMake sure u are using DC_SetGuild() in script main!");
+                Utils.Log.Info("There are currently no servers available. Standing by.");
                 return Task.CompletedTask;
             }
 
@@ -48,16 +48,16 @@ namespace dcamx.Discord.Events
             }
 
 
-            AMXPublic p = null;
-            foreach (Scripting.Script scr in Program.m_Scripts)
-            {
-                p = scr.amx.FindPublic("OnInit");
-                if (p != null)
-                {
-                    p.Execute();
 
-                }
+            //Init main amx OnLoad
+            AMXPublic p = null;
+            p = Program.m_Scripts[0].amx.FindPublic("OnInit");
+            if (p != null)
+            {
+                p.Execute();
+
             }
+
 
 
             return Task.CompletedTask;

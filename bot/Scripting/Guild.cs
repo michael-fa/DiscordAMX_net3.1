@@ -23,7 +23,7 @@ namespace dcamx.Scripting
             m_DCGuild = _dcg;
             Program.m_ScriptGuilds.Add(this);
 
-            m_ID = Program.m_ScriptGuilds.Count();
+            m_ID = Program.m_ScriptGuilds.Count;
         }
         
     }
