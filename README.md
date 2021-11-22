@@ -19,14 +19,13 @@ For more about PAWN [click here](https://www.compuphase.com/pawn/pawn.htm).
 main()
 {
 	DC_SetToken(MY_BOT_TOKEN);
-        DC_SetGuild(MY_GUILD_ID);
         DC_SetMinLogLevel(1);
 	print(" => Awesome Discord Bot starting!\n");
 }
 
 public OnInit()
 {
-	DC_SendChannelMessage(EXAMPLE_CHANNEL, "I just scripted my own Discord Bot! Hurraay!");
+	DC_SendChannelMessage(MY_GUILD_ID, EXAMPLE_CHANNEL, "I just scripted my own Discord Bot! Hurraay!");
 	print(" => Awesome Discord Bot is started!\n");
 	return 1;
 }
@@ -36,22 +35,22 @@ public OnUnload()
     return 1;
 }
 
-public OnMemberJoin(memberid[])
+public OnMemberJoin(guildid, memberid[])
 {
     return 1;
 }
 
-public OnMemberLeave(memberid[])
+public OnMemberLeave(guildid, memberid[])
 {
     return 1;
 }
 
-public OnMessage(channelid[], memberid[], message[])
+public OnMessage(guildid, channelid[], memberid[], message[])
 {
     return 1;
 }
 
-public OnMessageDeleted(messageid[])
+public OnMessageDeleted(guildid, messageid[])
 {
     return 1;
 }
