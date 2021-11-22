@@ -4,6 +4,7 @@
  - Add "CallRemoteFunction" function Natives
  - Script file names beginning with '!' will not be loaded on startup!
  - Add DC_GetDiscordID
+ - Add OnChannelCreated Event (split that up to a second DMChannelCreated public)
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives
  - Add native AddReaction, RemoveReaction Natives 
  - TIMER: Make sure they work with any amount of arguments given
