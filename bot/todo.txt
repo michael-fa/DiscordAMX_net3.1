@@ -6,7 +6,7 @@
  - Add DC_GetDiscordID
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives
  - Add native AddReaction, RemoveReaction Natives 
- - TIMER: Make sure they work with parameters provides
+ - TIMER: Make sure they work with any amount of arguments given
  - GetMemberCount(guild), GetGuildCount()
  - GetPlayerGuild Callback
  - OnConsoleInput Callback
