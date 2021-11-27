@@ -77,9 +77,10 @@ Linux support is coming soon!
 
 
 ## Current Features
-* Set the DiscordActivity ('playing' for now only) Text 
+* Set the DiscordActivity ('playing, listening, watching') Text 
 * Send Messages to any channel
 * Setting timers
+* Private DM Handling
 * Receive onReaction, onMemberJoin, onMemberLeave, onMessage, on onCommand! **(Note until wiki is done: Commands in DiscordAMX are all handled with / as prefix!)**
 
 
