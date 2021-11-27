@@ -29,7 +29,6 @@ namespace dcamx.Discord
         public DCBot()
         {
             Program.m_Scripts[0].amx.ExecuteMain();
-            Program.m_ScriptingInited = true;
         }
 
         public async Task RunAsync(DiscordConfiguration dConfig)
@@ -48,7 +47,7 @@ namespace dcamx.Discord
 
 
             //Liten to all the Discord Events
-            Client.GuildDownloadCompleted               += Events.GuildDownloadCompleted.Execute;
+            Client.GuildDownloadCompleted               += Events.GuildActions.DownloadCompleted;
             Client.Heartbeated                          += Events.OnHeartbeated.Execute;
             Client.GuildMemberAdded                     += Events.MemberJoinLeave.Join;
             Client.GuildMemberRemoved                   += Events.MemberJoinLeave.Leave;
@@ -56,7 +55,11 @@ namespace dcamx.Discord
             Client.MessageDeleted                       += Events.MessageActions.MessageDeleted;
             Client.MessageReactionAdded                 += Events.MessageActions.ReactionAdded;
             Client.MessageReactionRemoved               += Events.MessageActions.ReactionRemoved;
+            Client.GuildCreated                         += Events.GuildActions.GuildAdded;
+            Client.GuildDeleted                         += Events.GuildActions.GuildRemoved;
+            Client.ChannelCreated                       += Events.GuildActions.ChannelCreated;
 
+            
 
             /*var commandsConfig = new CommandsNextConfiguration
             {
@@ -77,7 +80,6 @@ namespace dcamx.Discord
             try
             {
                 await Client.ConnectAsync();
-
             }
             catch (Exception ex)
             {
@@ -85,8 +87,9 @@ namespace dcamx.Discord
                 Utils.Log.Exception(ex);
                 Program.StopSafely();
             }
+           
 
-            
+
         }
 
 
