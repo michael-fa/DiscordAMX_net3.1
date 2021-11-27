@@ -1,19 +1,24 @@
-﻿ - OnInit including OnGuildsDownloaded, or some other way 
- - OnGuildAdd, OnGuildRemove Callback
- - LoadScript, UnloadScript Natives
- - Add "CallRemoteFunction" function Natives
- - Script file names beginning with '!' will not be loaded on startup!
- - Add DC_GetDiscordID
+﻿ - LoadScript, UnloadScript Natives
  - Add OnChannelCreated Event (split that up to a second DMChannelCreated public)
- - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives
+ - Add "CallRemoteFunction" function Natives
+ - DC_GetUserID
+ - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
  - Add native AddReaction, RemoveReaction Natives 
  - TIMER: Make sure they work with any amount of arguments given
- - GetMemberCount(guild), GetGuildCount()
- - GetPlayerGuild Callback
+ - Handle the console commands better.. 
  - OnConsoleInput Callback
  - Find a way to call AMX Publics with (unlimited) parameters as a SINGLE function. CallAmxPublic(amx, "", string param1, int32 param2, float param3, idk param4, .... and so on.);
+ - Add functions to apply "properties" to users. 
+ 
 
 
 
  - Add ping to heartbeat (?) --------------------------------------------------------------- [DONE]
-
+ - Script file names beginning with '!' will not be loaded on startup!						 [DONE]
+ - OnGuildAdd, OnGuildRemove Callback														 [DONE]
+ - native DC_GetGuildName(guildid)															 [DONE]
+ - GetMemberCount(guild), GetGuildCount()													 [DONE]
+ - Handle various events that can happen both in guilds or in privatechannels as such events split up into their own. [READY]
+ - OnPrivateCommand, OnPrivateMessage														 []
+ - OnPrivateMessageDeleted																	 []
+ - SendPrivateMessage()																		 [X]

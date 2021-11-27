@@ -2,10 +2,12 @@
 using DSharpPlus.Entities;
 using System;
 using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace dcamx.Scripting
 {
@@ -86,7 +88,7 @@ namespace dcamx.Scripting
 
         public static int DC_SetToken(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (Program.m_ScriptingInited) return 0;
+            if (Program.m_Discord != null) return 0;
             if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
 
             Program.dConfig.Token = args1[0].AsString();
@@ -148,7 +150,7 @@ namespace dcamx.Scripting
 
         public static int DC_SetMinLogLevel(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (Program.m_ScriptingInited) return 0;
+            if (Program.m_Discord != null) return 0;
             if (args1[0].AsInt32() < 0 || args1[0].AsInt32() > 5) return 1;
             switch (args1[0].AsInt32())
             {
@@ -213,19 +215,14 @@ namespace dcamx.Scripting
             if (args1.Length != 4) return 0;
             try
             {
-<<<<<<< HEAD
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-=======
-                DiscordGuild guild;
 
-                bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
                 guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync(args1[3].AsString()).Wait();
             }
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeleteMessage' (Invalid Channel or Message ID, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeleteMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)" + caller_script);
             }
             return 1;
         }
@@ -235,14 +232,7 @@ namespace dcamx.Scripting
         {
             if (args1.Length != 3) return 0;
 
-<<<<<<< HEAD
-
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-=======
-            DiscordGuild guild;
-
-            bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             try
             {
                 guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(args1[2].AsString());
@@ -250,7 +240,24 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel or Message ID, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)" + caller_script);
+            }
+            return 1;
+        }
+
+        public static int DC_SendPrivateMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            try
+            {
+                DiscordChannel dc= Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
+                dc.SendMessageAsync(args1[1].AsString());
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_SendPrivateMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)" + caller_script);
             }
             return 1;
         }
@@ -268,14 +275,8 @@ namespace dcamx.Scripting
         public static int DC_GetMemberName(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
-<<<<<<< HEAD
-
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-=======
-            DiscordGuild guild;
 
-            bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             try
             {
                 AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Username, true);
@@ -283,7 +284,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberName' (dest_string must be a array!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberName' (dest_string must be a array, or invalid parameters!!)" + caller_script);
             }
             return 1;
         } 
@@ -291,13 +292,8 @@ namespace dcamx.Scripting
         public static int DC_GetMemberDisplayName(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
-<<<<<<< HEAD
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-=======
-            DiscordGuild guild;
 
-            bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             try
             {
                 AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).DisplayName, true);
@@ -305,7 +301,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberDisplayName' (dest_string must be a array!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberDisplayName' (dest_string must be a array, or invalid parameters!!)" + caller_script);
             }
             return 1;
         }
@@ -313,25 +309,16 @@ namespace dcamx.Scripting
         public static int DC_GetMemberDiscriminator(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
-<<<<<<< HEAD
 
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
             try
             {
                 AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Discriminator, true);
-=======
-            DiscordGuild guild;
-
-            bool suc = Program.m_Discord.Client.Guilds.TryGetValue(Convert.ToUInt64(args1[0]), out guild);
-            try
-            {
-                AMX.SetString(args1[1].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[0].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Discriminator, true);
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             }
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberDiscriminator' (dest_string must be a array!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberDiscriminator' (dest_string must be a array, or invalid parameters!)" + caller_script);
             }
             return 1;
         }
@@ -340,7 +327,49 @@ namespace dcamx.Scripting
 
 
 
+        //Guilds
 
+
+
+        public static int DC_GetGuildName(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+
+
+            try
+            {
+                DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+                AMX.SetString(args1[1].AsCellPtr(), guild.Name, true);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_GetGuildName' (dest_string must be a array, or invalid parameters!)" + caller_script);
+            }
+            return 1;
+        }
+
+        public static int DC_GetGuildCount(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            return Program.m_ScriptGuilds.Count;
+        }
+
+        public static int DC_GetMemberCount(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            DiscordGuild guild = null;
+            try
+            {
+                guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberCount' (Invalid guildid?)" + caller_script);
+            }
+            if (guild != null) return guild.MemberCount;
+            else return 0;
+        }
 
 
 

@@ -31,6 +31,9 @@ namespace dcamx
         public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
         public static List<Scripting.Script> m_Scripts = null;
         public static List<Scripting.Guild> m_ScriptGuilds = null;
+        public static List<DiscordChannel> m_DmUsers = null;
+
+        //GuildAvailable gets called for every first initialised guild. We don't want that.
         public static bool m_ScriptingInited = false;
 
 
@@ -120,6 +123,7 @@ namespace dcamx
             Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
             Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
             Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
+            m_DmUsers = new List<DiscordChannel>();
 
 
 
@@ -134,13 +138,12 @@ namespace dcamx
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
 
-
             //Now add all filterscripts
             try
             {
                 foreach (string fl in Directory.GetFiles("Scripts/"))
                 {                                                       //no autoload
-                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx") || Regex.Match(fl, "(?=/!).*(?=.amx)").Success ) continue;
+                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx") || Regex.Match(fl, "(?=/!).*(?=.amx)").Success) continue;
                     Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
                     new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
                 }
@@ -150,9 +153,6 @@ namespace dcamx
                 Log.Exception(ex);
                 goto __EXIT;
             }
-
-
-
 
         _CMDLOOP:
             string cmd = Console.ReadLine();
@@ -276,8 +276,9 @@ namespace dcamx
 
             }
 
-            else if(cmd.StartsWith("reloadall"))
+            else if(cmd.Equals("reloadall"))
             {
+                Console.WriteLine("1");
                 foreach (Script script in m_Scripts)
                 {
                     if (script.amx == null) continue;

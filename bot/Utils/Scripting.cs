@@ -51,7 +51,6 @@ namespace dcamx.Utils
         {
             dcamx.Scripting.Member mbr_ = null;
             foreach (dcamx.Scripting.Member mbr in _gld.m_ScriptMembers)
-<<<<<<< HEAD
             {
                 if (mbr.m_DiscordMember.Equals(_member)) return mbr;
             }
@@ -74,24 +73,12 @@ namespace dcamx.Utils
         {
             DiscordGuild mbr_ = null;
             foreach (dcamx.Scripting.Guild mbr in Program.m_ScriptGuilds)
-=======
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             {
                 if (mbr.m_ID == _guild)
                 {
                     
                     return mbr.m_DCGuild;
                 }
-            }
-            return mbr_;
-        }
-
-        public static dcamx.Scripting.Guild DCGuild_ScrGuild(DiscordGuild _guild)
-        {
-            dcamx.Scripting.Guild mbr_ = null;
-            foreach (dcamx.Scripting.Guild mbr in Program.m_ScriptGuilds)
-            {
-                if (mbr.m_DCGuild == _guild) mbr_ = mbr;
             }
             return mbr_;
         }

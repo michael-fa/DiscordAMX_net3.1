@@ -214,7 +214,7 @@
   <ItemGroup>
     <Compile Include="Discord\Commands.cs" />
     <Compile Include="Discord\DCBot.cs" />
-    <Compile Include="Discord\Events\GuildDownloadCompleted.cs" />
+    <Compile Include="Discord\Events\GuildActions.cs" />
     <Compile Include="Discord\Events\MemberJoinLeave.cs" />
     <Compile Include="Discord\Events\OnHeartbeated.cs" />
     <Compile Include="Discord\Events\MessageActions.cs" />

@@ -37,7 +37,6 @@ namespace dcamx.Scripting
             this.RegisterNatives();
 
             Program.m_Scripts.Add(this);
-<<<<<<< HEAD
 
             if(_isFilterscript)
             {
@@ -49,8 +48,6 @@ namespace dcamx.Scripting
 
                 }
             }
-=======
->>>>>>> c6d8b7ad2d958bf06ffd34efafdfd20b9c965d4e
             Utils.Log.Debug("Loaded script as ID: " + (Program.m_Scripts.Count - 1));
             return;
         }
@@ -77,9 +74,13 @@ namespace dcamx.Scripting
             amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DC_SetMinLogLevel(amx1, args1, this));
             amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DC_SetActivityText(amx1, args1, this));
             amx.Register("DC_SetToken", (amx1, args1) => Natives.DC_SetToken(amx1, args1, this));
-            
-            
-            
+
+            //Guilds
+            amx.Register("DC_GetGuildName", (amx1, args1) => Natives.DC_GetGuildName(amx1, args1, this));
+            amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.DC_GetGuildCount(amx1, args1, this));
+            amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.DC_GetMemberCount(amx1, args1, this));
+
+
             //amx.Register("ALTV_GetPublicServerInfo", (amx1, args1) => Natives.ALTV_GetPublicServerInfo(amx1, args1, this));
 
             //Members
@@ -90,6 +91,7 @@ namespace dcamx.Scripting
             //Channels
             amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
             amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
+            amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
 
             return true;
         }
