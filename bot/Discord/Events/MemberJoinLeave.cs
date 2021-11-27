@@ -45,6 +45,7 @@ namespace dcamx.Discord.Events
 
         public static Task Leave(DiscordClient c, GuildMemberRemoveEventArgs arg)
         {
+            if (arg.Member == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
             AMXPublic p = Program.m_Scripts[0].amx.FindPublic("OnMemberLeave");
             if (p != null)
             {
