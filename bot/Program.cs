@@ -157,37 +157,53 @@ namespace dcamx
                 return;
             }
 
+
+        //Parse CMDs.
         _CMDLOOP:
             string wholecmd = Console.ReadLine();
             string[] cmd = wholecmd.Split(' ');
-            if(cmd.Length > 0)
+            if (cmd.Length > 0)
             {
-                if(cmd[0].Length > 0)
-                    switch(cmd[0])
-                    {
-                        case "exit":
-                            StopSafely();
-                            break;
-                        case "loadscript":
-                            ConsoleCommand.LoadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                            break;
-                        case "unloadscript":
-                            ConsoleCommand.UnloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                            break;
-                        case "reloadscript":
-                            ConsoleCommand.ReloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                            break;
-                        case "reloadall":
-                            ConsoleCommand.ReloadAll(); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                            break;
-                        case "help":
-                            ConsoleCommand.Help();
-                            break;
-                        case "guilds":
-                            ConsoleCommand.ListGuilds();
-                            break;
+                switch (cmd[0])
+                {
+                    case "exit":
+                        StopSafely();
+                        break;
+                    case "loadscript":
+                        ConsoleCommand.LoadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "unloadscript":
+                        ConsoleCommand.UnloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "reloadscript":
+                        ConsoleCommand.ReloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "reloadall":
+                        ConsoleCommand.ReloadAll(); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "help":
+                        ConsoleCommand.Help();
+                        break;
+                    case "guilds":
+                        ConsoleCommand.ListGuilds();
+                        break;
 
-                    }
+                }
+            }
+
+            if (wholecmd.Length == 0) goto _CMDLOOP;
+            //Call OnConsoleInput for every script
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.amx.FindPublic("OnConsoleInput");
+                if (p != null)
+                {
+                    var tmp1 = p.AMX.Push(wholecmd);
+                    p.Execute();
+                    p.AMX.Release(tmp1);
+                }
+                p = null;
             }
 
             goto _CMDLOOP;
