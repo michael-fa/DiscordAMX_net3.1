@@ -128,24 +128,39 @@ namespace dcamx.Discord.Events
 
         public static Task ChannelCreated(DiscordClient c, ChannelCreateEventArgs a)
         {
-            /* if(a.Channel.IsPrivate)
-             {
-                 AMXPublic p = null;
-                 foreach (Scripting.Script scr in Program.m_Scripts)
-                 {
-                     p = scr.amx.FindPublic("OnPrivateMessage");
-                     if (p != null)
-                     { 
-                         a.Channel.
-                         var tmp1 = p.AMX.Push(a.Guild.Name);
-                         p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
-                         p.Execute();7
-                         p.AMX.Release(tmp1);
-                     }
-                     p = null;
-                 }
-             }
-             */
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.amx.FindPublic("OnChannelCreated");
+                if (p != null)
+                {
+                    p.AMX.Push((a.Channel.IsPrivate ? (1) : (0)));
+                    var tmp1 = p.AMX.Push(a.Channel.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp1);
+                }
+                p = null;
+            }
+            return Task.CompletedTask;
+        }
+
+        public static Task ChannelDeleted(DiscordClient c, ChannelDeleteEventArgs a)
+        {
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.amx.FindPublic("OnChannelDeleted");
+                if (p != null)
+                {
+                    p.AMX.Push((a.Channel.IsPrivate ? (1) : (0)));
+                    var tmp1 = p.AMX.Push(a.Channel.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp1);
+                }
+                p = null;
+            }
             return Task.CompletedTask;
         }
     }
