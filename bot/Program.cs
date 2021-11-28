@@ -16,6 +16,7 @@ using dcamx.Scripting;
 using System.Runtime.InteropServices;
 using AMXWrapper;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace dcamx
 {
@@ -94,7 +95,7 @@ namespace dcamx
             //Environment - Set the OS
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) m_isWindows = true;
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) m_isLinux = true;
-            else goto __EXIT;
+            else StopSafely();
 
             //Set the console handler, catching events such as close.
             _handler += new EventHandler(Handler);
@@ -131,7 +132,8 @@ namespace dcamx
             if (!File.Exists("Scripts/main.amx"))
             {
                 Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
-                goto __EXIT;
+                StopSafely();
+                return;
             }
             else new Script("main");
 
@@ -151,184 +153,45 @@ namespace dcamx
             catch (Exception ex)
             {
                 Log.Exception(ex);
-                goto __EXIT;
+                StopSafely();
+                return;
             }
 
         _CMDLOOP:
-            string cmd = Console.ReadLine();
-
-            if (cmd.StartsWith("exit"))
-                goto __EXIT;
-
-            else if(cmd.StartsWith("help") || cmd.StartsWith("?"))
+            string wholecmd = Console.ReadLine();
+            string[] cmd = wholecmd.Split(' ');
+            if(cmd.Length > 0)
             {
-                Console.WriteLine("\n\nCommmands available from console:\n   /help                                          (Shows a list of commands)\n   /exit                                          (Stops the server safely)\n" +
-                "   /loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   /unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
-                "\n/reload <scriptfile>                           (Reloads a script- Pass scriptfile without '.amx')\n/reloadall                        (Reloads all scripts)");
-            }
-
-            else if (cmd.StartsWith("loadscript"))
-            {
-                string[] spl;
-                try
-                {
-                    spl = cmd.Split(' ');
-                }
-                catch
-                {
-                    goto _CMDLOOP;
-                }
-                if (spl.Length != 2) goto _CMDLOOP;
-                if (spl[1] == null)
-                {
-                    Log.Error(" [command] You did not specify a correct script file!");
-                    goto _CMDLOOP;
-                }
-                if (!File.Exists("Scripts/" + spl[1] + ".amx"))
-                {
-                    Log.Error(" [command] The script file " + spl[1] + ".amx does not exists in /Scripts/ folder.");
-                    goto _CMDLOOP;
-                }
-                Script scr = new Script(spl[1]);
-                AMXWrapper.AMXPublic pub = scr.amx.FindPublic("OnInit");
-                if (pub != null) pub.Execute();
-            }
-
-
-
-
-            else if (cmd.StartsWith("unloadscript"))
-            {
-                string[] spl;
-                try
-                {
-                    spl = cmd.Split(' ');
-                }
-                catch
-                {
-                    goto _CMDLOOP;
-                }
-                if (spl.Length != 2) goto _CMDLOOP;
-                if (spl[1] == null)
-                {
-                    Log.Error(" [command] You did not specify a correct script name (without .amx)");
-                    goto _CMDLOOP;
-                }
-
-                foreach (Script sc in m_Scripts)
-                {
-                    if (sc._amxFile.Equals(spl[1]))
+                if(cmd[0].Length > 0)
+                    switch(cmd[0])
                     {
-                        AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
-                        if (pub != null) pub.Execute();
-                        sc.amx.Dispose();
-                        sc.amx = null;
-                        m_Scripts.Remove(sc);
-                        Log.Info("[CORE] Script '" + spl[1] + "' unloaded.");
-                        goto _CMDLOOP;
+                        case "exit":
+                            StopSafely();
+                            break;
+                        case "loadscript":
+                            ConsoleCommand.LoadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                            break;
+                        case "unloadscript":
+                            ConsoleCommand.UnloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                            break;
+                        case "reloadscript":
+                            ConsoleCommand.ReloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                            break;
+                        case "reloadall":
+                            ConsoleCommand.ReloadAll(); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                            break;
+                        case "help":
+                            ConsoleCommand.Help();
+                            break;
+                        case "guilds":
+                            ConsoleCommand.ListGuilds();
+                            break;
+
                     }
-                }
-                Log.Error(" [command] The script '" + spl[1] +  "' is not running.");
-                
-            }
-
-            else if(cmd.StartsWith("reload"))
-            {
-                string[] spl;
-                try
-                {
-                    spl = cmd.Split(' ');
-                }
-                catch
-                {
-                    goto _CMDLOOP;
-                }
-                if (spl.Length != 2) goto _CMDLOOP;
-                if (spl[1] == null)
-                {
-                    Log.Error(" [command] You did not specify a correct script name (without .amx)");
-                    goto _CMDLOOP;
-                }
-                //Find the actual script
-                foreach (Script sc in m_Scripts)
-                {
-                    if (sc._amxFile.Equals(spl[1]))
-                    {
-                        AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
-                        if (pub != null) pub.Execute();
-                        sc.amx.Dispose();
-                        sc.amx = null;
-                        m_Scripts.Remove(sc);
-
-                        if (!File.Exists("Scripts/" + spl[1] + ".amx"))
-                        {
-                            Log.Error(" [command] The script file " + spl[1] + ".amx does not exists in /Scripts/ folder.");
-                            goto _CMDLOOP;
-                        }
-                        Script scr = new Script(spl[1]);
-                        pub = scr.amx.FindPublic("OnInit");
-                        if (pub != null) pub.Execute();
-
-                        Log.Info("[CORE] Script '" + spl[1] + "' reloaded.");
-                        goto _CMDLOOP;
-                    }
-                }
-
-            }
-
-            else if(cmd.Equals("reloadall"))
-            {
-                Console.WriteLine("1");
-                foreach (Script script in m_Scripts)
-                {
-                    if (script.amx == null) continue;
-
-                    script.StopAllTimers();
-
-                    if (script.amx.FindPublic("OnUnload") != null)
-                        script.amx.FindPublic("OnUnload").Execute();
-
-                    script.amx.Dispose();
-                    script.amx = null;
-                    Log.WriteLine("Script " + script._amxFile + " unloaded.");
-                }
-
-                m_Scripts.Clear();
-                //Start all the stuff
-
-
-                //Load main.amx, or error out if not available
-                if (!File.Exists("Scripts/main.amx"))
-                {
-                    Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
-                    goto __EXIT;
-                }
-                else new Script("main");
-
-                //Now add all other scripts
-                try
-                {
-                    foreach (string fl in Directory.GetFiles("Scripts/"))
-                    {
-                        if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
-                        Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
-                        new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Exception(ex);
-                    goto __EXIT;
-                }
-
-                Log.WriteLine("->    All scripts reloaded.");
             }
 
             goto _CMDLOOP;
-
-
-        __EXIT:
-            StopSafely();
+            
         }
 
         static public void StopSafely()
@@ -352,7 +215,7 @@ namespace dcamx
             File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old on
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");
 
-            Thread.CurrentThread.Abort();
+            Environment.Exit(0);
         }
     }
 }

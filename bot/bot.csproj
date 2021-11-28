@@ -225,6 +225,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\Script.cs" />
     <Compile Include="Scripting\ScriptTimer.cs" />
+    <Compile Include="Utils\ConsoleCommand.cs" />
     <Compile Include="Utils\HTTP.cs" />
     <Compile Include="Utils\INI.cs" />
     <Compile Include="Utils\LogFunctions.cs" />
