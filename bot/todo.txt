@@ -5,11 +5,7 @@
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
  - Add native AddReaction, RemoveReaction Natives 
  - TIMER: Make sure they work with any amount of arguments gives
- - OnConsoleInput Callback
  - Find a way to call AMX Publics with (unlimited) parameters as a SINGLE function. CallAmxPublic(amx, "", string param1, int32 param2, float param3, idk param4, .... and so on.);
- - Add functions to apply "properties" to users. 
  
-
-
-
-  - Add OnChannelCreated Event (both private and guild channels) AND OnChannelDelete
+ - (!!) Add functions to apply "properties" to users. 
+ 
