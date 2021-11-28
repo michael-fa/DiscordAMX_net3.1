@@ -149,7 +149,7 @@ namespace dcamx.Utils
             Console.WriteLine("----- Guilds currently available:");
             foreach(DiscordGuild guild in Program.m_Discord.Client.Guilds.Values)
             {
-                Console.Write("   - " + guild.Name + " | " + guild.MemberCount + " Members | Owner: " + guild.Owner.DisplayName + "#" + guild.Owner.Discriminator + " | Joined at " + guild.JoinedAt.DateTime.ToString());
+                Console.Write("     - ID: " + Utils.Scripting.DCGuild_ScrGuild(guild).m_ID + " | " + guild.Name + " | " + guild.MemberCount + " Members | Owner: " + guild.Owner.DisplayName + "#" + guild.Owner.Discriminator + " | Joined at " + guild.JoinedAt.DateTime.ToString());
             }
         }
     }
