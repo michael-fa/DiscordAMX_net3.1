@@ -58,8 +58,9 @@ namespace dcamx.Discord
             Client.GuildCreated                         += Events.GuildActions.GuildAdded;
             Client.GuildDeleted                         += Events.GuildActions.GuildRemoved;
             Client.ChannelCreated                       += Events.GuildActions.ChannelCreated;
+            Client.ChannelDeleted                       += Events.GuildActions.ChannelDeleted;
 
-            
+
 
             /*var commandsConfig = new CommandsNextConfiguration
             {

@@ -1,5 +1,5 @@
-﻿ - LoadScript, UnloadScript Natives
- - Add OnChannelCreated Event (split that up to a second DMChannelCreated public)
+﻿ - LoadScript, UnloadScript Natives 
+ - More functions regarding guild, channel, member data. (retrieving them)
  - Add "CallRemoteFunction" function Natives
  - DC_GetUserID
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
@@ -13,12 +13,4 @@
 
 
 
- - Add ping to heartbeat (?) --------------------------------------------------------------- [DONE]
- - Script file names beginning with '!' will not be loaded on startup!						 [DONE]
- - OnGuildAdd, OnGuildRemove Callback														 [DONE]
- - native DC_GetGuildName(guildid)															 [DONE]
- - GetMemberCount(guild), GetGuildCount()													 [DONE]
- - Handle various events that can happen both in guilds or in privatechannels as such events split up into their own. [READY]
- - OnPrivateCommand, OnPrivateMessage														 []
- - OnPrivateMessageDeleted																	 []
- - SendPrivateMessage()																		 [X]
+  - Add OnChannelCreated Event (both private and guild channels) AND OnChannelDelete
