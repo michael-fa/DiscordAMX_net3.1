@@ -1,6 +1,7 @@
 ﻿ - LoadScript, UnloadScript Natives 
  - More functions regarding guild, channel, member data. (retrieving them)
  - Add "CallRemoteFunction" function Natives
+ - Add DC_DeletePrivateMessage
  - DC_GetUserID
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
  - Add native AddReaction, RemoveReaction Natives 
