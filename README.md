@@ -26,7 +26,7 @@ main()
 public OnInit()
 {
 	DC_SendChannelMessage(MY_GUILD_ID, EXAMPLE_CHANNEL, "I just scripted my own Discord Bot! Hurraay!");
-	print(" => Awesome Discord Bot is started!\n");
+        print(" => Awesome Discord Bot is started!\n");
 	return 1;
 }
 
@@ -45,7 +45,7 @@ public OnMemberLeave(guildid, memberid[])
     return 1;
 }
 
-public OnMessage(guildid, channelid[], memberid[], message[])
+public OnChannelMessage(guildid, channelid[], memberid[], message[])
 {
     return 1;
 }
@@ -78,10 +78,12 @@ Linux support is coming soon!
 
 ## Current Features
 * Set the DiscordActivity ('playing, listening, watching') Text 
-* Send Messages to any channel
+* Send Messages to any channel 
 * Setting timers
 * Private DM Handling
-* Receive onReaction, onMemberJoin, onMemberLeave, onMessage, on onCommand! **(Note until wiki is done: Commands in DiscordAMX are all handled with / as prefix!)**
+* Multiple guild support
+* Multiple script support
+* Members ans Scripte can be handled via Script_IDs, so that it's easier without using the 18 digit ID.
 
 
 ## Planned for first release
@@ -90,6 +92,7 @@ Linux support is coming soon!
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
 * File handling
+* More functions about detailed info/data (Channels, guilds, users/members)
 * LINUX SUPPORT
 
 ### Third party info
