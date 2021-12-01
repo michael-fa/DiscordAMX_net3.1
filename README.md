@@ -83,7 +83,7 @@ Linux support is coming soon!
 * Private DM Handling
 * Multiple guild support
 * Multiple script support
-* Members ans Scripte can be handled via Script_IDs, so that it's easier without using the 18 digit ID.
+* Members and Guilds can be handled via Script_IDs, so that it's easier without using the 18 digit ID.
 
 
 ## Planned for first release
