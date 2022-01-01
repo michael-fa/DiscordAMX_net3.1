@@ -1,22 +1,12 @@
-﻿using DSharpPlus.CommandsNext;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using DSharpPlus;
 using System.IO;
-using System.Threading;
 using System.Text.RegularExpressions;
 using dcamx.Utils;
 using dcamx.Scripting;
 using System.Runtime.InteropServices;
-using AMXWrapper;
-using System.Runtime.CompilerServices;
-using System.Reflection;
+using DSharpPlus;
 
 namespace dcamx
 {
@@ -38,23 +28,9 @@ namespace dcamx
         public static bool m_ScriptingInited = false;
 
 
-        public static DiscordConfiguration dConfig = new DiscordConfiguration()
-        {
-            TokenType = TokenType.Bot,
-            Intents = DiscordIntents.DirectMessageReactions
-            | DiscordIntents.DirectMessages 
-            | DiscordIntents.GuildMessageReactions
-            | DiscordIntents.GuildBans
-            | DiscordIntents.GuildEmojis
-            | DiscordIntents.GuildInvites
-            | DiscordIntents.GuildMembers
-            | DiscordIntents.GuildMessages
-            | DiscordIntents.Guilds
-            | DiscordIntents.GuildVoiceStates
-            | DiscordIntents.GuildWebhooks,
-            AutoReconnect = true
-        };
 
+        //Discord
+        public static DiscordConfiguration dConfig = null;
 
 
 
@@ -92,6 +68,7 @@ namespace dcamx
 
         static void Main(string[] args)
         {
+
             //Environment - Set the OS
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) m_isWindows = true;
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) m_isLinux = true;
@@ -102,14 +79,8 @@ namespace dcamx
             SetConsoleCtrlHandler(_handler, true);
 
 
-            //Check if LOG Dir exists
-            if (!Directory.Exists("Logs/"))
-                Directory.CreateDirectory("Logs/");
-
-            //Check if Scripts dir exists
-            if (!Directory.Exists("Scripts/"))
-                Directory.CreateDirectory("Scripts/");
-
+            __InitialChecks();
+            __InitialSetup();
             
 
             //Print a time and date to log file
@@ -117,14 +88,6 @@ namespace dcamx
             //Console initial message
             Log.Info("-> Discord AMX Bot © 2021 - www.fanter.eu <-"); 
             Log.Info("RUNNING ON " + Environment.OSVersion.VersionString + "\n\n");
-
-
-
-            //Setting everything up
-            Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
-            Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
-            Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
-            m_DmUsers = new List<DiscordChannel>();
 
 
 
@@ -144,10 +107,12 @@ namespace dcamx
             try
             {
                 foreach (string fl in Directory.GetFiles("Scripts/"))
-                {                                                       //no autoload
-                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx") || Regex.Match(fl, "(?=/!).*(?=.amx)").Success) continue;
-                    Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
-                    new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
+                {                                               
+                    Match mtch = Regex.Match(fl, "(?=/!).*(?=.amx)");
+                    // demand load main.amx     ||  skip this file
+                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx") || mtch.Success) continue;
+                    Log.Info("[CORE] Found filterscript: '" + mtch.Value.ToString().Remove(0, 1) + "' !");
+                    new Script(mtch.Value.ToString().Remove(0, 1), true);
                 }
             }
             catch (Exception ex)
@@ -158,57 +123,58 @@ namespace dcamx
             }
 
 
-        //Parse CMDs.
+        //Handle commands.
         _CMDLOOP:
-            string wholecmd = Console.ReadLine();
-            string[] cmd = wholecmd.Split(' ');
-            if (cmd.Length > 0)
-            {
-                switch (cmd[0])
-                {
-                    case "exit":
-                        StopSafely();
-                        break;
-                    case "loadscript":
-                        ConsoleCommand.LoadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                        break;
-                    case "unloadscript":
-                        ConsoleCommand.UnloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                        break;
-                    case "reloadscript":
-                        ConsoleCommand.ReloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                        break;
-                    case "reloadall":
-                        ConsoleCommand.ReloadAll(); //Skip(1) will skip the command string itself and pass the rest of the whole string.
-                        break;
-                    case "help":
-                        ConsoleCommand.Help();
-                        break;
-                    case "guilds":
-                        ConsoleCommand.ListGuilds();
-                        break;
-
-                }
-            }
-
-            if (wholecmd.Length == 0) goto _CMDLOOP;
-            //Call OnConsoleInput for every script
-            AMXPublic p = null;
-            foreach (Scripting.Script scr in Program.m_Scripts)
-            {
-                p = scr.amx.FindPublic("OnConsoleInput");
-                if (p != null)
-                {
-                    var tmp1 = p.AMX.Push(wholecmd);
-                    p.Execute();
-                    p.AMX.Release(tmp1);
-                }
-                p = null;
-            }
-
+            ConsoleCommand.Loop();
             goto _CMDLOOP;
             
         }
+
+
+
+        //Checking for all different kinds of stuff so we're good to go.
+        static private void __InitialChecks()
+        {
+            //Check if LOG Dir exists
+            if (!Directory.Exists("Logs/"))
+                Directory.CreateDirectory("Logs/");
+
+            //Check if Scripts dir exists
+            if (!Directory.Exists("Scripts/"))
+                Directory.CreateDirectory("Scripts/");
+        }
+
+
+
+        //Setting everything up AFTER InitialChecks are done!
+        static private void __InitialSetup()
+        {
+            dConfig = new DiscordConfiguration()
+            {
+                TokenType = TokenType.Bot,
+                Intents = DiscordIntents.DirectMessageReactions
+         | DiscordIntents.DirectMessages
+         | DiscordIntents.GuildMessageReactions
+         | DiscordIntents.GuildBans
+         | DiscordIntents.GuildEmojis
+         | DiscordIntents.GuildInvites
+         | DiscordIntents.GuildMembers
+         | DiscordIntents.GuildMessages
+         | DiscordIntents.Guilds
+         | DiscordIntents.GuildVoiceStates
+         | DiscordIntents.GuildWebhooks,
+                AutoReconnect = true
+            };
+
+
+            //Setting everything up
+            Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
+            Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
+            Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
+            m_DmUsers = new List<DiscordChannel>();
+        }
+
+
 
         static public void StopSafely()
         {

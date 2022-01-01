@@ -18,13 +18,13 @@ using System.Diagnostics;
 namespace dcamx.Discord
 {
 
+
+
     public class DCBot
     {
         public DiscordClient Client { get; private set; }
         public InteractivityExtension Interactivity { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
-
-        
 
         public DCBot()
         {

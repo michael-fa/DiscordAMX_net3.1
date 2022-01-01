@@ -65,8 +65,8 @@ namespace dcamx.Scripting
         {
             amx.Register("printc", (amx1, args1) => Natives.printc(amx1, args1, this));
             
-            //amx.Register("LoadScript", (amx1, args1) => Natives.loadscript(amx1, args1, this));
-            //amx.Register("UnloadScript", (amx1, args1) => Natives.unloadscript(amx1, args1, this));
+            amx.Register("Loadscript", (amx1, args1) => Natives.Loadscript(amx1, args1, this));
+            amx.Register("Unloadscript", (amx1, args1) => Natives.Unloadscript(amx1, args1, this));
             amx.Register("SetTimer", (amx1, args1) => Natives.SetTimer(amx1, args1, this));
             amx.Register("KillTimer", (amx1, args1) => Natives.KillTimer(amx1, args1, this));
             amx.Register("gettimestamp", (amx1, args1) => Natives.gettimestamp(amx1, args1, this));
@@ -80,9 +80,6 @@ namespace dcamx.Scripting
             amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.DC_GetGuildCount(amx1, args1, this));
             amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.DC_GetMemberCount(amx1, args1, this));
 
-
-            //amx.Register("ALTV_GetPublicServerInfo", (amx1, args1) => Natives.ALTV_GetPublicServerInfo(amx1, args1, this));
-
             //Members
             amx.Register("DC_GetMemberName", (amx1, args1) => Natives.DC_GetMemberName(amx1, args1, this));
             amx.Register("DC_GetMemberDisplayName", (amx1, args1) => Natives.DC_GetMemberDisplayName(amx1, args1, this));
@@ -92,6 +89,7 @@ namespace dcamx.Scripting
             amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
             amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
             amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
+            amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.DC_DeletePrivateMessage(amx1, args1, this));
 
             return true;
         }

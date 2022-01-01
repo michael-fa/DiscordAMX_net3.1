@@ -69,57 +69,6 @@ namespace dcamx.Discord.Events
                     p = null;
                 }
             }
-
-            //old stuff
-
-            /*//If the trigger was the bot itself, skip calling the public
-           
-            
-            if (arg.Message.Content.StartsWith("/"))
-            {
-                AMXPublic p = null;
-                foreach (Scripting.Script scr in Program.m_Scripts)
-                {
-                    if (arg.Channel.IsPrivate)
-                    {
-                        p = scr.amx.FindPublic("OnPrivateCommand");
-                        if (p != null)
-                        {
-                            Program.m_DmUsers.Add(arg.Channel);
-                            var tmp2 = p.AMX.Push(arg.Message.Content.Remove(0, 1));
-                            var tmp3 = p.AMX.Push(arg.Channel.Id.ToString());
-                            p.Execute();
-                            p.AMX.Release(tmp2);
-                            p.AMX.Release(tmp3);
-                            
-                            GC.Collect();
-                        }
-                        p = null;
-                    }
-                    else
-                    {
-                        p = scr.amx.FindPublic("OnCommand");
-                        if (p != null)
-                        {
-                            var tmp2 = p.AMX.Push(arg.Message.Content.Remove(0, 1));
-                            p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
-                            var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
-                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
-                            p.Execute();
-                            p.AMX.Release(tmp);
-                            p.AMX.Release(tmp2);
-                            GC.Collect();
-                        }
-                        p = null;
-                    }
-
-                }
-
-            }
-            else
-            {
-               
-            }*/
             return Task.CompletedTask;
         }
 

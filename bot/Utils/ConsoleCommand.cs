@@ -1,4 +1,5 @@
-﻿using dcamx.Scripting;
+﻿using AMXWrapper;
+using dcamx.Scripting;
 using DSharpPlus.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,65 @@ namespace dcamx.Utils
 {
     public static class ConsoleCommand
     {
+
+
+        public static void Loop()
+        {
+            string wholecmd = Console.ReadLine(); //System.InvalidOperationException 
+            string[] cmd = wholecmd.Split(' ');
+            if (cmd.Length > 0)
+            {
+                switch (cmd[0])
+                {
+                    case "exit":
+                        Program.StopSafely();
+                        break;
+                    case "loadscript":
+                        LoadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "unloadscript":
+                        UnloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "reloadscript":
+                        ReloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "reloadall":
+                        ReloadAll(); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
+                    case "help":
+                        Help();
+                        break;
+                    case "guilds":
+                        ListGuilds();
+                        break;
+
+                }
+            }
+
+            if (wholecmd.Length == 0) return;
+
+
+            //Call OnConsoleInput for every script
+            AMXPublic p = null;
+            foreach (Script scr in Program.m_Scripts)
+            {
+                p = scr.amx.FindPublic("OnConsoleInput");
+                if (p != null)
+                {
+                    var tmp1 = p.AMX.Push(wholecmd);
+                    p.Execute();
+                    p.AMX.Release(tmp1);
+                }
+                p = null;
+            }
+        }
+
+
+
+
+
+
+
         public static void Help()
         {
             Console.WriteLine("\n\nCommmands available from console:\n   /help                                          (Shows a list of commands)\n   /exit                                          (Stops the server safely)\n" +
@@ -103,7 +163,7 @@ namespace dcamx.Utils
             {
                 if (script.amx == null) continue;
 
-                script.StopAllTimers();
+                script.StopAllTimers( );
 
                 if (script.amx.FindPublic("OnUnload") != null)
                     script.amx.FindPublic("OnUnload").Execute();

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq;
+using System.IO;
 
 namespace dcamx.Scripting
 {
@@ -79,28 +80,13 @@ namespace dcamx.Scripting
             return 1;
         }
 
-
-
-
-
-
-
-
         public static int DC_SetToken(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (Program.m_Discord != null) return 0;
             if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
-
             Program.dConfig.Token = args1[0].AsString();
             return 1;
         }
-
-
-
-
-
-
-
 
         public static int DC_SetActivityText(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
@@ -145,9 +131,6 @@ namespace dcamx.Scripting
             return 1;
         }
 
-
-
-
         public static int DC_SetMinLogLevel(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (Program.m_Discord != null) return 0;
@@ -176,6 +159,32 @@ namespace dcamx.Scripting
             return 1;
         }
 
+        public static int Loadscript(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            if (args1[0].AsString().Length == 0)
+            {
+                Utils.Log.Error(" [command] You did not specify a correct script file!");
+                return 0;
+            }
+
+            if (!File.Exists("Scripts/" + args1[0].AsString() + ".amx"))
+            {
+                Utils.Log.Error(" [command] The script file " + args1[0].AsString() + ".amx does not exist in /Scripts/ folder.");
+                return 0;
+            }
+            Script scr = new Script(args1[0].AsString());
+            AMXWrapper.AMXPublic pub = scr.amx.FindPublic("OnInit");
+            if (pub != null) pub.Execute();
+            return 1;
+        }
+
+        public static int Unloadscript(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+
+            return 1;
+        }
+
         public static int gettimestamp(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             return (Int32)DateTimeOffset.Now.ToUnixTimeSeconds();
@@ -190,8 +199,6 @@ namespace dcamx.Scripting
             }
             return (Program.m_ScriptTimers.Count);
         }
-
-
 
         public static int KillTimer(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
@@ -210,6 +217,16 @@ namespace dcamx.Scripting
         }
 
 
+
+
+
+
+
+
+
+
+
+
         public static int DC_DeleteMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 4) return 0;
@@ -226,7 +243,6 @@ namespace dcamx.Scripting
             }
             return 1;
         }
-
 
         public static int DC_SendChannelMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
@@ -250,7 +266,7 @@ namespace dcamx.Scripting
             if (args1.Length != 2) return 0;
             try
             {
-                DiscordChannel dc= Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
+                DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
                 dc.SendMessageAsync(args1[1].AsString());
 
             }
@@ -262,6 +278,21 @@ namespace dcamx.Scripting
             return 1;
         }
 
+        public static int DC_DeletePrivateMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            try
+            {
+                DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
+                dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString())).Result.DeleteAsync(args1[2].AsString()).Wait();
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_DeleteMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)" + caller_script);
+            }
+            return 1;
+        }
 
 
 
@@ -370,47 +401,5 @@ namespace dcamx.Scripting
             if (guild != null) return guild.MemberCount;
             else return 0;
         }
-
-
-
-
-
-
-
-        public struct ALTV_ServerInfo
-        {
-            [JsonProperty("id")]
-            public string id { get; private set; }
-
-            [JsonProperty("Players")]
-            public int Players { get; private set; }
-
-            [JsonProperty("name")]
-            public string name { get; private set; }
-
-            [JsonProperty("locked")]
-            public bool locked { get; private set; }
-
-        }
-
-        /*public static int ALTV_GetPublicServerInfo(AMX amx1, AMXArgumentList args1, Script caller_script)
-        {
-
-            string gettet = bot.Utilities.HTTP.Get(args1[0].AsString().ToString());
-            var srvInfo = JsonConvert.DeserializeObject<ALTV_ServerInfo>(gettet);
-
-            AMXPublic pub = caller_script.amx.FindPublic(args1[1].AsString());
-            if (pub != null)
-            {
-                //var ptr = caller_script.amx.Push(gettet, true);
-                caller_script.amx.Push(srvInfo.Players);
-                pub.Execute();
-                //caller_script.amx.Release(ptr);
-
-                GC.Collect(); // To check for leaks
-            }
-
-            return 1;
-        }*/
     }
 }
