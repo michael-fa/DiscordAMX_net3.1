@@ -14,7 +14,7 @@ Idk or its me not vibin'.
 #include <a_dcamx>
 
 #define MY_BOT_TOKEN "YOUR_BOT_TOKEN"
-#define MY_GUILD_ID "YOUR_GUILD_ID"
+#define MY_GUILD_ID "YOUR_GUILD_ID" //your first and presumably the only for now. It has the script-id 1.
 #define EXAMPLE_CHANNEL "CHANNEL_ID_AS_STRING"
 
 
@@ -22,14 +22,15 @@ Idk or its me not vibin'.
 main()
 {
 	DC_SetToken(MY_BOT_TOKEN);
-        DC_SetMinLogLevel(1);
+    DC_SetMinLogLevel(1);
 	print(" => Awesome Discord Bot starting!\n");
 }
 
 public OnInit()
 {
-	DC_SendChannelMessage(MY_GUILD_ID, EXAMPLE_CHANNEL, "I just scripted my own Discord Bot! Hurraay!");
-        print(" => Awesome Discord Bot is started!\n");
+	DC_SetActivityText("with myself O:", DISCORD_ACTIVITY_PLAYING);
+	DC_SendChannelMessage(1 /*1 is the first index for script-ids of guilds.*/, EXAMPLE_CHANNEL, "I just scripted my own Discord Bot! Hurraay!");
+	print(" => Awesome Discord Bot is started!\n");
 	return 1;
 }
 
@@ -38,22 +39,27 @@ public OnUnload()
     return 1;
 }
 
-public OnMemberJoin(guildid, memberid[])
+public OnHeartbeat(ping)
 {
     return 1;
 }
 
-public OnMemberLeave(guildid, memberid[])
+public UpdateDiscordActivity()
 {
     return 1;
 }
 
-public OnChannelMessage(guildid, channelid[], memberid[], message[])
+public OnGuildAdded(guildid)
 {
     return 1;
 }
 
-public OnMessageDeleted(guildid, messageid[])
+public OnGuildRemoved(guildid, guildname[])
+{
+    return 1;
+}
+
+public OnMemberJoin(guildid, memberid)
 {
     return 1;
 }
