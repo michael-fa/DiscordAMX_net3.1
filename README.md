@@ -44,11 +44,6 @@ public OnHeartbeat(ping)
     return 1;
 }
 
-public UpdateDiscordActivity()
-{
-    return 1;
-}
-
 public OnGuildAdded(guildid)
 {
     return 1;
