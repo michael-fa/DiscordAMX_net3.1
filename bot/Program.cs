@@ -194,7 +194,7 @@ namespace dcamx
 
             if (m_Discord != null) _ = m_Discord.DisconnectAsync();
 
-            File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old on
+            File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old one
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");
 
             Environment.Exit(0);

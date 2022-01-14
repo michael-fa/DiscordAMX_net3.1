@@ -74,10 +74,10 @@ namespace dcamx.Utils
 
         public static void Help()
         {
-            Console.WriteLine("\n\nCommmands available from console:\n   /help                                          (Shows a list of commands)\n   /exit                                          (Stops the server safely)\n" +
-               "   /loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   /unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
-               "\n   /reload <scriptfile>                           (Reloads a script- Pass scriptfile without '.amx')\n   /reloadall                                     (Reloads all scripts)\n" +
-               "   /guilds                                        (Lists all the guilds available for the bot '" + Program.m_Discord.Client.CurrentUser.Username + "')");
+            Console.WriteLine("\n\nCommmands available from console:\n   help                                          (Shows a list of commands)\n   exit                                          (Stops the server safely)\n" +
+               "   loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
+               "\n   reload <scriptfile>                           (Reloads a script- Pass scriptfile without '.amx')\n   reloadall                                     (Reloads all scripts)\n" +
+               "   guilds                                        (Lists all the guilds available for the bot '" + Program.m_Discord.Client.CurrentUser.Username + "')");
         }
 
 

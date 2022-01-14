@@ -401,5 +401,28 @@ namespace dcamx.Scripting
             if (guild != null) return guild.MemberCount;
             else return 0;
         }
+
+
+        //Reactions
+        public static int DC_AddReaction(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            DiscordGuild guild = null;
+            try
+            {
+                guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_AddReaction' (Invalid guildid?)" + caller_script);
+            }
+            //if (guild != null) return guild.MemberCount;
+
+            DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
+            dc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.CreateReactionAsync(DiscordEmoji.FromName(Program.m_Discord.Client, args1[3].AsString()));
+
+            return 0;
+        }
     }
 }
