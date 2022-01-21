@@ -81,9 +81,11 @@ namespace dcamx.Scripting
             amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.DC_GetMemberCount(amx1, args1, this));
 
             //Members
+            amx.Register("DC_GetGuildMemberID", (amx1, args1) => Natives.DC_GetGuildMemberID(amx1, args1, this));
             amx.Register("DC_GetMemberName", (amx1, args1) => Natives.DC_GetMemberName(amx1, args1, this));
             amx.Register("DC_GetMemberDisplayName", (amx1, args1) => Natives.DC_GetMemberDisplayName(amx1, args1, this));
             amx.Register("DC_GetMemberDiscriminator", (amx1, args1) => Natives.DC_GetMemberDiscriminator(amx1, args1, this));
+            amx.Register("DC_BanGuildMember", (amx1, args1) => Natives.DC_BanGuildMember(amx1, args1, this));
 
             //Channels
             amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
@@ -92,6 +94,10 @@ namespace dcamx.Scripting
             amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.DC_DeletePrivateMessage(amx1, args1, this));
 
             amx.Register("DC_AddReaction", (amx1, args1) => Natives.DC_AddReaction(amx1, args1, this));
+            amx.Register("DC_AddPrivateReaction", (amx1, args1) => Natives.DC_AddPrivateReaction(amx1, args1, this));
+            amx.Register("DC_RemoveReaction", (amx1, args1) => Natives.DC_RemoveReaction(amx1, args1, this));
+            amx.Register("DC_RemovePrivateReaction", (amx1, args1) => Natives.DC_RemovePrivateReaction(amx1, args1, this));
+
 
             return true;
         }

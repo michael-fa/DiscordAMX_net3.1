@@ -1,6 +1,4 @@
- ﻿- Add native AddPrivateReaction, RemovePrivateReaction Natives 
  - Add "CallRemoteFunction" function Native
- - DC_GetUserID (the real discord user id)
  - TIMER: Make sure they work with any amount of arguments 
  - More functions regarding guild, channel, member data. (retrieving them)
  - INI File Support to save data (to make this B A$$ RELEASE 1.0 !)
@@ -10,5 +8,4 @@
  - Find a way to call AMX Publics with (unlimited) parameters as a SINGLE function. CallAmxPublic(amx, "", string param1, int32 param2, float param3, idk param4, .... and so on.);
 
 
- - Add DC_DeletePrivateMessage 
  - LoadScript, UnloadScript Natives 

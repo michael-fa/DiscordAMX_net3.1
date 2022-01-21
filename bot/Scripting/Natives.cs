@@ -273,7 +273,8 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendPrivateMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_SendPrivateMessage' (Invalid pm channel, wrong ID format)" + caller_script);
+                return 0;
             }
             return 1;
         }
@@ -289,7 +290,8 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeleteMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeletePrivateMessage' (Invalid pm channel, wrong ID format)" + caller_script);
+                return 0;
             }
             return 1;
         }
@@ -316,6 +318,7 @@ namespace dcamx.Scripting
             {
                 Utils.Log.Exception(ex, caller_script);
                 Utils.Log.Error("In native 'DC_GetMemberName' (dest_string must be a array, or invalid parameters!!)" + caller_script);
+                return 0;
             }
             return 1;
         } 
@@ -333,6 +336,7 @@ namespace dcamx.Scripting
             {
                 Utils.Log.Exception(ex, caller_script);
                 Utils.Log.Error("In native 'DC_GetMemberDisplayName' (dest_string must be a array, or invalid parameters!!)" + caller_script);
+                return 0;
             }
             return 1;
         }
@@ -343,19 +347,58 @@ namespace dcamx.Scripting
 
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
             try
-            {
+            {   
                 AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Discriminator, true);
             }
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
                 Utils.Log.Error("In native 'DC_GetMemberDiscriminator' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                return 0;
             }
             return 1;
         }
 
+        public static int DC_GetGuildMemberID(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
 
+            try
+            {
+                AMX.SetString(args1[2].AsCellPtr(), Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).Id.ToString(), true);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                return 0;
+            }
 
+            return 1;
+        }
+
+        public static int DC_BanGuildMember(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            
+
+            try
+            {
+                DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+
+                DiscordMember usr = Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild));
+                usr.BanAsync(args1[2].AsInt32(), args1[3].AsString());
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                return 0;
+            }
+
+            return 1;
+        }
 
 
         //Guilds
@@ -417,11 +460,65 @@ namespace dcamx.Scripting
                 Utils.Log.Exception(ex, caller_script);
                 Utils.Log.Error("In native 'DC_AddReaction' (Invalid guildid?)" + caller_script);
             }
-            //if (guild != null) return guild.MemberCount;
 
             DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
             dc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.CreateReactionAsync(DiscordEmoji.FromName(Program.m_Discord.Client, args1[3].AsString()));
 
+            return 0;
+        }
+
+        public static int DC_RemoveReaction(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            DiscordGuild guild = null;
+            try
+            {
+                guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_RemoveReaction' (Invalid guildid?)" + caller_script);
+            }
+
+            DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
+            dc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteOwnReactionAsync(DiscordEmoji.FromName(Program.m_Discord.Client, args1[3].AsString()));
+            //CreateReactionAsync(DiscordEmoji.FromName(Program.m_Discord.Client, args1[3].AsString()));
+
+            return 0;
+        }
+
+        public static int DC_AddPrivateReaction(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+
+            if (args1.Length != 3) return 0;
+            try
+            {
+                DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
+                dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString())).Result.CreateReactionAsync(DiscordEmoji.FromName(Program.m_Discord.Client, args1[2].AsString()));
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int DC_RemovePrivateReaction(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+
+            if (args1.Length != 3) return 0;
+            try
+            {
+                DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
+                dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString())).Result.DeleteOwnReactionAsync(DiscordEmoji.FromName(Program.m_Discord.Client, args1[2].AsString()));
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)" + caller_script);
+            }
             return 0;
         }
     }
