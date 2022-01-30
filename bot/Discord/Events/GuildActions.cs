@@ -163,5 +163,17 @@ namespace dcamx.Discord.Events
             }
             return Task.CompletedTask;
         }
+
+        public static Task GuildUpdated(DiscordClient c, GuildUpdateEventArgs a)
+        {
+            //What to pass to script:
+            /* new ID, old ID
+             * new NAME, old NAME
+             * new MaxMembers, old MaxMembers
+             * new Description, old Description
+             * new MembCount, old Membcount
+            */
+            return Task.CompletedTask;
+        }
     }
 }

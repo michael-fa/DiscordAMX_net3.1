@@ -57,6 +57,7 @@ namespace dcamx.Discord
             Client.MessageReactionRemoved               += Events.MessageActions.ReactionRemoved;
             Client.GuildCreated                         += Events.GuildActions.GuildAdded;
             Client.GuildDeleted                         += Events.GuildActions.GuildRemoved;
+            Client.GuildUpdated                         += Events.GuildActions.GuildUpdated;
             Client.ChannelCreated                       += Events.GuildActions.ChannelCreated;
             Client.ChannelDeleted                       += Events.GuildActions.ChannelDeleted;
 
@@ -89,7 +90,7 @@ namespace dcamx.Discord
                 Program.StopSafely();
             }
            
-
+            
 
         }
 

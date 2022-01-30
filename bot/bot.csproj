@@ -62,6 +62,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -70,6 +72,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'debug_32|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\32x\</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'release_32|AnyCPU'">
     <OutputPath>bin\release_32\</OutputPath>

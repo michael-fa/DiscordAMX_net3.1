@@ -82,5 +82,28 @@ namespace dcamx.Utils
             }
             return mbr_;
         }
+
+        public static void ScriptFormat_Resolve(string format, params object[] param)
+        {
+            int cnt = 0;
+            foreach(char x in format.ToCharArray())
+            {
+                //Utils.Log.Debug("format rule: '" + x + "'");
+                switch(x)
+                {
+                    case 'i':
+                        Utils.Log.Debug("  value: " + (Int32)param[cnt]);
+                        cnt++;
+                        break;
+                    case 'f':
+                        Utils.Log.Debug("  value: " + Convert.ToSingle(param[cnt]));
+                        cnt++;
+                        break;
+                    case 'a':
+                        cnt++;
+                        break;
+                }
+            }
+        }
     }
 }

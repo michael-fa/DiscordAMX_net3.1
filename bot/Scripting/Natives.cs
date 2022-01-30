@@ -181,7 +181,27 @@ namespace dcamx.Scripting
 
         public static int Unloadscript(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
+            if (args1.Length != 1) return 1;
+            if (args1[0].AsString().Length == 0)
+            {
+                Utils.Log.Error(" [command] You did not specify a correct script file!");
+                return 0;
+            }
 
+            foreach (Script sc in Program.m_Scripts)
+            {
+                if (sc._amxFile.Equals(args1[0].AsString()))
+                {
+                    AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
+                    if (pub != null) pub.Execute();
+                    sc.amx.Dispose();
+                    sc.amx = null;
+                    Program.m_Scripts.Remove(sc);
+                    Utils.Log.Info("[CORE] Script '" + args1[0].AsString() + "' unloaded.");
+                    return 1;
+                }
+            }
+            Utils.Log.Error(" [command] The script '" + args1[0].AsString()  + "' is not running.");
             return 1;
         }
 

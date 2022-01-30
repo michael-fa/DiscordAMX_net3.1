@@ -40,7 +40,7 @@ namespace dcamx.Scripting
             
 
             m_Timer = new System.Threading.Timer(TimerDelegate, null, m_msWait, m_msWait);
-
+            Utils.Log.Debug("Initialised Script-Timer (\"" + m_Func + "\") !", arg_parent_Script);
         }
 
         public void OnTimedEvent(Object state)
@@ -53,6 +53,7 @@ namespace dcamx.Scripting
             try
             {
                 m_AMXCallback.Execute();
+                Utils.Log.Debug("Script-Timer invoked \"" + m_Func + "\"", m_ParentScript);
             }
             catch ( Exception ex)
             {

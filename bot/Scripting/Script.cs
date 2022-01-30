@@ -48,7 +48,7 @@ namespace dcamx.Scripting
 
                 }
             }
-            Utils.Log.Debug("Loaded script as ID: " + (Program.m_Scripts.Count - 1));
+            Utils.Log.Debug("Loaded script as ID: " + (Program.m_Scripts.Count - 1), this);
             return;
         }
 

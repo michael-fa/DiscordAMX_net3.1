@@ -1,11 +1,10 @@
  - Add "CallRemoteFunction" function Native
  - TIMER: Make sure they work with any amount of arguments 
+ - TIMER: Add repeating / nonrepeating argument
  - More functions regarding guild, channel, member data. (retrieving them)
  - INI File Support to save data (to make this B A$$ RELEASE 1.0 !)
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
  - (!!) Add functions to apply "properties" to users. 
+ - gettimestamp (returning the unix timestamp if no params) return hour, sec, minute
 
  - Find a way to call AMX Publics with (unlimited) parameters as a SINGLE function. CallAmxPublic(amx, "", string param1, int32 param2, float param3, idk param4, .... and so on.);
-
-
- - LoadScript, UnloadScript Natives 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 
@@ -33,6 +34,7 @@ namespace dcamx.Utils
             if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
         }
 
+
         public static void Debug(string _msg, dcamx.Scripting.Script _source = null)
         {
 #if DEBUG
@@ -41,6 +43,7 @@ namespace dcamx.Utils
             if (_msg.Length > 0) File.AppendAllText("Logs/current.txt", _msg + "\n");
 #endif
         }
+
 
         public static void Exception(Exception e)
         {
