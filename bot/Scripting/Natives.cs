@@ -212,7 +212,13 @@ namespace dcamx.Scripting
 
         public static int SetTimer(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            try { ScriptTimer timer = new ScriptTimer(args1[1].AsInt32(), args1[0].AsString(), caller_script); 
+            if (args1[1].AsInt32() > 1 || args1[1].AsInt32() < 0)
+            {
+                Utils.Log.Error("SetTimer: Argument 'repeating' is boolean. Please pass 0 or 1 only!");
+                return 1;
+            }
+
+            try { ScriptTimer timer = new ScriptTimer(args1[2].AsInt32(), Convert.ToBoolean(args1[1].AsInt32()), args1[0].AsString(), caller_script); 
             }catch(Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
