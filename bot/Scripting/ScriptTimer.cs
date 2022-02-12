@@ -20,10 +20,12 @@ namespace dcamx.Scripting
         Script m_ParentScript;
         System.Threading.Timer m_Timer;
         AMXPublic m_AMXCallback;
-        public ScriptTimer(int interval,  bool rep, string funcCall, Script arg_parent_Script)
+        //string m_ArgFrmt;
+        //AMXArgumentList m_Args;
+        public ScriptTimer(int interval,  bool rep, string funcCall, Script arg_parent_Script/*, string m_ArgsFrm, AMXArgumentList _args*/)
         {
             m_ParentScript = arg_parent_Script;
-            m_AMXCallback = Program.m_Scripts[0].amx.FindPublic(funcCall);
+            m_AMXCallback = m_ParentScript.amx.FindPublic(funcCall);
             if (m_AMXCallback == null)
             {
                 return;
@@ -33,7 +35,10 @@ namespace dcamx.Scripting
             m_lastCalled = DateTime.Now;
             m_Active = true;
             m_Repeat = rep;
-  
+           // m_ArgFrmt = m_ArgsFrm;
+           // m_Args = _args;
+
+
             Program.m_ScriptTimers.Add(this);
             this.ID = Program.m_ScriptTimers.Count;
 
@@ -53,7 +58,37 @@ namespace dcamx.Scripting
 
             try
             {
+                /*Utils.Log.Debug("length: " + m_Args.Length + "frmtstr " + m_ArgFrmt);
+                List<CellPtr> _list = new List<CellPtr>();
+                int idx = 5;
+                foreach(char x in m_ArgFrmt.ToCharArray())
+                {
+                    switch(x)
+                    {
+                        case 'i':
+                            Utils.Log.Debug("1 " + m_Args[6].AsInt32());
+                            m_AMXCallback.AMX.Push(m_Args[idx].AsInt32());
+                            break;
+                        case 's':
+                            Utils.Log.Debug("2");
+                            _list.Add(m_AMXCallback.AMX.Push(m_Args[idx].AsString()));
+                            break;
+                        case 'f':
+                            Utils.Log.Debug("3");
+                            m_AMXCallback.AMX.Push(m_Args[idx].AsFloat());
+                            break;
+                    }
+                    idx++;
+                }*/
+
                 m_AMXCallback.Execute();
+
+               /* foreach (CellPtr x in _list)
+                {
+                    m_AMXCallback.AMX.Release(x);
+                }
+                GC.Collect();
+               */
                 Utils.Log.Debug("Script-Timer invoked \"" + m_Func + "\"", m_ParentScript);
             }
             catch (Exception ex)

@@ -83,27 +83,61 @@ namespace dcamx.Utils
             return mbr_;
         }
 
-        public static void ScriptFormat_Resolve(string format, params object[] param)
+        public static string ScriptFormat_Resolve(string format, params object[] param)
         {
-            int cnt = 0;
+            int cnt = -1, idx = 0;
+            bool inFormat = false;
             foreach(char x in format.ToCharArray())
             {
+                cnt ++;
                 //Utils.Log.Debug("format rule: '" + x + "'");
-                switch(x)
+                if(x == '%')
                 {
-                    case 'i':
-                        Utils.Log.Debug("  value: " + (Int32)param[cnt]);
-                        cnt++;
-                        break;
-                    case 'f':
-                        Utils.Log.Debug("  value: " + Convert.ToSingle(param[cnt]));
-                        cnt++;
-                        break;
-                    case 'a':
-                        cnt++;
-                        break;
+
+                    Log.Debug("Prozent (" + cnt + ")");
+                    if (inFormat)
+                    {
+                        Log.Debug("Prozent 2");
+                        format = format.Remove(cnt, 1);
+                        inFormat = false;
+                        continue;
+                    }
+                    inFormat = true;
+                    continue; 
+
+                }
+                if(inFormat)
+                {
+                    switch (x)
+                    {
+                        case 'f':
+                            format = format.Remove(cnt - 2, 2);
+                            cnt -= 2;
+                            format = format.Insert(cnt, param[idx].ToString());
+                            cnt += param[idx].ToString().Length;
+                            idx++;
+                            inFormat = false;
+                            break;
+                        case 'i':
+                            format = format.Remove(cnt - 2, 2);
+                            cnt -= 2;
+                            format = format.Insert(cnt, param[idx].ToString());
+                            cnt += param[idx].ToString().Length;
+                            idx++;
+                            inFormat = false;
+                            break;
+                        case 's':
+                            format = format.Remove(cnt - 2, 2);
+                            cnt -= 2;
+                            format = format.Insert(cnt, param[idx].ToString());
+                            cnt += param[idx].ToString().Length;
+                            idx++;
+                            inFormat = false;
+                            break;
+                    }
                 }
             }
+            return format;
         }
     }
 }

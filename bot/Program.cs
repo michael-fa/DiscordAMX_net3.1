@@ -88,7 +88,8 @@ namespace dcamx
             //Console initial message
             Log.Info("-> Discord AMX Bot © 2021 - www.fanter.eu <-"); 
             Log.Info("RUNNING ON " + Environment.OSVersion.VersionString + "\n\n");
-            Utils.Scripting.ScriptFormat_Resolve("f", 7.9);
+            //string resolved = Utils.Scripting.ScriptFormat_Resolve("ggg %% hello %f works? or this %f works? maybe %f or %f %f%i %f and the msg is = %s", 8.8, 8.8, 4.3, 9.4, 2.2, 6556, 3.3, "superman");
+            //Log.Debug(resolved);
 
 
             //Load main.amx, or error out if not available

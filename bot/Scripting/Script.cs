@@ -86,6 +86,7 @@ namespace dcamx.Scripting
             amx.Register("DC_GetMemberDisplayName", (amx1, args1) => Natives.DC_GetMemberDisplayName(amx1, args1, this));
             amx.Register("DC_GetMemberDiscriminator", (amx1, args1) => Natives.DC_GetMemberDiscriminator(amx1, args1, this));
             amx.Register("DC_BanGuildMember", (amx1, args1) => Natives.DC_BanGuildMember(amx1, args1, this));
+            amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.DC_GetMemberAvatarURL(amx1, args1, this));
 
             //Channels
             amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
