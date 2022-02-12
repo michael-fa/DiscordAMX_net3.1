@@ -252,6 +252,169 @@ namespace dcamx.Scripting
 
 
 
+        public static int INI_Open(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            try
+            {
+                if(!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\scriptfiles"))
+                {
+                    Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\scriptfiles");
+                    Utils.Log.Warning("'/scriptfiles' folder not found, creating a new one.. Note that script-specific folders need to be created manually.");
+                }
+                Program.m_ScriptINIFiles.Add(new IniFile("scriptfiles\\" +args1[0].AsString() + ".ini"));
+                return (Program.m_ScriptINIFiles.Count-1);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_Open'" + caller_script);
+            }
+            return -1;
+        }
+
+        public static int INI_Close(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {  
+            if (args1.Length != 1) return 0;
+            try
+            {
+                IniFile del = null;
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+
+                    del = x;
+                }
+                if (del != null)
+                {
+                    Program.m_ScriptINIFiles.Remove(del);
+                    del = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_Close'" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int INI_Write(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            try
+            {
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    x.Write(args1[1].AsString(), args1[2].AsString(), args1[3].AsString());
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_Write'" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int INI_Read(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            try
+            {
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    AMX.SetString(args1[3].AsCellPtr(), x.Read(args1[1].AsString(), args1[2].AsString()), true);
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_Read'" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int INI_KeyExists(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            try
+            {
+                IniFile del = null;
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    if (x.KeyExists(args1[1].AsString(), args1[2].AsString()))
+                    {
+                        return 1;
+                    }
+                }
+                del = null;
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_KeyExists'" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int INI_DeleteSection(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            try
+            {
+                IniFile del = null;
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    x.DeleteSection(args1[1].AsString());
+                    return 1;
+                }
+                del = null;
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_KeyExists'" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int INI_DeleteKey(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            try
+            {
+                IniFile del = null;
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    x.DeleteKey(args1[1].AsString(), args1[2].AsString());
+                    return 1;
+                }
+                del = null;
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_KeyExists'" + caller_script);
+            }
+            return 0;
+        }
+
+
+
+
+
+
+
+
+
 
 
 

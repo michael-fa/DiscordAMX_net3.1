@@ -22,6 +22,7 @@ namespace dcamx
         public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
         public static List<Scripting.Script> m_Scripts = null;
         public static List<Scripting.Guild> m_ScriptGuilds = null;
+        public static List<IniFile> m_ScriptINIFiles = null;
         public static List<DiscordChannel> m_DmUsers = null;
 
         //GuildAvailable gets called for every first initialised guild. We don't want that.
@@ -173,6 +174,7 @@ namespace dcamx
             Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
             Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
             m_DmUsers = new List<DiscordChannel>();
+            Program.m_ScriptINIFiles = new List<IniFile>();
         }
 
 
