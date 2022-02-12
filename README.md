@@ -84,6 +84,7 @@ Linux support is coming soon!
 * Set the DiscordActivity ('playing, listening, watching') Text 
 * Send Messages to any channel 
 * Setting timers
+* (INI) File Handling !!!
 * Private DM Handling
 * Multiple guild support
 * Multiple script support
@@ -95,7 +96,6 @@ Linux support is coming soon!
 * Music streaming support
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
-* File handling
 * More functions about detailed info/data (Channels, guilds, users/members)
 * LINUX SUPPORT
 
