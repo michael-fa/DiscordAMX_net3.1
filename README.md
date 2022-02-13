@@ -92,7 +92,6 @@ Linux support is coming soon!
 
 
 ## Planned for first release
-* Built in MySQL Support
 * Music streaming support
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
