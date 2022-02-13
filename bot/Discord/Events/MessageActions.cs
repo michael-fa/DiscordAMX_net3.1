@@ -144,7 +144,7 @@ namespace dcamx.Discord.Events
                         var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
                         var tmp1 = p.AMX.Push(arg.User.Id.ToString());
                         var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
-                        var tmp3 = p.AMX.Push(arg.Emoji.Name);
+                        var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
 
 
                         p.Execute();
@@ -209,7 +209,7 @@ namespace dcamx.Discord.Events
                         var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
                         var tmp1 = p.AMX.Push(arg.User.Id.ToString());
                         var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
-                        var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+                        var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
 
 
                         p.Execute();
@@ -233,7 +233,7 @@ namespace dcamx.Discord.Events
                         var tmp = p.AMX.Push(arg.Channel.Id.ToString());
                         p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                         var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
-                        var tmp3 = p.AMX.Push(arg.Emoji.Id.ToString());
+                        var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
                         p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
 
 
