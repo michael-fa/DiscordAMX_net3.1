@@ -168,8 +168,7 @@ namespace dcamx.Discord.Events
                         var tmp = p.AMX.Push(arg.Channel.Id.ToString());
                         p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                         var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
-                        var tmp3 = p.AMX.Push(arg.Emoji.Name.ToString());
-                        Debug.WriteLine("EMOJI ID IS: " + arg.Emoji.Name.ToString());
+                        var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
                         if (!arg.Message.Channel.IsPrivate) p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                         else
                         {
