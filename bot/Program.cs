@@ -79,7 +79,7 @@ namespace dcamx
             _handler += new EventHandler(Handler);
             SetConsoleCtrlHandler(_handler, true);
 
-
+          
             __InitialChecks();
             __InitialSetup();
             
@@ -104,7 +104,7 @@ namespace dcamx
 
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
-
+            new IniFile();
             //Now add all filterscripts
             try
             {
@@ -123,7 +123,6 @@ namespace dcamx
                 StopSafely();
                 return;
             }
-
 
         //Handle commands.
         _CMDLOOP:

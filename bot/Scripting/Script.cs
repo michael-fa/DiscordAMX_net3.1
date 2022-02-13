@@ -76,6 +76,7 @@ namespace dcamx.Scripting
             amx.Register("DC_SetToken", (amx1, args1) => Natives.DC_SetToken(amx1, args1, this));
 
             //Native ini IO
+            amx.Register("INI_Delete", (amx1, args1) => Natives.INI_Delete(amx1, args1, this));
             amx.Register("INI_Open", (amx1, args1) => Natives.INI_Open(amx1, args1, this));
             amx.Register("INI_Close", (amx1, args1) => Natives.INI_Close(amx1, args1, this));
             amx.Register("INI_Read", (amx1, args1) => Natives.INI_Read(amx1, args1, this));
@@ -83,6 +84,7 @@ namespace dcamx.Scripting
             amx.Register("INI_KeyExists", (amx1, args1) => Natives.INI_KeyExists(amx1, args1, this));
             amx.Register("INI_DeleteSection", (amx1, args1) => Natives.INI_DeleteSection(amx1, args1, this));
             amx.Register("INI_DeleteKey", (amx1, args1) => Natives.INI_DeleteKey(amx1, args1, this));
+            amx.Register("INI_Exists", (amx1, args1) => Natives.INI_Exists(amx1, args1, this));
 
 
             //Guilds

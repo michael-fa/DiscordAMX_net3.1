@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 public class IniFile
 {
-    string Path;
+    public string Path;
     string EXE = Assembly.GetExecutingAssembly().GetName().Name;
     public int m_ScrID;
 
@@ -22,7 +22,6 @@ public class IniFile
     public IniFile(string IniPath = null)
     {
         Path = new FileInfo(IniPath ?? EXE + ".ini").FullName.ToString();
-
 
         m_ScrID = dcamx.Program.m_ScriptINIFiles.Count;
     }
