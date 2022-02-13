@@ -80,6 +80,25 @@ namespace dcamx.Scripting
             return 1;
         }
 
+
+        public static int strequals(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3)
+                return 0;
+
+            if (args1[2].AsInt32() == 1)
+            {
+                if (args1[0].AsString().Equals(args1[1].AsString(), StringComparison.OrdinalIgnoreCase))
+                    return 1;
+            }
+            else if (args1[2].AsInt32() == 0)
+            {
+                if (args1[0].AsString().Equals(args1[1].AsString(), StringComparison.Ordinal))
+                    return 1;
+            }
+
+            return 0;
+        }
         public static int DC_SetToken(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (Program.m_Discord != null) return 0;

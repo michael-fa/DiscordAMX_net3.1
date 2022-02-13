@@ -70,6 +70,7 @@ namespace dcamx.Scripting
             amx.Register("SetTimer", (amx1, args1) => Natives.SetTimer(amx1, args1, this));
             amx.Register("KillTimer", (amx1, args1) => Natives.KillTimer(amx1, args1, this));
             amx.Register("gettimestamp", (amx1, args1) => Natives.gettimestamp(amx1, args1, this));
+            amx.Register("strequals", (amx1, args1) => Natives.strequals(amx1, args1, this));
 
             amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DC_SetMinLogLevel(amx1, args1, this));
             amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DC_SetActivityText(amx1, args1, this));
