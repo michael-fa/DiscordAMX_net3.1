@@ -577,10 +577,76 @@ namespace dcamx.Scripting
                 Utils.Log.Error("In native 'DC_FindChannel'" + caller_script);
                 return 0;
             }
+            return 0;
+        }
+
+        public static int DC_CreateChannel(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 6) return 0;
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            try
+            {
+                //0 = guildid
+                //1 = channel name
+                //2 = channel type
+                //3 = parent id
+                //4 = topic
+                //5 = nsfw
+                if (args1[1].AsString().Length == 0 || args1[3].AsString().Length == 0) return 0;
+                if (args1[2].AsInt32() > 7 || args1[2].AsInt32() < 0) return 0;
+
+                DiscordChannel pdc = null;
+                foreach (DiscordChannel x in guild.Channels.Values)
+                {
+                    if (x.Id.Equals(args1[3].AsString()))
+                    {
+                        pdc = x;
+                        break;
+                    }
+                }
+
+                guild.CreateChannelAsync(args1[1].AsString(), (ChannelType)args1[2].AsInt32(), pdc, args1[4].AsString(), null, null, null, Convert.ToBoolean(args1[5].AsInt32()));
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_CreateChannel' " + caller_script);
+                return 0;
+            }
             return 1;
         }
 
+        public static int DC_DeleteChannel(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
 
+            try
+            {
+                if (args1[1].AsString().Length == 0) return 0;
+
+                DiscordChannel pdc = null;
+                foreach (DiscordChannel x in guild.Channels.Values)
+                {
+                    if (x.Id.ToString().Equals(args1[1].AsString()))
+                    {
+                        pdc = x;
+                        break;
+                    }
+                }
+
+                if (pdc == null) return 0;
+                pdc.DeleteAsync(args1[2].AsString());
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_DeleteChannel' " + caller_script);
+                return 0;
+            }
+            return 1;
+        }
 
 
 

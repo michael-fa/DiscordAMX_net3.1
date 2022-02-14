@@ -35,6 +35,9 @@ namespace dcamx.Utils
                     case "reloadscript":
                         ReloadScript(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
                         break;
+                    case "callpub":
+                        CallPublic(cmd.Skip(1).ToArray()); //Skip(1) will skip the command string itself and pass the rest of the whole string.
+                        break;
                     case "reloadall":
                         ReloadAll(); //Skip(1) will skip the command string itself and pass the rest of the whole string.
                         break;
@@ -75,7 +78,7 @@ namespace dcamx.Utils
         public static void Help()
         {
             Console.WriteLine("\n\nCommmands available from console:\n   help                                          (Shows a list of commands)\n   exit                                          (Stops the server safely)\n" +
-               "   loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
+               "   callpub <scriptfile> <public>                 (Calls a public inside a script via console)\n   loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
                "\n   reload <scriptfile>                           (Reloads a script- Pass scriptfile without '.amx')\n   reloadall                                     (Reloads all scripts)\n" +
                "   guilds                                        (Lists all the guilds available for the bot '" + Program.m_Discord.Client.CurrentUser.Username + "')");
         }
@@ -123,6 +126,32 @@ namespace dcamx.Utils
             }
             Log.Error(" [command] The script '" + args[0] + "' is not running.");
         }
+
+        public static void CallPublic(string[] args)
+        {
+            if (args[0].Length == 0)
+            {
+                Log.Error(" [command] You did not specify a script and public!");
+                return;
+            }
+
+            foreach (Script sc in Program.m_Scripts)
+            {
+                Log.Debug(sc._amxFile);
+                if (sc._amxFile.Equals(args[0]))
+                {
+                    AMXWrapper.AMXPublic pub = sc.amx.FindPublic(args[1]);
+                    if (pub != null) pub.Execute();
+                    sc.amx.Dispose();
+                    sc.amx = null;
+                    Program.m_Scripts.Remove(sc);
+                    Log.Info("[CORE] Public '" + args[1] + "' in script '" + args[0] + "' called.");
+                    return;
+                }
+            }
+            Log.Error(" [command] The script '" + args[0] + "' is not running.");
+        }
+
 
         public static void ReloadScript(string[] args)
         {
