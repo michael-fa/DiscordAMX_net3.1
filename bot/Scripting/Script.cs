@@ -106,6 +106,8 @@ namespace dcamx.Scripting
             amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
             amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
             amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.DC_DeletePrivateMessage(amx1, args1, this));
+            amx.Register("DC_FindChannel", (amx1, args1) => Natives.DC_FindChannel(amx1, args1, this));
+
 
             amx.Register("DC_AddReaction", (amx1, args1) => Natives.DC_AddReaction(amx1, args1, this));
             amx.Register("DC_AddPrivateReaction", (amx1, args1) => Natives.DC_AddPrivateReaction(amx1, args1, this));

@@ -556,6 +556,30 @@ namespace dcamx.Scripting
             return 1;
         }
 
+        public static int DC_FindChannel(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            try
+            {
+                foreach(DiscordChannel dc in guild.Channels.Values)
+                {
+                    if(dc.Name.Equals(args1[1].AsString()))
+                    {
+                        AMX.SetString(args1[2].AsCellPtr(), dc.Id.ToString(), true);
+                        return 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_FindChannel'" + caller_script);
+                return 0;
+            }
+            return 1;
+        }
+
 
 
 

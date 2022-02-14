@@ -183,7 +183,17 @@ namespace dcamx.Utils
                 Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
                 return;
             }
-            else new Script("main");
+            else
+            {
+                Script scr = new Script("main");
+                AMXPublic p = null;
+                p = scr.amx.FindPublic("OnInit");
+                if (p != null)
+                {
+                    p.Execute();
+
+                }
+            }
 
             //Now add all other scripts
             try
