@@ -87,8 +87,9 @@ namespace dcamx
             //Print a time and date to log file
             File.AppendAllText("Logs/current.txt", "\n++++++++++++++++++++ | LOG " + DateTime.Now + " | ++++++++++++++++++++\n");//Print out log file header (file only)
             //Console initial message
-            Log.Info("-> Discord AMX Bot © 2021 - www.fanter.eu <-"); 
-            Log.Info("RUNNING ON " + Environment.OSVersion.VersionString + "\n\n");
+            Log.Info("INIT: -> Discord AMX Bot © 2022 - www.fanter.eu <-"); 
+            if(m_isWindows) Log.Info("INIT: -> Running on Windows.");
+            else if(m_isLinux) Log.Info("INIT: Running on Linux. (Make sure you are always up to date!");
             //string resolved = Utils.Scripting.ScriptFormat_Resolve("ggg %% hello %f works? or this %f works? maybe %f or %f %f%i %f and the msg is = %s", 8.8, 8.8, 4.3, 9.4, 2.2, 6556, 3.3, "superman");
             //Log.Debug(resolved);
 
