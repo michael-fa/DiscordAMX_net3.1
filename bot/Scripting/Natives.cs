@@ -313,8 +313,7 @@ namespace dcamx.Scripting
                     Utils.Log.Warning("'/scriptfiles' folder not found, creating a new one.. Note that script-specific folders need to be created manually.");
                 }
                 Utils.Log.Debug("Open file handler for " + "scriptfiles\\" + args1[0].AsString());
-                var x = new IniFile("scriptfiles\\" + args1[0].AsString() + ".ini");
-                Program.m_ScriptINIFiles.Add(x);
+                Program.m_ScriptINIFiles.Add(new IniFile("scriptfiles\\" + args1[0].AsString() + ".ini"));
                 return (Program.m_ScriptINIFiles.Count - 1);
             }
             catch (Exception ex)
@@ -371,6 +370,48 @@ namespace dcamx.Scripting
             return 0;
         }
 
+        public static int INI_WriteInt(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            try
+            {
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    x.Write(args1[1].AsString(), args1[2].AsInt32().ToString(), args1[3].AsString());
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_WriteInt'" + caller_script);
+            }
+            return 0;
+        }
+
+        public static int INI_WriteFloat(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 4) return 0;
+            
+            try
+            {
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    Console.WriteLine("dbg: " + args1[2].AsFloat() + "| string: " + args1[2].AsFloat().ToString());
+                    x.Write(args1[1].AsString(), args1[2].AsFloat().ToString(), args1[3].AsString());
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_WriteFloat'" + caller_script);
+            }
+            return 0;
+        }
+
         public static int INI_Read(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 4) return 0;
@@ -391,12 +432,30 @@ namespace dcamx.Scripting
             return 0;
         }
 
+        public static int INI_ReadInt(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            try
+            {
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    return Convert.ToInt32(x.Read(args1[1].AsString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_ReadInt'" + caller_script);
+            }
+            return 0;
+        }
+
         public static int INI_KeyExists(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
             try
             {
-                IniFile del = null;
                 foreach (IniFile x in Program.m_ScriptINIFiles)
                 {
                     if (x.m_ScrID != args1[0].AsInt32()) continue;
@@ -405,7 +464,6 @@ namespace dcamx.Scripting
                         return 1;
                     }
                 }
-                del = null;
             }
             catch (Exception ex)
             {
@@ -437,14 +495,12 @@ namespace dcamx.Scripting
             if (args1.Length != 2) return 0;
             try
             {
-                IniFile del = null;
                 foreach (IniFile x in Program.m_ScriptINIFiles)
                 {
                     if (x.m_ScrID != args1[0].AsInt32()) continue;
                     x.DeleteSection(args1[1].AsString());
                     return 1;
                 }
-                del = null;
             }
             catch (Exception ex)
             {
@@ -459,14 +515,12 @@ namespace dcamx.Scripting
             if (args1.Length != 3) return 0;
             try
             {
-                IniFile del = null;
                 foreach (IniFile x in Program.m_ScriptINIFiles)
                 {
                     if (x.m_ScrID != args1[0].AsInt32()) continue;
                     x.DeleteKey(args1[1].AsString(), args1[2].AsString());
                     return 1;
                 }
-                del = null;
             }
             catch (Exception ex)
             {
@@ -587,7 +641,7 @@ namespace dcamx.Scripting
             try
             {
                 //0 = guildid
-                //1 = channel name
+                //1 = channel nameFINI_Read
                 //2 = channel type
                 //3 = parent id
                 //4 = topic

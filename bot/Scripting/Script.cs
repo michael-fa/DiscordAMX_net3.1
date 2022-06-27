@@ -81,7 +81,10 @@ namespace dcamx.Scripting
             amx.Register("INI_Open", (amx1, args1) => Natives.INI_Open(amx1, args1, this));
             amx.Register("INI_Close", (amx1, args1) => Natives.INI_Close(amx1, args1, this));
             amx.Register("INI_Read", (amx1, args1) => Natives.INI_Read(amx1, args1, this));
+            amx.Register("INI_ReadInt", (amx1, args1) => Natives.INI_ReadInt(amx1, args1, this));
             amx.Register("INI_Write", (amx1, args1) => Natives.INI_Write(amx1, args1, this));
+            amx.Register("INI_WriteInt", (amx1, args1) => Natives.INI_WriteInt(amx1, args1, this));
+            amx.Register("INI_WriteFloat", (amx1, args1) => Natives.INI_WriteFloat(amx1, args1, this));
             amx.Register("INI_KeyExists", (amx1, args1) => Natives.INI_KeyExists(amx1, args1, this));
             amx.Register("INI_DeleteSection", (amx1, args1) => Natives.INI_DeleteSection(amx1, args1, this));
             amx.Register("INI_DeleteKey", (amx1, args1) => Natives.INI_DeleteKey(amx1, args1, this));
