@@ -47,6 +47,7 @@ namespace dcamx.Discord
 
 
             //Liten to all the Discord Events
+
             Client.GuildDownloadCompleted               += Events.GuildActions.DownloadCompleted;
             Client.Heartbeated                          += Events.OnHeartbeated.Execute;
             Client.GuildMemberAdded                     += Events.MemberJoinLeave.Join;

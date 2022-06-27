@@ -79,19 +79,17 @@ namespace dcamx
             _handler += new EventHandler(Handler);
             SetConsoleCtrlHandler(_handler, true);
 
-          
+
             __InitialChecks();
             __InitialSetup();
-            
+
 
             //Print a time and date to log file
             File.AppendAllText("Logs/current.txt", "\n++++++++++++++++++++ | LOG " + DateTime.Now + " | ++++++++++++++++++++\n");//Print out log file header (file only)
             //Console initial message
-            Log.Info("INIT: -> Discord AMX Bot © 2022 - www.fanter.eu <-"); 
-            if(m_isWindows) Log.Info("INIT: -> Running on Windows.");
-            else if(m_isLinux) Log.Info("INIT: Running on Linux. (Make sure you are always up to date!");
-            //string resolved = Utils.Scripting.ScriptFormat_Resolve("ggg %% hello %f works? or this %f works? maybe %f or %f %f%i %f and the msg is = %s", 8.8, 8.8, 4.3, 9.4, 2.2, 6556, 3.3, "superman");
-            //Log.Debug(resolved);
+            Log.Info("INIT: -> Discord AMX Bot © 2022 - www.fanter.eu <-");
+            if (m_isWindows) Log.Info("INIT: -> Running on Windows.");
+            else if (m_isLinux) Log.Info("INIT: Running on Linux. (Make sure you are always up to date!");
 
 
             //Load main.amx, or error out if not available
@@ -105,7 +103,7 @@ namespace dcamx
 
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
-            new IniFile();
+
             //Now add all filterscripts
             try
             {
@@ -129,7 +127,7 @@ namespace dcamx
         _CMDLOOP:
             ConsoleCommand.Loop();
             goto _CMDLOOP;
-            
+
         }
 
 
