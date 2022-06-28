@@ -139,7 +139,7 @@ namespace dcamx.Scripting
 
             foreach (Script sc in Program.m_Scripts)
             {
-                if (sc.m_AmxFile.Equals(args1[0].AsString()))
+                if (sc.m_amxFile.Equals(args1[0].AsString()))
                 {
                     AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic("OnUnload");
                     if (pub != null) pub.Execute();
@@ -179,7 +179,7 @@ namespace dcamx.Scripting
                     List<CellPtr> Cells = new List<CellPtr>();
 
                     //Important so the format ( ex "iissii" ) is aligned with the arguments pushed to the callback, not being reversed
-                    string reversed_format = Utils.ReverseString.Reverse(args1[1].AsString());
+                    string reversed_format = Utils.Scripting.Reverse(args1[1].AsString());
 
                     foreach (Script scr in Program.m_Scripts)
                     {
