@@ -20,7 +20,7 @@ namespace dcamx.Discord.Events
     {
         public static Task Execute(DiscordClient c, HeartbeatEventArgs e)
         {
-            AMXPublic p = Program.m_Scripts[0].amx.FindPublic("OnHeartbeat");
+            AMXPublic p = Program.m_Scripts[0].m_Amx.FindPublic("OnHeartbeat");
             p.AMX.Push(e.Ping);
             if (p != null) p.Execute();
             return Task.CompletedTask;

@@ -8,7 +8,6 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
-using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Newtonsoft.Json;
 using DSharpPlus.Interactivity.Extensions;
@@ -28,7 +27,7 @@ namespace dcamx.Discord
 
         public DCBot()
         {
-            Program.m_Scripts[0].amx.ExecuteMain();
+            Program.m_Scripts[0].m_Amx.ExecuteMain();
         }
 
         public async Task RunAsync(DiscordConfiguration dConfig)

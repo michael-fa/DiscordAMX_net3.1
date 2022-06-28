@@ -31,7 +31,7 @@ namespace dcamx.Discord.Events
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnPrivateMessage");
+                    p = scr.m_Amx.FindPublic("OnPrivateMessage");
                     if (p != null)
                     {
                         var tmp2 = p.AMX.Push(arg.Message.Content);
@@ -53,7 +53,7 @@ namespace dcamx.Discord.Events
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnChannelMessage");
+                    p = scr.m_Amx.FindPublic("OnChannelMessage");
                     if (p != null)
                     {
                         var tmp2 = p.AMX.Push(arg.Message.Content);
@@ -89,7 +89,7 @@ namespace dcamx.Discord.Events
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
                     Console.WriteLine("4");
-                    p = scr.amx.FindPublic("OnPrivateMessageDeleted");
+                    p = scr.m_Amx.FindPublic("OnPrivateMessageDeleted");
                     if (p != null)
                     {
                         var tmp = p.AMX.Push(arg.Message.Id.ToString());
@@ -106,7 +106,7 @@ namespace dcamx.Discord.Events
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnChannelMessageDeleted");
+                    p = scr.m_Amx.FindPublic("OnChannelMessageDeleted");
                     if (p != null)
                     {
                         var tmp = p.AMX.Push(arg.Message.Id.ToString());
@@ -138,7 +138,7 @@ namespace dcamx.Discord.Events
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnPrivateReactionAdded");
+                    p = scr.m_Amx.FindPublic("OnPrivateReactionAdded");
                     if (p != null)
                     {
                         var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
@@ -162,7 +162,7 @@ namespace dcamx.Discord.Events
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnReactionAdded");
+                    p = scr.m_Amx.FindPublic("OnReactionAdded");
                     if (p != null)
                     {
                         var tmp = p.AMX.Push(arg.Channel.Id.ToString());
@@ -203,7 +203,7 @@ namespace dcamx.Discord.Events
 
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnPrivateReactionRemoved");
+                    p = scr.m_Amx.FindPublic("OnPrivateReactionRemoved");
                     if (p != null)
                     {
                         var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
@@ -227,7 +227,7 @@ namespace dcamx.Discord.Events
             {
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnReactionRemoved");
+                    p = scr.m_Amx.FindPublic("OnReactionRemoved");
                     if (p != null)
                     {
                         var tmp = p.AMX.Push(arg.Channel.Id.ToString());

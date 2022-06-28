@@ -29,6 +29,9 @@ namespace dcamx.Discord.Events
             }
 
 
+            //AT THIS POINT, SKIP IF ALREADY DONE.
+            if (Program.m_ScriptingInited) return Task.CompletedTask;
+
             //Loop through all discord guilds, add them to Guilds list.
             //While that, all the discord members to Guild's Members list.
 
@@ -47,18 +50,13 @@ namespace dcamx.Discord.Events
                 }
             }
 
-
-            Program.m_ScriptingInited = true;
             //Init main amx OnLoad
             AMXPublic p = null;
-            p = Program.m_Scripts[0].amx.FindPublic("OnInit");
-            if (p != null)
-            {
-                p.Execute();
+            p = Program.m_Scripts[0].m_Amx.FindPublic("OnInit");
+            if (p != null) p.Execute();
 
-            }
-
-            //GuildAvailable gets called for every first initialised guild. We don't want that.
+            //While DownloadCompleted gets called more then once, we need only the first call (which we call our main script init, since atp all guilds and members are now available to script.)
+            Program.m_ScriptingInited = true;
 
             return Task.CompletedTask;
         }
@@ -86,7 +84,7 @@ namespace dcamx.Discord.Events
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    p = scr.amx.FindPublic("OnGuildAdded");
+                    p = scr.m_Amx.FindPublic("OnGuildAdded");
                     if (p != null)
                     {
                         p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
@@ -109,7 +107,7 @@ namespace dcamx.Discord.Events
             AMXPublic p = null;
             foreach (Scripting.Script scr in Program.m_Scripts)
             {
-                p = scr.amx.FindPublic("OnGuildRemoved");
+                p = scr.m_Amx.FindPublic("OnGuildRemoved");
                 if (p != null)
                 {
                     var tmp1 = p.AMX.Push(a.Guild.Name);
@@ -131,7 +129,7 @@ namespace dcamx.Discord.Events
             AMXPublic p = null;
             foreach (Scripting.Script scr in Program.m_Scripts)
             {
-                p = scr.amx.FindPublic("OnChannelCreated");
+                p = scr.m_Amx.FindPublic("OnChannelCreated");
                 if (p != null)
                 {
                     p.AMX.Push((a.Channel.IsPrivate ? (1) : (0)));
@@ -150,7 +148,7 @@ namespace dcamx.Discord.Events
             AMXPublic p = null;
             foreach (Scripting.Script scr in Program.m_Scripts)
             {
-                p = scr.amx.FindPublic("OnChannelDeleted");
+                p = scr.m_Amx.FindPublic("OnChannelDeleted");
                 if (p != null)
                 {
                     p.AMX.Push((a.Channel.IsPrivate ? (1) : (0)));

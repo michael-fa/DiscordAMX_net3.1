@@ -23,7 +23,7 @@ namespace dcamx.Discord.Events
             AMXPublic p = null;
             foreach (Scripting.Script scr in Program.m_Scripts)
             {
-                p = scr.amx.FindPublic("OnMemberJoin");
+                p = scr.m_Amx.FindPublic("OnMemberJoin");
                 if (p != null)
                 {
                     p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
@@ -46,7 +46,7 @@ namespace dcamx.Discord.Events
         public static Task Leave(DiscordClient c, GuildMemberRemoveEventArgs arg)
         {
             if (arg.Member == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
-            AMXPublic p = Program.m_Scripts[0].amx.FindPublic("OnMemberLeave");
+            AMXPublic p = Program.m_Scripts[0].m_Amx.FindPublic("OnMemberLeave");
             if (p != null)
             {
                 p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
