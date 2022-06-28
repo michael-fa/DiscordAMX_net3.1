@@ -25,7 +25,7 @@ namespace dcamx.Scripting
         public ScriptTimer(int interval,  bool rep, string funcCall, Script arg_parent_Script/*, string m_ArgsFrm, AMXArgumentList _args*/)
         {
             m_ParentScript = arg_parent_Script;
-            m_AMXCallback = m_ParentScript.amx.FindPublic(funcCall);
+            m_AMXCallback = m_ParentScript.m_Amx.FindPublic(funcCall);
             if (m_AMXCallback == null)
             {
                 return;

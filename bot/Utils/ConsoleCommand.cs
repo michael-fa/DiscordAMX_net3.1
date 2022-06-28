@@ -58,7 +58,7 @@ namespace dcamx.Utils
             AMXPublic p = null;
             foreach (Script scr in Program.m_Scripts)
             {
-                p = scr.amx.FindPublic("OnConsoleInput");
+                p = scr.m_Amx.FindPublic("OnConsoleInput");
                 if (p != null)
                 {
                     var tmp1 = p.AMX.Push(wholecmd);
@@ -99,7 +99,7 @@ namespace dcamx.Utils
                 return;
             }
             Script scr = new Script(args[0]);
-            AMXWrapper.AMXPublic pub = scr.amx.FindPublic("OnInit");
+            AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnInit");
             if (pub != null) pub.Execute();
         }
 
@@ -113,12 +113,12 @@ namespace dcamx.Utils
 
             foreach (Script sc in Program.m_Scripts)
             {
-                if (sc._amxFile.Equals(args[0]))
+                if (sc.m_amxFile.Equals(args[0]))
                 {
-                    AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
+                    AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic("OnUnload");
                     if (pub != null) pub.Execute();
-                    sc.amx.Dispose();
-                    sc.amx = null;
+                    sc.m_Amx.Dispose();
+                    sc.m_Amx = null;
                     Program.m_Scripts.Remove(sc);
                     Log.Info("[CORE] Script '" + args[0] + "' unloaded.");
                     return;
@@ -137,13 +137,13 @@ namespace dcamx.Utils
 
             foreach (Script sc in Program.m_Scripts)
             {
-                Log.Debug(sc._amxFile);
-                if (sc._amxFile.Equals(args[0]))
+                Log.Debug(sc.m_amxFile);
+                if (sc.m_Amx.Equals(args[0]))
                 {
-                    AMXWrapper.AMXPublic pub = sc.amx.FindPublic(args[1]);
+                    AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic(args[1]);
                     if (pub != null) pub.Execute();
-                    sc.amx.Dispose();
-                    sc.amx = null;
+                    sc.m_Amx.Dispose();
+                    sc.m_Amx = null;
                     Program.m_Scripts.Remove(sc);
                     Log.Info("[CORE] Public '" + args[1] + "' in script '" + args[0] + "' called.");
                     return;
@@ -163,12 +163,12 @@ namespace dcamx.Utils
             //Find the actual script
             foreach (Script sc in Program.m_Scripts)
             {
-                if (sc._amxFile.Equals(args[0]))
+                if (sc.m_amxFile.Equals(args[0]))
                 {
-                    AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
+                    AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic("OnUnload");
                     if (pub != null) pub.Execute();
-                    sc.amx.Dispose();
-                    sc.amx = null;
+                    sc.m_Amx.Dispose();
+                    sc.m_Amx = null;
                     Program.m_Scripts.Remove(sc);
 
                     if (!File.Exists("Scripts/" + args[0] + ".amx"))
@@ -177,7 +177,7 @@ namespace dcamx.Utils
                         return;
                     }
                     Script scr = new Script(args[0]);
-                    pub = scr.amx.FindPublic("OnInit");
+                    pub = scr.m_Amx.FindPublic("OnInit");
                     if (pub != null) pub.Execute();
 
                     Log.Info("[CORE] Script '" + args[0] + "' reloaded.");
@@ -190,16 +190,16 @@ namespace dcamx.Utils
         {
             foreach (Script script in Program.m_Scripts)
             {
-                if (script.amx == null) continue;
+                if (script.m_Amx == null) continue;
 
                 script.StopAllTimers( );
 
-                if (script.amx.FindPublic("OnUnload") != null)
-                    script.amx.FindPublic("OnUnload").Execute();
+                if (script.m_Amx.FindPublic("OnUnload") != null)
+                    script.m_Amx.FindPublic("OnUnload").Execute();
 
-                script.amx.Dispose();
-                script.amx = null;
-                Log.WriteLine("Script " + script._amxFile + " unloaded.");
+                script.m_Amx.Dispose();
+                script.m_Amx = null;
+                Log.WriteLine("Script " + script.m_amxFile + " unloaded.");
             }
 
             Program.m_Scripts.Clear();
@@ -216,7 +216,7 @@ namespace dcamx.Utils
             {
                 Script scr = new Script("main");
                 AMXPublic p = null;
-                p = scr.amx.FindPublic("OnInit");
+                p = scr.m_Amx.FindPublic("OnInit");
                 if (p != null)
                 {
                     p.Execute();
