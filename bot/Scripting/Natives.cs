@@ -2,7 +2,6 @@
 using DSharpPlus.Entities;
 using System;
 using DSharpPlus;
-using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,75 +29,6 @@ namespace dcamx.Scripting
             return 1;
         }
 
-        public static int printf(AMX amx1, AMXArgumentList args1, Script caller_script)
-        {
-
-            /*Console.WriteLine("Length: " + args1.Length + "ARG: " + args1[1].AsInt32());
-
-            string orig_string = args1[0].AsString();
-            int param_Index = 0;
-            int idx = 0;
-            bool expect_opcode = false;
-
-            if (args1.Length == 1) goto skipformat;
-
-            param_Index = 1;
-            foreach (char c in orig_string)
-            {
-                if (c == '%')
-                {
-                    expect_opcode = true;
-                    idx++;
-                    continue;
-                }
-
-
-                if (expect_opcode)
-                {
-                    if(c == 'd')
-                    {
-                        Console.WriteLine(args1[1].AsInt32());
-                        orig_string = orig_string.Remove(idx - 1, 2).Insert(idx-1, args1[1].AsInt32().ToString());
-                        param_Index++;
-                        expect_opcode = false;
-                    }
-                    
-                }
-
-                idx++;
-
-            }
-            skipformat:
-            Console.WriteLine("STRING: " + orig_string);
-            
-            *//*
-            string str = "";
-            for(int i=0; i< args1.Length; i++)
-            {
-                str.Insert(0, args1[i].ToString());
-            }*/
-            return 1;
-        }
-
-
-        public static int strequals(AMX amx1, AMXArgumentList args1, Script caller_script)
-        {
-            if (args1.Length != 3)
-                return 0;
-
-            if (args1[2].AsInt32() == 1)
-            {
-                if (args1[0].AsString().Equals(args1[1].AsString(), StringComparison.OrdinalIgnoreCase))
-                    return 1;
-            }
-            else if (args1[2].AsInt32() == 0)
-            {
-                if (args1[0].AsString().Equals(args1[1].AsString(), StringComparison.Ordinal))
-                    return 1;
-            }
-
-            return 0;
-        }
         public static int DC_SetToken(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (Program.m_Discord != null) return 0;
@@ -187,13 +117,13 @@ namespace dcamx.Scripting
                 return 0;
             }
 
-            if (!File.Exists("Scripts/" + args1[0].AsString() + ".amx"))
+            if (!System.IO.File.Exists("Scripts/" + args1[0].AsString() + ".amx"))
             {
                 Utils.Log.Error(" [command] The script file " + args1[0].AsString() + ".amx does not exist in /Scripts/ folder.");
                 return 0;
             }
-            Script scr = new Script(args1[0].AsString());
-            AMXWrapper.AMXPublic pub = scr.amx.FindPublic("OnInit");
+            Script scr = new Script(args1[0].AsString(), true);
+            AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnInit");
             if (pub != null) pub.Execute();
             return 1;
         }
@@ -209,18 +139,96 @@ namespace dcamx.Scripting
 
             foreach (Script sc in Program.m_Scripts)
             {
-                if (sc._amxFile.Equals(args1[0].AsString()))
+                if (sc.m_AmxFile.Equals(args1[0].AsString()))
                 {
-                    AMXWrapper.AMXPublic pub = sc.amx.FindPublic("OnUnload");
+                    AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic("OnUnload");
                     if (pub != null) pub.Execute();
-                    sc.amx.Dispose();
-                    sc.amx = null;
+                    sc.m_Amx.Dispose();
+                    sc.m_Amx = null;
                     Program.m_Scripts.Remove(sc);
                     Utils.Log.Info("[CORE] Script '" + args1[0].AsString() + "' unloaded.");
                     return 1;
                 }
             }
-            Utils.Log.Error(" [command] The script '" + args1[0].AsString()  + "' is not running.");
+            Utils.Log.Error(" [command] The script '" + args1[0].AsString() + "' is not running.");
+            return 1;
+        }
+
+        public static int CallRemoteFunction(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            try
+            {
+                if (args1.Length == 1)
+                {
+                    if (args1[0].AsString().Length < 2)
+                        return 0;
+
+                    AMXPublic tmp = null;
+                    foreach (Script scr in Program.m_Scripts)
+                    {
+                        tmp = scr.m_Amx.FindPublic(args1[0].AsString());
+                        if (tmp != null) tmp.Execute();
+                    }
+                    return 1;
+                }
+                else if (args1.Length >= 3)
+                {
+                    int count = (args1.Length - 1);
+
+                    AMXPublic p = null;
+                    List<CellPtr> Cells = new List<CellPtr>();
+
+                    //Important so the format ( ex "iissii" ) is aligned with the arguments pushed to the callback, not being reversed
+                    string reversed_format = Utils.ReverseString.Reverse(args1[1].AsString());
+
+                    foreach (Script scr in Program.m_Scripts)
+                    {
+                        if (scr.Equals(caller_script)) continue;
+                        p = scr.m_Amx.FindPublic(args1[0].AsString());
+                        if (p == null) continue;
+                        foreach (char x in reversed_format.ToCharArray())
+                        {
+                            if (count == 1) break;
+                            switch (x)
+                            {
+                                case 'i':
+                                    {
+                                        p.AMX.Push(args1[count].AsIntPtr());
+                                        count--;
+                                        continue;
+                                    }
+                                case 'f':
+                                    {
+                                        p.AMX.Push((float)args1[count].AsCellPtr().Get().AsFloat());
+                                        count--;
+                                        continue;
+                                    }
+
+                                case 's':
+                                    {
+                                        Cells.Add(p.AMX.Push(args1[count].AsString()));
+                                        count--;
+                                        continue;
+                                    }
+                            }
+                        }
+                        //Reset our arg index counter
+                        count = (args1.Length - 1);
+                        p.Execute();
+
+                    }
+
+                    foreach (CellPtr cell in Cells)
+                    {
+                        p.AMX.Release(cell);
+                    }
+                    GC.Collect();
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex);
+            }
             return 1;
         }
 
@@ -231,16 +239,17 @@ namespace dcamx.Scripting
 
         public static int SetTimer(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1[1].AsInt32() > 1 || args1[1].AsInt32() < 0)
+            if (args1[2].AsInt32() > 1 || args1[2].AsInt32() < 0)
             {
                 Utils.Log.Error("SetTimer: Argument 'repeating' is boolean. Please pass 0 or 1 only!");
                 return 1;
             }
 
-            //Utils.Log.Debug("Lenghts: + " + args1.Length + "Format: " + args1[3].AsString());
-            //try { ScriptTimer timer = new ScriptTimer(args1[2].AsInt32(), Convert.ToBoolean(args1[1].AsInt32()), args1[0].AsString(), caller_script, args1[3].AsString(), args1); 
-            try { ScriptTimer timer = new ScriptTimer(args1[2].AsInt32(), Convert.ToBoolean(args1[1].AsInt32()), args1[0].AsString(), caller_script); 
-            }catch(Exception ex)
+            try
+            {
+                ScriptTimer timer = new ScriptTimer(args1[1].AsInt32(), Convert.ToBoolean(args1[2].AsInt32()), args1[0].AsString(), caller_script);
+            }
+            catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
             }
