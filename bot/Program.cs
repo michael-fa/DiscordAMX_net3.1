@@ -13,7 +13,7 @@ namespace dcamx
     class Program
     {
 
-        //Kerninformationen
+        //Coreinfo
         static bool m_isWindows;
         static bool m_isLinux;
 
@@ -92,6 +92,24 @@ namespace dcamx
             else if (m_isLinux) Log.Info("INIT: Running on Linux. (Make sure you are always up to date!");
 
 
+            //Now add all filterscripts (before main amx)
+            try
+            {
+                foreach (string fl in Directory.GetFiles("Scripts/"))
+                {
+                    // demand load main.amx     ||  skip this file
+                    if (fl.StartsWith("!") || fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
+                    Log.Info("[CORE] Found filterscript: '" + fl.Remove(0, 8).Replace(".amx", "") + "' !");
+                    new Script(fl.Remove(0, 8).Replace(".amx", ""), true);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex);
+                StopSafely();
+                return;
+            }
+
             //Load main.amx, or error out if not available
             if (!File.Exists("Scripts/main.amx"))
             {
@@ -103,25 +121,6 @@ namespace dcamx
 
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
-
-            //Now add all filterscripts
-            try
-            {
-                foreach (string fl in Directory.GetFiles("Scripts/"))
-                {                                               
-                    Match mtch = Regex.Match(fl, "(?=/!).*(?=.amx)");
-                    // demand load main.amx     ||  skip this file
-                    if (fl.Contains("main.amx") || !fl.EndsWith(".amx") || mtch.Success) continue;
-                    Log.Info("[CORE] Found filterscript: '" + mtch.Value.ToString().Remove(0, 1) + "' !");
-                    new Script(mtch.Value.ToString().Remove(0, 1), true);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Exception(ex);
-                StopSafely();
-                return;
-            }
 
         //Handle commands.
         _CMDLOOP:
