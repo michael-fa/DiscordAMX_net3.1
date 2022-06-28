@@ -227,6 +227,8 @@
     <Compile Include="Discord\Events\MemberJoinLeave.cs" />
     <Compile Include="Discord\Events\OnHeartbeated.cs" />
     <Compile Include="Discord\Events\MessageActions.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginNatives.cs" />
     <Compile Include="Scripting\Guild.cs" />
     <Compile Include="Scripting\Member.cs" />
     <Compile Include="Scripting\Natives.cs" />
@@ -238,6 +240,7 @@
     <Compile Include="Utils\HTTP.cs" />
     <Compile Include="Utils\INI.cs" />
     <Compile Include="Utils\LogFunctions.cs" />
+    <Compile Include="Utils\PluginTools.cs" />
     <Compile Include="Utils\Scripting.cs" />
   </ItemGroup>
   <ItemGroup>

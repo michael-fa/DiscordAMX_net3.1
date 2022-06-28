@@ -20,7 +20,9 @@ namespace dcamx
 
         public static Discord.DCBot m_Discord = null;
         public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
+        public static List<Plugins.Plugin> m_Plugins = null;
         public static List<Scripting.Script> m_Scripts = null;
+        public static List<Plugins.PluginNatives> m_PluginNatives = null;
         public static List<Scripting.Guild> m_ScriptGuilds = null;
         public static List<IniFile> m_ScriptINIFiles = null;
         public static List<DiscordChannel> m_DmUsers = null;
@@ -92,6 +94,23 @@ namespace dcamx
             else if (m_isLinux) Log.Info("INIT: Running on Linux. (Make sure you are always up to date!");
 
 
+            //PREPARE (not loading!) all plugins (extensions)
+            try
+            {
+                foreach (string fl in Directory.GetFiles("Plugins/"))
+                {
+                    if (!fl.EndsWith(".dll")) continue;
+                    Utils.Log.Info("[CORE] Found plugin: '" + fl + "' !");
+                    new Plugins.Plugin(fl);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex);
+                Program.StopSafely();
+                return;
+            }
+
             //Now add all filterscripts (before main amx)
             try
             {
@@ -119,6 +138,9 @@ namespace dcamx
             }
             else new Script("main");
 
+            //We first want to prefetch (only call constructor methods, returning us the natives) and then, above, load all the scripts and finally "really load" the plugins.
+            PluginTools.LoadAllPlugins();
+
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
 
@@ -137,6 +159,10 @@ namespace dcamx
             //Check if LOG Dir exists
             if (!Directory.Exists("Logs/"))
                 Directory.CreateDirectory("Logs/");
+
+            //Check if Plugins dir exists
+            if (!Directory.Exists("Plugins/"))
+                Directory.CreateDirectory("Plugins/");
 
             //Check if Scripts dir exists
             if (!Directory.Exists("Scripts/"))
@@ -170,6 +196,7 @@ namespace dcamx
             Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
             Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
             Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
+            Program.m_Plugins = new List<Plugins.Plugin>();   //Create list for plugins
             m_DmUsers = new List<DiscordChannel>();
             Program.m_ScriptINIFiles = new List<IniFile>();
         }
@@ -178,26 +205,35 @@ namespace dcamx
 
         static public void StopSafely()
         {
+             if (m_Plugins != null)
+               {
+                   foreach (Plugins.Plugin pl in m_Plugins)
+                   {
+                       pl.Unload(0);
+
+                       Log.WriteLine("Script " + pl._File + " unloaded.");
+                   }
+               }
+
             foreach (Script script in m_Scripts)
             {
-                if (script.amx == null) continue;
+                if (script.m_Amx == null) continue;
 
                 script.StopAllTimers();
 
-                if (script.amx.FindPublic("OnUnload") != null)
-                    script.amx.FindPublic("OnUnload").Execute();
+                if (script.m_Amx.FindPublic("OnUnload") != null)
+                    script.m_Amx.FindPublic("OnUnload").Execute();
 
-                script.amx.Dispose();
-                script.amx = null;
-                Log.WriteLine("Script " + script._amxFile + " unloaded.");
+                script.m_Amx.Dispose();
+                script.m_Amx = null;
+                Log.WriteLine("Script " + script.m_amxFile + " unloaded.");
             }
 
-            if (m_Discord != null) _ = m_Discord.DisconnectAsync();
-
-            File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt")); //copy current log txt to one with the date in name and delete the old one
+            //copy current log txt to one with the date in name and delete the old one
+            File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt"));
             if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");
-
             Environment.Exit(0);
+
         }
     }
 }
