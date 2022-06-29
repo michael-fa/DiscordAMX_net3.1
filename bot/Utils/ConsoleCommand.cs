@@ -83,8 +83,6 @@ namespace dcamx.Utils
                "   guilds                                        (Lists all the guilds available for the bot '" + Program.m_Discord.Client.CurrentUser.Username + "')");
         }
 
-
-
         public static void LoadScript(string[] args)
         {
             if (args[0].Length == 0)
@@ -98,7 +96,7 @@ namespace dcamx.Utils
                 Log.Error(" [command] The script file " + args[0] + ".amx does not exist in /Scripts/ folder.");
                 return;
             }
-            Script scr = new Script(args[0]);
+            Script scr = new Script(args[0], true);
             AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnInit");
             if (pub != null) pub.Execute();
         }
@@ -111,15 +109,21 @@ namespace dcamx.Utils
                 return;
             }
 
+            AMXPublic pub;
+
+
+
+            //Find the script
             foreach (Script sc in Program.m_Scripts)
             {
-                if (sc.m_amxFile.Equals(args[0]))
+                if (sc.m_amxFile.Contains(args[0]))
                 {
-                    AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic("OnUnload");
+                    pub = sc.m_Amx.FindPublic("OnUnload");
                     if (pub != null) pub.Execute();
+
+                    Program.m_Scripts.Remove(sc);
                     sc.m_Amx.Dispose();
                     sc.m_Amx = null;
-                    Program.m_Scripts.Remove(sc);
                     Log.Info("[CORE] Script '" + args[0] + "' unloaded.");
                     return;
                 }
@@ -129,59 +133,65 @@ namespace dcamx.Utils
 
         public static void CallPublic(string[] args)
         {
-            if (args[0].Length == 0)
+            if (args.Length == 0 || args.Length != 2)
             {
                 Log.Error(" [command] You did not specify a script and public!");
                 return;
             }
 
+            if (args[1].Length < 1)
+                Log.Error("[command] You should specify a public to call inside " + args[0]);
+
             foreach (Script sc in Program.m_Scripts)
             {
-                Log.Debug(sc.m_amxFile);
-                if (sc.m_Amx.Equals(args[0]))
+                //Log.Debug(sc.m_AmxFile);
+                if (sc.m_amxFile.Equals(args[0]))
                 {
                     AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic(args[1]);
-                    if (pub != null) pub.Execute();
-                    sc.m_Amx.Dispose();
-                    sc.m_Amx = null;
-                    Program.m_Scripts.Remove(sc);
-                    Log.Info("[CORE] Public '" + args[1] + "' in script '" + args[0] + "' called.");
-                    return;
+                    if (pub != null)
+                    {
+                        pub.Execute();
+                        Log.Info("[CORE] Public '" + args[1] + "' in script '" + args[0] + "' called.");
+                        break;
+                    }
+                    else
+                    {
+                        Log.Error("[command] The callback " + args[0] + " has not been found.");
+                        break;
+                    }
                 }
             }
-            Log.Error(" [command] The script '" + args[0] + "' is not running.");
         }
 
 
         public static void ReloadScript(string[] args)
         {
-            if (args[0] == null)
+            if (args.Length != 1)
             {
                 Log.Error(" [command] You did not specify a correct script name (without .amx)");
                 return;
             }
             //Find the actual script
+            bool _isFs = false;
             foreach (Script sc in Program.m_Scripts)
             {
+                if (sc.m_Amx == null) continue;
                 if (sc.m_amxFile.Equals(args[0]))
                 {
-                    AMXWrapper.AMXPublic pub = sc.m_Amx.FindPublic("OnUnload");
-                    if (pub != null) pub.Execute();
-                    sc.m_Amx.Dispose();
-                    sc.m_Amx = null;
-                    Program.m_Scripts.Remove(sc);
+                    if (sc.m_isFs)
+                        _isFs = true;
+
+                    UnloadScript(args);
 
                     if (!File.Exists("Scripts/" + args[0] + ".amx"))
                     {
                         Log.Error(" [command] The script file " + args[0] + ".amx does not exist in /Scripts/ folder.");
                         return;
                     }
-                    Script scr = new Script(args[0]);
-                    pub = scr.m_Amx.FindPublic("OnInit");
-                    if (pub != null) pub.Execute();
+                    Script scr = new Script(args[0], _isFs);
 
                     Log.Info("[CORE] Script '" + args[0] + "' reloaded.");
-                    return;
+                    break;
                 }
             }
         }
@@ -192,7 +202,7 @@ namespace dcamx.Utils
             {
                 if (script.m_Amx == null) continue;
 
-                script.StopAllTimers( );
+                //script.StopAllTimers();
 
                 if (script.m_Amx.FindPublic("OnUnload") != null)
                     script.m_Amx.FindPublic("OnUnload").Execute();
