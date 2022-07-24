@@ -26,6 +26,7 @@ namespace dcamx
         public static List<Scripting.Guild> m_ScriptGuilds = null;
         public static List<IniFile> m_ScriptINIFiles = null;
         public static List<DiscordChannel> m_DmUsers = null;
+        public static List<Guild.LastMessage> m_LastMsgs = null;
 
         //GuildAvailable gets called for every first initialised guild. We don't want that.
         public static bool m_ScriptingInited = false;
@@ -144,7 +145,13 @@ namespace dcamx
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect
 
-        //Handle commands.
+            //Handle commands.
+            Console.CancelKeyPress += delegate {
+                StopSafely();
+                return;
+            };
+
+
         _CMDLOOP:
             ConsoleCommand.Loop();
             goto _CMDLOOP;
@@ -199,21 +206,28 @@ namespace dcamx
             Program.m_Plugins = new List<Plugins.Plugin>();   //Create list for plugins
             m_DmUsers = new List<DiscordChannel>();
             Program.m_ScriptINIFiles = new List<IniFile>();
+            Program.m_LastMsgs = new List<Guild.LastMessage>();
         }
 
 
 
         static public void StopSafely()
         {
-             if (m_Plugins != null)
-               {
-                   foreach (Plugins.Plugin pl in m_Plugins)
-                   {
-                       pl.Unload(0);
+            if (m_Plugins != null)
+            {
+                foreach (Plugins.Plugin pl in m_Plugins)
+                {
+                    pl.Unload(0);
 
-                       Log.WriteLine("Script " + pl._File + " unloaded.");
-                   }
-               }
+                    Log.WriteLine("Script " + pl._File + " unloaded.");
+                }
+            }
+            
+            //Check for unclosed INI File handlers (scripts)
+            foreach(IniFile x in Program.m_ScriptINIFiles)
+            {
+                Log.Warning("[INI FILE] Unclosed ini file handler found for \"" + x.Path  + "\"");
+            }
 
             foreach (Script script in m_Scripts)
             {

@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace dcamx.Scripting
 {
-    public class ScriptTimer
+    public class  ScriptTimer
     {
         public int ID;
         public bool m_Active = false;
         public bool m_Repeat = true;
+        public AMXArgumentList m_AmxArgs;
         int m_msWait;
         string m_Func;
         DateTime m_lastCalled;
@@ -20,9 +22,9 @@ namespace dcamx.Scripting
         Script m_ParentScript;
         System.Threading.Timer m_Timer;
         AMXPublic m_AMXCallback;
-        //string m_ArgFrmt;
-        //AMXArgumentList m_Args;
-        public ScriptTimer(int interval,  bool rep, string funcCall, Script arg_parent_Script/*, string m_ArgsFrm, AMXArgumentList _args*/)
+        public string m_ArgFrmt;
+        public AMXArgumentList m_Args;
+        /*public ScriptTimer(int interval, bool rep, string funcCall, Script arg_parent_Script, string _ArgsFrm, AMXArgumentList _args)
         {
             m_ParentScript = arg_parent_Script;
             m_AMXCallback = m_ParentScript.m_Amx.FindPublic(funcCall);
@@ -35,8 +37,8 @@ namespace dcamx.Scripting
             m_lastCalled = DateTime.Now;
             m_Active = true;
             m_Repeat = rep;
-           // m_ArgFrmt = m_ArgsFrm;
-           // m_Args = _args;
+            m_ArgFrmt = _ArgsFrm;
+            m_Args = _args;
 
 
             Program.m_ScriptTimers.Add(this);
@@ -44,7 +46,35 @@ namespace dcamx.Scripting
 
             System.Threading.TimerCallback TimerDelegate =
             new System.Threading.TimerCallback(OnTimedEvent);
-            
+
+
+            m_Timer = new System.Threading.Timer(TimerDelegate, null, m_msWait, m_msWait);
+            Utils.Log.Debug("Initialised Script-Timer (\"" + m_Func + "\") !", arg_parent_Script);
+        }*/
+
+        public ScriptTimer(int interval, bool rep, string funcCall, Script arg_parent_Script)
+        {
+            m_ParentScript = arg_parent_Script;
+            m_AMXCallback = m_ParentScript.m_Amx.FindPublic(funcCall);
+            if (m_AMXCallback == null)
+            {
+                return;
+            }
+            m_msWait = interval;
+            m_Func = funcCall;
+            m_lastCalled = DateTime.Now;
+            m_Active = true;
+            m_Repeat = rep;
+            //m_ArgFrmt = "Cx00A01"; //Identify later as no timerex.
+
+
+
+            Program.m_ScriptTimers.Add(this);
+            this.ID = Program.m_ScriptTimers.Count;
+
+            System.Threading.TimerCallback TimerDelegate =
+            new System.Threading.TimerCallback(OnTimedEvent);
+
 
             m_Timer = new System.Threading.Timer(TimerDelegate, null, m_msWait, m_msWait);
             Utils.Log.Debug("Initialised Script-Timer (\"" + m_Func + "\") !", arg_parent_Script);
@@ -83,12 +113,12 @@ namespace dcamx.Scripting
 
                 m_AMXCallback.Execute();
 
-               /* foreach (CellPtr x in _list)
-                {
-                    m_AMXCallback.AMX.Release(x);
-                }
-                GC.Collect();
-               */
+                /* foreach (CellPtr x in _list)
+                 {
+                     m_AMXCallback.AMX.Release(x);
+                 }
+                 GC.Collect();
+                */
                 Utils.Log.Debug("Script-Timer invoked \"" + m_Func + "\"", m_ParentScript);
             }
             catch (Exception ex)
@@ -97,13 +127,14 @@ namespace dcamx.Scripting
             }
 
             //No repeating?
-            if(!m_Repeat)
+            if (!m_Repeat)
             {
                 m_Timer.Change(Timeout.Infinite, Timeout.Infinite);
                 this.m_Active = false;
             }
 
         }
+
 
         public bool KillTimer()
         {
@@ -112,6 +143,7 @@ namespace dcamx.Scripting
 
             m_Timer.Change(Timeout.Infinite, Timeout.Infinite);
             this.m_Active = false;
+            this.m_ArgFrmt = "";
 
             return true;
         }

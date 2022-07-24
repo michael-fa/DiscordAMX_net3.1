@@ -256,6 +256,21 @@ namespace dcamx.Scripting
             return (Program.m_ScriptTimers.Count);
         }
 
+        /*public static int SetTimerEx(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if(args1.Length < 5) return 1;
+
+            try
+            {
+                ScriptTimer timer = new ScriptTimer(args1[1].AsInt32(), Convert.ToBoolean(args1[2].AsInt32()), args1[0].AsString(), caller_script, args1[3].AsString(), args1);
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+            }
+            return (Program.m_ScriptTimers.Count);
+        }*/
+
         public static int KillTimer(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             foreach (ScriptTimer scrt in Program.m_ScriptTimers)
@@ -319,7 +334,7 @@ namespace dcamx.Scripting
                 if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\scriptfiles"))
                 {
                     Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\scriptfiles");
-                    Utils.Log.Warning("'/scriptfiles' folder not found, creating a new one.. Note that script-specific folders need to be created manually.");
+                    Utils.Log.Warning("'/scriptfiles' folder not found, creating a new one.. Note that sub-folders for scripts need to be created manually.");
                 }
                 Utils.Log.Debug("Open file handler for " + "scriptfiles\\" + args1[0].AsString());
                 Program.m_ScriptINIFiles.Add(new IniFile("scriptfiles\\" + args1[0].AsString() + ".ini"));
@@ -361,7 +376,7 @@ namespace dcamx.Scripting
 
         public static int INI_Write(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length != 4) return 0;
+            if (args1.Length < 3) return 0;
             try
             {
                 foreach (IniFile x in Program.m_ScriptINIFiles)
@@ -381,7 +396,7 @@ namespace dcamx.Scripting
 
         public static int INI_WriteInt(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length != 4) return 0;
+            if (args1.Length < 3) return 0;
             try
             {
                 foreach (IniFile x in Program.m_ScriptINIFiles)
@@ -401,14 +416,13 @@ namespace dcamx.Scripting
 
         public static int INI_WriteFloat(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length != 4) return 0;
-            
+            if (args1.Length < 3) return 0;
+
             try
             {
                 foreach (IniFile x in Program.m_ScriptINIFiles)
                 {
                     if (x.m_ScrID != args1[0].AsInt32()) continue;
-                    Console.WriteLine("dbg: " + args1[2].AsFloat() + "| string: " + args1[2].AsFloat().ToString());
                     x.Write(args1[1].AsString(), args1[2].AsFloat().ToString(), args1[3].AsString());
                     return 1;
                 }
@@ -419,6 +433,25 @@ namespace dcamx.Scripting
                 Utils.Log.Error("In native 'INI_WriteFloat'" + caller_script);
             }
             return 0;
+        }
+
+        public static float INI_ReadFloat(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            try
+            {
+                foreach (IniFile x in Program.m_ScriptINIFiles)
+                {
+                    if (x.m_ScrID != args1[0].AsInt32()) continue;
+                    return (float)Convert.ToDouble(x.Read(args1[1].AsString(), args1[2].AsString()));
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'INI_ReadInt'" + caller_script);
+            }
+            return 0.0f;
         }
 
         public static int INI_Read(AMX amx1, AMXArgumentList args1, Script caller_script)
@@ -449,7 +482,8 @@ namespace dcamx.Scripting
                 foreach (IniFile x in Program.m_ScriptINIFiles)
                 {
                     if (x.m_ScrID != args1[0].AsInt32()) continue;
-                    return Convert.ToInt32(x.Read(args1[1].AsString()));
+
+                    return Convert.ToInt32(x.Read(args1[1].AsString(), args1[2].AsString()));
                 }
             }
             catch (Exception ex)
@@ -494,7 +528,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_KeyExists'" + caller_script);
+                Utils.Log.Error("In native 'INI_Exists'" + caller_script);
             }
             return 0;
         }
@@ -549,6 +583,18 @@ namespace dcamx.Scripting
 
 
 
+        public static int DC_GetLastMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+
+            foreach(Guild.LastMessage x in Program.m_LastMsgs)
+            {
+                if (x.m_Guild != Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32()) || x.m_Channel != x.m_Guild.GetChannel(Convert.ToUInt64(args1[1].AsString()))) continue;
+                AMX.SetString(args1[2].AsCellPtr(), x.m_Message.Result.Id.ToString(), false);
+                break;
+            }
+            return 1;
+        }
 
         public static int DC_DeleteMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
@@ -557,7 +603,14 @@ namespace dcamx.Scripting
             {
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
 
-                guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync(args1[3].AsString()).Wait();
+                DiscordChannel a = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+                Task<DiscordMessage> x = a.GetMessageAsync(Convert.ToUInt64(args1[2].AsString()));
+                foreach (Guild.LastMessage y in Program.m_LastMsgs)
+                {
+                    if (y.m_Channel != a || y.m_Guild != guild || y.m_Message != x) continue;
+                    Program.m_LastMsgs.Remove(y);
+                }
+
             }
             catch (Exception ex)
             {
@@ -574,7 +627,9 @@ namespace dcamx.Scripting
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
             try
             {
-                guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(args1[2].AsString());
+                var msg = guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(args1[2].AsString());
+                Program.m_LastMsgs.Add(new Guild.LastMessage { m_Channel = msg.Result.Channel, m_Guild = guild, m_Message = msg });
+
             }
             catch (Exception ex)
             {
@@ -590,7 +645,8 @@ namespace dcamx.Scripting
             try
             {
                 DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
-                dc.SendMessageAsync(args1[1].AsString());
+                Task<DiscordMessage> msg = dc.SendMessageAsync(args1[1].AsString());
+                Program.m_LastMsgs.Add(new Guild.LastMessage { m_Channel = msg.Result.Channel, m_Guild = null, m_Message = msg });
 
             }
             catch (Exception ex)
@@ -608,7 +664,13 @@ namespace dcamx.Scripting
             try
             {
                 DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
-                dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString())).Result.DeleteAsync(args1[2].AsString()).Wait();
+                Task<DiscordMessage> x = dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString()));
+                x.Result.DeleteAsync(args1[2].AsString()).Wait();
+                foreach (Guild.LastMessage y in Program.m_LastMsgs)
+                {
+                    if (y.m_Channel != dc || y.m_Guild != null || y.m_Message != x) continue;
+                    Program.m_LastMsgs.Remove(y);
+                }
             }
             catch (Exception ex)
             {

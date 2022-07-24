@@ -51,6 +51,76 @@ namespace dcamx.Scripting
 
         }
 
+        /*public void RunTimerCallback(AMXArgumentList m_Args, string m_ArgFrmt, string m_Func)
+        {
+            AMXPublic m_AMXCallback = this.m_Amx.FindPublic(m_Func);
+            if (m_AMXCallback == null) return;
+            
+
+            try
+            {
+                if (!m_ArgFrmt.Equals("Cx00A01"))
+                {
+                    int count = (m_Args.Length - 1);
+
+                    List<CellPtr> Cells = new List<CellPtr>();
+
+                    //Important so the format ( ex "iissii" ) is aligned with the arguments pushed to the callback, not being reversed
+                    string reversed_format = Utils.Scripting.Reverse(m_ArgFrmt);
+
+                    foreach (char x in reversed_format.ToCharArray())
+                    {
+                        if (count == 3) break; //stop at the format argument.
+                        Console.WriteLine("Do again: " + count);
+                        switch (x)
+                        {
+                            case 'i':
+                                {
+                                    m_AMXCallback.AMX.Push(4);
+                                    count--;
+                                    continue;
+                                }
+                            case 'f':
+                                {
+                                    m_AMXCallback.AMX.Push((float)m_Args[count].AsCellPtr().Get().AsFloat());
+                                    count--;
+                                    continue;
+                                }
+
+                            case 's':
+                                {
+                                    Cells.Add(m_AMXCallback.AMX.Push(m_Args[count].AsString()));
+                                    count--;
+                                    continue;
+                                }
+                        }
+                    }
+
+                    m_AMXCallback.Execute();
+
+                    foreach (CellPtr cell in Cells)
+                    {
+                        m_AMXCallback.AMX.Release(cell);
+                    }
+                    GC.Collect();
+
+
+
+                    Utils.Log.Debug("Script-Timer invoked \"" + m_Func + "\" | Format: " + m_ArgFrmt, this);
+                }
+                else
+                {
+                    //Call without ex arguments
+                    m_AMXCallback.Execute();
+                    Utils.Log.Debug("Script-Timer invoked  \"" + m_Func + "\"", this);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, this);
+            }
+        }*/
+
         public bool RegisterNatives()
         {
             m_Amx.Register("printc", (amx1, args1) => Natives.printc(amx1, args1, this));
@@ -58,6 +128,7 @@ namespace dcamx.Scripting
             m_Amx.Register("Loadscript", (amx1, args1) => Natives.Loadscript(amx1, args1, this));
             m_Amx.Register("Unloadscript", (amx1, args1) => Natives.Unloadscript(amx1, args1, this));
             m_Amx.Register("SetTimer", (amx1, args1) => Natives.SetTimer(amx1, args1, this));
+            //m_Amx.Register("SetTimerEx", (amx1, args1) => Natives.SetTimerEx(amx1, args1, this));
             m_Amx.Register("KillTimer", (amx1, args1) => Natives.KillTimer(amx1, args1, this));
             m_Amx.Register("gettimestamp", (amx1, args1) => Natives.gettimestamp(amx1, args1, this));
             m_Amx.Register("CallRemoteFunction", (amx1, args1) => Natives.CallRemoteFunction(amx1, args1, this));
@@ -72,6 +143,7 @@ namespace dcamx.Scripting
             m_Amx.Register("INI_Close", (amx1, args1) => Natives.INI_Close(amx1, args1, this));
             m_Amx.Register("INI_Read", (amx1, args1) => Natives.INI_Read(amx1, args1, this));
             m_Amx.Register("INI_ReadInt", (amx1, args1) => Natives.INI_ReadInt(amx1, args1, this));
+            m_Amx.Register("INI_ReadFloat", (amx1, args1) => Cell.FromFloat(Natives.INI_ReadFloat(amx1, args1, this)).AsCellPtr().Value.ToInt32());
             m_Amx.Register("INI_Write", (amx1, args1) => Natives.INI_Write(amx1, args1, this));
             m_Amx.Register("INI_WriteInt", (amx1, args1) => Natives.INI_WriteInt(amx1, args1, this));
             m_Amx.Register("INI_WriteFloat", (amx1, args1) => Natives.INI_WriteFloat(amx1, args1, this));
@@ -79,7 +151,6 @@ namespace dcamx.Scripting
             m_Amx.Register("INI_DeleteSection", (amx1, args1) => Natives.INI_DeleteSection(amx1, args1, this));
             m_Amx.Register("INI_DeleteKey", (amx1, args1) => Natives.INI_DeleteKey(amx1, args1, this));
             m_Amx.Register("INI_Exists", (amx1, args1) => Natives.INI_Exists(amx1, args1, this));
-
 
             //Guilds
             m_Amx.Register("DC_GetGuildName", (amx1, args1) => Natives.DC_GetGuildName(amx1, args1, this));
@@ -95,6 +166,7 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.DC_GetMemberAvatarURL(amx1, args1, this));
 
             //Channels
+            m_Amx.Register("DC_GetLastMessage", (amx1, args1) => Natives.DC_GetLastMessage(amx1, args1, this));
             m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
             m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
             m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
@@ -102,7 +174,6 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.DC_FindChannel(amx1, args1, this));
             m_Amx.Register("DC_CreateChannel", (amx1, args1) => Natives.DC_CreateChannel(amx1, args1, this));
             m_Amx.Register("DC_DeleteChannel", (amx1, args1) => Natives.DC_DeleteChannel(amx1, args1, this));
-
 
             m_Amx.Register("DC_AddReaction", (amx1, args1) => Natives.DC_AddReaction(amx1, args1, this));
             m_Amx.Register("DC_AddPrivateReaction", (amx1, args1) => Natives.DC_AddPrivateReaction(amx1, args1, this));
