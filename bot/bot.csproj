@@ -97,8 +97,8 @@
     <StartupObject>dcamx.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AMXWrapper, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AMXWrapper.1.1.0\lib\net40\AMXWrapper.dll</HintPath>
+    <Reference Include="AMXWrapper, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AMXWrapper.1.2.0\lib\net48\AMXWrapper.dll</HintPath>
     </Reference>
     <Reference Include="ConcurrentCollections, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ConcurrentHashSet.1.1.0\lib\net461\ConcurrentCollections.dll</HintPath>
