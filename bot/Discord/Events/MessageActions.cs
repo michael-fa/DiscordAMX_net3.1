@@ -13,18 +13,22 @@ using Newtonsoft.Json;
 using DSharpPlus.Interactivity.Extensions;
 using AMXWrapper;
 using System.Diagnostics;
+using dcamx.Scripting;
 
 namespace dcamx.Discord.Events
 {
     public static class MessageActions
     {
+
+        static public bool SkipDeleteEvent = false;
+        static public bool SkipDeleteEvent_DM = false;
         public static Task MessageAdded(DiscordClient c, MessageCreateEventArgs arg)
         {
             if (arg.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
             if (arg.Channel.IsPrivate)
             {
-                if (!Program.m_DmUsers.Contains(arg.Channel))
-                    Program.m_DmUsers.Add(arg.Channel);
+                if (!Program.m_DmUsers.Contains((DiscordDmChannel)arg.Channel))
+                    Program.m_DmUsers.Add((DiscordDmChannel)arg.Channel);
 
 
 
@@ -36,13 +40,11 @@ namespace dcamx.Discord.Events
                     {
                         var tmp2 = p.AMX.Push(arg.Message.Content);
                         var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
-                        var tmp1 =  p.AMX.Push(arg.Author.Id.ToString());
-                        var tmp = p.AMX.Push(arg.Message.Channel.Id.ToString());
+                        var tmp1 =  p.AMX.Push(arg.Channel.Id.ToString());
                         p.Execute();
-                        p.AMX.Release(tmp);
-                        p.AMX.Release(tmp3);
                         p.AMX.Release(tmp1);
                         p.AMX.Release(tmp2);
+                        p.AMX.Release(tmp3);
                         GC.Collect();
                     }
                     p = null;
@@ -74,21 +76,19 @@ namespace dcamx.Discord.Events
 
         public static Task MessageDeleted(DiscordClient c, MessageDeleteEventArgs arg)
         {
-            //If the trigger was the bot itself, skip calling the public
-            if (c.CurrentUser == arg.Message.Author) return Task.CompletedTask;
-            if (arg.Message.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
-            
-            //Is private channel?
-            if (arg.Message.Channel == null)
+            if (arg.Message.Channel.Type == ChannelType.Private)
             {
-                if (!Program.m_DmUsers.Contains(Program.m_Discord.Client.GetChannelAsync(arg.Message.ChannelId).Result))
-                    Program.m_DmUsers.Add(arg.Message.Channel);
-
+                if (SkipDeleteEvent_DM)
+                {
+                    SkipDeleteEvent_DM = false;
+                    return Task.CompletedTask;
+                }
+                if (!Program.m_DmUsers.Contains((DiscordDmChannel)Program.m_Discord.Client.GetChannelAsync(arg.Message.ChannelId).Result))
+                    Program.m_DmUsers.Add((DiscordDmChannel)arg.Message.Channel);
 
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
-                    Console.WriteLine("4");
                     p = scr.m_Amx.FindPublic("OnPrivateMessageDeleted");
                     if (p != null)
                     {
@@ -101,14 +101,21 @@ namespace dcamx.Discord.Events
                     }
                 }
             }
-            else
+            
+            else if (arg.Message.Channel.Type == ChannelType.Text)
             {
+                if (SkipDeleteEvent)
+                {
+                    SkipDeleteEvent = false;
+                    return Task.CompletedTask;
+                }
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
                     p = scr.m_Amx.FindPublic("OnChannelMessageDeleted");
                     if (p != null)
                     {
+                        
                         var tmp = p.AMX.Push(arg.Message.Id.ToString());
                         p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
                         p.Execute();
@@ -118,10 +125,9 @@ namespace dcamx.Discord.Events
                 }
             }
 
-            
+
             return Task.CompletedTask;
         }
-
 
         public static Task ReactionAdded(DiscordClient c, MessageReactionAddEventArgs arg)
         {
@@ -131,8 +137,8 @@ namespace dcamx.Discord.Events
             //Is private channel?
             if (arg.Message.Channel == null)
             {
-                if (!Program.m_DmUsers.Contains(arg.Channel))
-                    Program.m_DmUsers.Add(arg.Channel);
+                if (!Program.m_DmUsers.Contains((DiscordDmChannel)arg.Channel))
+                    Program.m_DmUsers.Add((DiscordDmChannel)arg.Channel);
 
 
                 AMXPublic p = null;
@@ -197,8 +203,8 @@ namespace dcamx.Discord.Events
             //Is private channel?
             if (arg.Channel == null)
             {
-                if (!Program.m_DmUsers.Contains(arg.Message.Channel))
-                    Program.m_DmUsers.Add(arg.Message.Channel);
+                if (!Program.m_DmUsers.Contains((DiscordDmChannel)arg.Message.Channel))
+                    Program.m_DmUsers.Add((DiscordDmChannel)arg.Message.Channel);
 
 
                 foreach (Scripting.Script scr in Program.m_Scripts)

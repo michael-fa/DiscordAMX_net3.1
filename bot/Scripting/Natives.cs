@@ -583,19 +583,6 @@ namespace dcamx.Scripting
 
 
 
-        public static int DC_GetLastMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
-        {
-            if (args1.Length != 3) return 0;
-
-            foreach(Guild.LastMessage x in Program.m_LastMsgs)
-            {
-                if (x.m_Guild != Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32()) || x.m_Channel != x.m_Guild.GetChannel(Convert.ToUInt64(args1[1].AsString()))) continue;
-                AMX.SetString(args1[2].AsCellPtr(), x.m_Message.Result.Id.ToString(), false);
-                break;
-            }
-            return 1;
-        }
-
         public static int DC_DeleteMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 4) return 0;
@@ -603,13 +590,9 @@ namespace dcamx.Scripting
             {
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
 
-                DiscordChannel a = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
-                Task<DiscordMessage> x = a.GetMessageAsync(Convert.ToUInt64(args1[2].AsString()));
-                foreach (Guild.LastMessage y in Program.m_LastMsgs)
-                {
-                    if (y.m_Channel != a || y.m_Guild != guild || y.m_Message != x) continue;
-                    Program.m_LastMsgs.Remove(y);
-                }
+                guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync().Wait();
+                dcamx.Discord.Events.MessageActions.SkipDeleteEvent = true;
+               
 
             }
             catch (Exception ex)
@@ -628,7 +611,6 @@ namespace dcamx.Scripting
             try
             {
                 var msg = guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(args1[2].AsString());
-                Program.m_LastMsgs.Add(new Guild.LastMessage { m_Channel = msg.Result.Channel, m_Guild = guild, m_Message = msg });
 
             }
             catch (Exception ex)
@@ -639,6 +621,32 @@ namespace dcamx.Scripting
             return 1;
         }
 
+        public static int DC_SendEmbed(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            try
+            {
+                var msg = guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(embed: new DiscordEmbedBuilder
+                {
+                    Title = args1[3].AsString(),
+                    Description = args1[4].AsString(),
+                    ImageUrl = args1[2].AsString(),
+                    Color = DiscordColor.Blue
+
+                }) ;
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)" + caller_script);
+            }
+      
+            return 1;
+        }
+
         public static int DC_SendPrivateMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 2) return 0;
@@ -646,7 +654,6 @@ namespace dcamx.Scripting
             {
                 DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
                 Task<DiscordMessage> msg = dc.SendMessageAsync(args1[1].AsString());
-                Program.m_LastMsgs.Add(new Guild.LastMessage { m_Channel = msg.Result.Channel, m_Guild = null, m_Message = msg });
 
             }
             catch (Exception ex)
@@ -663,19 +670,17 @@ namespace dcamx.Scripting
             if (args1.Length != 3) return 0;
             try
             {
-                DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
-                Task<DiscordMessage> x = dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString()));
-                x.Result.DeleteAsync(args1[2].AsString()).Wait();
-                foreach (Guild.LastMessage y in Program.m_LastMsgs)
+                DiscordDmChannel dc = null;
+                foreach (DiscordDmChannel dmc in Program.m_DmUsers)
                 {
-                    if (y.m_Channel != dc || y.m_Guild != null || y.m_Message != x) continue;
-                    Program.m_LastMsgs.Remove(y);
+                    if (!dmc.Id.Equals(Convert.ToUInt64(args1[0].AsString()))) continue;
+                    dmc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString())).Result.DeleteAsync(args1[2].AsString());
                 }
             }
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeletePrivateMessage' (Invalid pm channel, wrong ID format)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeletePrivateMessage' (Invalid pm channel, wrong ID format)" + caller_script.m_amxFile);
                 return 0;
             }
             return 1;
@@ -712,7 +717,7 @@ namespace dcamx.Scripting
             try
             {
                 //0 = guildid
-                //1 = channel nameFINI_Read
+                //1 = channel name
                 //2 = channel type
                 //3 = parent id
                 //4 = topic

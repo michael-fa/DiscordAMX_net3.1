@@ -166,9 +166,9 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.DC_GetMemberAvatarURL(amx1, args1, this));
 
             //Channels
-            m_Amx.Register("DC_GetLastMessage", (amx1, args1) => Natives.DC_GetLastMessage(amx1, args1, this));
             m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
             m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
+            m_Amx.Register("DC_SendEmbed", (amx1, args1) => Natives.DC_SendEmbed(amx1, args1, this));
             m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.DC_DeletePrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.DC_FindChannel(amx1, args1, this));
