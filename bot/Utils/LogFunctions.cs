@@ -60,7 +60,7 @@ namespace dcamx.Utils
             }
             else
             {
-                Console.WriteLine("---------------------------------------\n[EXCEPTION] [" + _source.m_amxFile + "] " + e.Message + "\n" + e.Source + "\n" + e.StackTrace + "\n---------------------------------------\n");
+                Console.WriteLine("---------------------------------------\n[EXCEPTION] [" + _source.m_amxFile + "] " + e.Message + "\n" + e.Source + "\n" + e.InnerException + "\n" + e.StackTrace + "\n---------------------------------------\n");
                 File.AppendAllText("Logs/current.txt", "---------------------------------------\n[EXCEPTION] [" + _source.m_amxFile + "] " + e.Message + "\n" + e.Source + "\n" + e.InnerException + "\n" + e.StackTrace + "\n-------------------------------------- -\n");
 
             }
