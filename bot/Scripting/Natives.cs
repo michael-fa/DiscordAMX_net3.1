@@ -113,13 +113,13 @@ namespace dcamx.Scripting
             if (args1.Length != 1) return 0;
             if (args1[0].AsString().Length == 0)
             {
-                Utils.Log.Error(" [command] You did not specify a correct script file!");
+                Utils.Log.Error(" [command] You did not specify a correct script file!", caller_script);
                 return 0;
             }
 
             if (!System.IO.File.Exists("Scripts/" + args1[0].AsString() + ".amx"))
             {
-                Utils.Log.Error(" [command] The script file " + args1[0].AsString() + ".amx does not exist in /Scripts/ folder.");
+                Utils.Log.Error(" [command] The script file " + args1[0].AsString() + ".amx does not exist in /Scripts/ folder.", caller_script);
                 return 0;
             }
             Script scr = new Script(args1[0].AsString(), true);
@@ -321,7 +321,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_Delete'" + caller_script);
+                Utils.Log.Error("In native 'INI_Delete'", caller_script);
             }
             return -1;
         }
@@ -343,7 +343,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_Open'" + caller_script);
+                Utils.Log.Error("In native 'INI_Open'", caller_script);
             }
             return -1;
         }
@@ -369,7 +369,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_Close'" + caller_script);
+                Utils.Log.Error("In native 'INI_Close'", caller_script);
             }
             return 0;
         }
@@ -389,7 +389,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_Write'" + caller_script);
+                Utils.Log.Error("In native 'INI_Write'", caller_script);
             }
             return 0;
         }
@@ -409,7 +409,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_WriteInt'" + caller_script);
+                Utils.Log.Error("In native 'INI_WriteInt'", caller_script);
             }
             return 0;
         }
@@ -430,7 +430,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_WriteFloat'" + caller_script);
+                Utils.Log.Error("In native 'INI_WriteFloat'", caller_script);
             }
             return 0;
         }
@@ -449,7 +449,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_ReadInt'" + caller_script);
+                Utils.Log.Error("In native 'INI_ReadInt'", caller_script);
             }
             return 0.0f;
         }
@@ -469,7 +469,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_Read'" + caller_script);
+                Utils.Log.Error("In native 'INI_Read'", caller_script);
             }
             return 0;
         }
@@ -489,7 +489,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_ReadInt'" + caller_script);
+                Utils.Log.Error("In native 'INI_ReadInt'", caller_script);
             }
             return 0;
         }
@@ -511,7 +511,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_KeyExists'" + caller_script);
+                Utils.Log.Error("In native 'INI_KeyExists'", caller_script);
             }
             return 0;
         }
@@ -528,7 +528,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_Exists'" + caller_script);
+                Utils.Log.Error("In native 'INI_Exists'", caller_script);
             }
             return 0;
         }
@@ -548,7 +548,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_DeleteSection'" + caller_script);
+                Utils.Log.Error("In native 'INI_DeleteSection'", caller_script);
             }
             return 0;
         }
@@ -568,7 +568,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'INI_DeleteKey'" + caller_script);
+                Utils.Log.Error("In native 'INI_DeleteKey'", caller_script);
             }
             return 0;
         }
@@ -594,7 +594,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeleteMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeleteMessage' (Invalid Channel ID, wrong ID format, or you have not the right role permissions)", caller_script);
             }
             return 1;
         }
@@ -619,7 +619,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
             }
 
             return 1;
@@ -639,7 +639,29 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)" + caller_script);
+                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
+            }
+            return 1;
+        }
+
+        public static int DC_SendChannelMessageEx(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 3) return 0;
+
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            try
+            {
+                var msg = guild.GetChannel(Convert.ToUInt64(args1[1].AsString())).SendMessageAsync(args1[2].AsString());
+                if (args1.Length == 4)
+                {
+                    AMX.SetString(args1[3].AsCellPtr(), msg.Result.Id.ToString(), true);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
             }
             return 1;
         }
@@ -656,7 +678,29 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendPrivateMessage' (Invalid pm channel, wrong ID format)" + caller_script);
+                Utils.Log.Error("In native 'DC_SendPrivateMessage' (Invalid pm channel, wrong ID format)", caller_script);
+                return 0;
+            }
+            return 1;
+        }
+
+        public static int DC_SendPrivateMessageEx(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 2) return 0;
+            try
+            {
+                DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
+                Task<DiscordMessage> msg = dc.SendMessageAsync(args1[1].AsString());
+                if (args1.Length == 3)
+                {
+                    AMX.SetString(args1[3].AsCellPtr(), msg.Result.Id.ToString(), true);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_SendPrivateMessage' (Invalid pm channel, wrong ID format)", caller_script);
                 return 0;
             }
             return 1;
@@ -669,12 +713,14 @@ namespace dcamx.Scripting
             {
                 DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
                 Task<DiscordMessage> x = dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString()));
+                if (x == null) return 0;
+                if (x.Result.Author != Program.m_Discord.Client.CurrentUser) return 0;
                 x.Result.DeleteAsync(args1[2].AsString()).Wait();
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeletePrivateMessage' (Invalid pm channel, wrong ID format)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeletePrivateMessage' (MESSAGE NOT FOUND, Invalid pm channel, wrong ID format)", caller_script);
                 return 0;
             }
             return 1;
@@ -698,7 +744,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_FindChannel'" + caller_script);
+                Utils.Log.Error("In native 'DC_FindChannel'", caller_script);
                 return 0;
             }
             return 0;
@@ -735,7 +781,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_CreateChannel' " + caller_script);
+                Utils.Log.Error("In native 'DC_CreateChannel' ", caller_script);
                 return 0;
             }
             return 1;
@@ -766,7 +812,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeleteChannel' " + caller_script);
+                Utils.Log.Error("In native 'DC_DeleteChannel' ", caller_script);
                 return 0;
             }
             return 1;
@@ -791,7 +837,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberName' (dest_string must be a array, or invalid parameters!!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberName' (dest_string must be a array, or invalid parameters!!)", caller_script);
                 return 0;
             }
             return 1;
@@ -809,7 +855,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberDisplayName' (dest_string must be a array, or invalid parameters!!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberDisplayName' (dest_string must be a array, or invalid parameters!!)", caller_script);
                 return 0;
             }
             return 1;
@@ -827,7 +873,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberDiscriminator' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberDiscriminator' (dest_string must be a array, or invalid parameters!)", caller_script);
                 return 0;
             }
             return 1;
@@ -845,7 +891,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -867,7 +913,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -886,7 +932,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberAvatarURL' (dest_string must be a array, or invalid parameters!!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberAvatarURL' (dest_string must be a array, or invalid parameters!!)", caller_script);
                 return 0;
             }
             return 1;
@@ -910,7 +956,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetGuildName' (dest_string must be a array, or invalid parameters!)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetGuildName' (dest_string must be a array, or invalid parameters!)", caller_script);
             }
             return 1;
         }
@@ -931,7 +977,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetMemberCount' (Invalid guildid?)" + caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberCount' (Invalid guildid?)", caller_script);
             }
             if (guild != null) return guild.MemberCount;
             else return 0;
@@ -970,7 +1016,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_RemoveReaction' (Invalid guildid?)" + caller_script);
+                Utils.Log.Error("In native 'DC_RemoveReaction' (Invalid guildid?)", caller_script);
             }
 
             DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
@@ -992,7 +1038,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)", caller_script);
             }
             return 0;
         }
@@ -1009,7 +1055,7 @@ namespace dcamx.Scripting
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)" + caller_script);
+                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)", caller_script);
             }
             return 0;
         }
