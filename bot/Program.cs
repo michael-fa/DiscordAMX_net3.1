@@ -25,7 +25,8 @@ namespace dcamx
         public static List<Plugins.PluginNatives> m_PluginNatives = null;
         public static List<Scripting.Guild> m_ScriptGuilds = null;
         public static List<IniFile> m_ScriptINIFiles = null;
-        public static List<DiscordDmChannel> m_DmUsers = null;
+        public static List<DiscordChannel> m_DmUsers = null;
+        public static List<Guild.LastMessage> m_LastMsgs = null;
 
         //GuildAvailable gets called for every first initialised guild. We don't want that.
         public static bool m_ScriptingInited = false;
@@ -193,7 +194,6 @@ namespace dcamx
          | DiscordIntents.GuildMessages
          | DiscordIntents.Guilds
          | DiscordIntents.GuildVoiceStates
-         | DiscordIntents.ScheduledGuildEvents
          | DiscordIntents.GuildWebhooks,
                 AutoReconnect = true
             };
@@ -204,8 +204,9 @@ namespace dcamx
             Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
             Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
             Program.m_Plugins = new List<Plugins.Plugin>();   //Create list for plugins
-            m_DmUsers = new List<DiscordDmChannel>();
+            m_DmUsers = new List<DiscordChannel>();
             Program.m_ScriptINIFiles = new List<IniFile>();
+            Program.m_LastMsgs = new List<Guild.LastMessage>();
         }
 
 
