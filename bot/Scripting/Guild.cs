@@ -15,14 +15,6 @@ namespace dcamx.Scripting
         public DiscordGuild m_DCGuild;
         public List<Scripting.Member> m_ScriptMembers = null;
 
-        public struct LastMessage
-        {
-            public DiscordGuild m_Guild;
-            public DiscordChannel m_Channel;
-            public Task<DiscordMessage> m_Message;
-
-        }
-
         public Guild(DiscordGuild _dcg)
         {
             m_ScriptMembers = new List<Scripting.Member>();
