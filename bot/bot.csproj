@@ -231,9 +231,14 @@
     <Compile Include="Plugins\PluginNatives.cs" />
     <Compile Include="Scripting\Guild.cs" />
     <Compile Include="Scripting\Member.cs" />
-    <Compile Include="Scripting\Natives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\Natives\ChannelNatives.cs" />
+    <Compile Include="Scripting\Natives\CoreNatives.cs" />
+    <Compile Include="Scripting\Natives\DiscordNatives.cs" />
+    <Compile Include="Scripting\Natives\GuildNatives.cs" />
+    <Compile Include="Scripting\Natives\ININatives.cs" />
+    <Compile Include="Scripting\Natives\UserNatives.cs" />
     <Compile Include="Scripting\Script.cs" />
     <Compile Include="Scripting\ScriptTimer.cs" />
     <Compile Include="Utils\ConsoleCommand.cs" />

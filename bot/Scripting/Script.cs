@@ -123,64 +123,66 @@ namespace dcamx.Scripting
 
         public bool RegisterNatives()
         {
-            m_Amx.Register("printc", (amx1, args1) => Natives.printc(amx1, args1, this));
-
-            m_Amx.Register("Loadscript", (amx1, args1) => Natives.Loadscript(amx1, args1, this));
-            m_Amx.Register("Unloadscript", (amx1, args1) => Natives.Unloadscript(amx1, args1, this));
-            m_Amx.Register("SetTimer", (amx1, args1) => Natives.SetTimer(amx1, args1, this));
+            m_Amx.Register("Loadscript", (amx1, args1) => Natives.CoreNatives.Loadscript(amx1, args1, this));
+            m_Amx.Register("Unloadscript", (amx1, args1) => Natives.CoreNatives.Unloadscript(amx1, args1, this));
+            m_Amx.Register("SetTimer", (amx1, args1) => Natives.CoreNatives.SetTimer(amx1, args1, this));
             //m_Amx.Register("SetTimerEx", (amx1, args1) => Natives.SetTimerEx(amx1, args1, this));
-            m_Amx.Register("KillTimer", (amx1, args1) => Natives.KillTimer(amx1, args1, this));
-            m_Amx.Register("gettimestamp", (amx1, args1) => Natives.gettimestamp(amx1, args1, this));
-            m_Amx.Register("CallRemoteFunction", (amx1, args1) => Natives.CallRemoteFunction(amx1, args1, this));
+            m_Amx.Register("KillTimer", (amx1, args1) => Natives.CoreNatives.KillTimer(amx1, args1, this));
+            m_Amx.Register("gettimestamp", (amx1, args1) => Natives.CoreNatives.gettimestamp(amx1, args1, this));
+            m_Amx.Register("CallRemoteFunction", (amx1, args1) => Natives.CoreNatives.CallRemoteFunction(amx1, args1, this));
 
-            m_Amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DC_SetMinLogLevel(amx1, args1, this));
-            m_Amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DC_SetActivityText(amx1, args1, this));
-            m_Amx.Register("DC_SetToken", (amx1, args1) => Natives.DC_SetToken(amx1, args1, this));
+            m_Amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DiscordNatives.DC_SetMinLogLevel(amx1, args1, this));
+            m_Amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DiscordNatives.DC_SetActivityText(amx1, args1, this));
+            m_Amx.Register("DC_SetToken", (amx1, args1) => Natives.DiscordNatives.DC_SetToken(amx1, args1, this));
 
             //Native ini IO
-            m_Amx.Register("INI_Delete", (amx1, args1) => Natives.INI_Delete(amx1, args1, this));
-            m_Amx.Register("INI_Open", (amx1, args1) => Natives.INI_Open(amx1, args1, this));
-            m_Amx.Register("INI_Close", (amx1, args1) => Natives.INI_Close(amx1, args1, this));
-            m_Amx.Register("INI_Read", (amx1, args1) => Natives.INI_Read(amx1, args1, this));
-            m_Amx.Register("INI_ReadInt", (amx1, args1) => Natives.INI_ReadInt(amx1, args1, this));
-            m_Amx.Register("INI_ReadFloat", (amx1, args1) => Cell.FromFloat(Natives.INI_ReadFloat(amx1, args1, this)).AsCellPtr().Value.ToInt32());
-            m_Amx.Register("INI_Write", (amx1, args1) => Natives.INI_Write(amx1, args1, this));
-            m_Amx.Register("INI_WriteInt", (amx1, args1) => Natives.INI_WriteInt(amx1, args1, this));
-            m_Amx.Register("INI_WriteFloat", (amx1, args1) => Natives.INI_WriteFloat(amx1, args1, this));
-            m_Amx.Register("INI_KeyExists", (amx1, args1) => Natives.INI_KeyExists(amx1, args1, this));
-            m_Amx.Register("INI_DeleteSection", (amx1, args1) => Natives.INI_DeleteSection(amx1, args1, this));
-            m_Amx.Register("INI_DeleteKey", (amx1, args1) => Natives.INI_DeleteKey(amx1, args1, this));
-            m_Amx.Register("INI_Exists", (amx1, args1) => Natives.INI_Exists(amx1, args1, this));
+            m_Amx.Register("INI_Delete", (amx1, args1) => Natives.ININatives.INI_Delete(amx1, args1, this));
+            m_Amx.Register("INI_Open", (amx1, args1) => Natives.ININatives.INI_Open(amx1, args1, this));
+            m_Amx.Register("INI_Close", (amx1, args1) => Natives.ININatives.INI_Close(amx1, args1, this));
+            m_Amx.Register("INI_Read", (amx1, args1) => Natives.ININatives.INI_Read(amx1, args1, this));
+            m_Amx.Register("INI_ReadInt", (amx1, args1) => Natives.ININatives.INI_ReadInt(amx1, args1, this));
+            m_Amx.Register("INI_ReadFloat", (amx1, args1) => Cell.FromFloat(Natives.ININatives.INI_ReadFloat(amx1, args1, this)).AsCellPtr().Value.ToInt32());
+            m_Amx.Register("INI_Write", (amx1, args1) => Natives.ININatives.INI_Write(amx1, args1, this));
+            m_Amx.Register("INI_WriteInt", (amx1, args1) => Natives.ININatives.INI_WriteInt(amx1, args1, this));
+            m_Amx.Register("INI_WriteFloat", (amx1, args1) => Natives.ININatives.INI_WriteFloat(amx1, args1, this));
+            m_Amx.Register("INI_KeyExists", (amx1, args1) => Natives.ININatives.INI_KeyExists(amx1, args1, this));
+            m_Amx.Register("INI_DeleteSection", (amx1, args1) => Natives.ININatives.INI_DeleteSection(amx1, args1, this));
+            m_Amx.Register("INI_DeleteKey", (amx1, args1) => Natives.ININatives.INI_DeleteKey(amx1, args1, this));
+            m_Amx.Register("INI_Exists", (amx1, args1) => Natives.ININatives.INI_Exists(amx1, args1, this));
 
             //Guilds
-            m_Amx.Register("DC_GetGuildName", (amx1, args1) => Natives.DC_GetGuildName(amx1, args1, this));
-            m_Amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.DC_GetGuildCount(amx1, args1, this));
-            m_Amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.DC_GetMemberCount(amx1, args1, this));
+            m_Amx.Register("DC_GetGuildName", (amx1, args1) => Natives.GuildNatives.DC_GetGuildName(amx1, args1, this));
+            m_Amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.GuildNatives.DC_GetGuildCount(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.GuildNatives.DC_GetMemberCount(amx1, args1, this));
 
             //Members
-            m_Amx.Register("DC_GetGuildMemberID", (amx1, args1) => Natives.DC_GetGuildMemberID(amx1, args1, this));
-            m_Amx.Register("DC_GetMemberName", (amx1, args1) => Natives.DC_GetMemberName(amx1, args1, this));
-            m_Amx.Register("DC_GetMemberDisplayName", (amx1, args1) => Natives.DC_GetMemberDisplayName(amx1, args1, this));
-            m_Amx.Register("DC_GetMemberDiscriminator", (amx1, args1) => Natives.DC_GetMemberDiscriminator(amx1, args1, this));
-            m_Amx.Register("DC_BanGuildMember", (amx1, args1) => Natives.DC_BanGuildMember(amx1, args1, this));
-            m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.DC_GetMemberAvatarURL(amx1, args1, this));
+            m_Amx.Register("DC_GetGuildMemberID", (amx1, args1) => Natives.UserNatives.DC_GetGuildMemberID(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberName", (amx1, args1) => Natives.UserNatives.DC_GetMemberName(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberDisplayName", (amx1, args1) => Natives.UserNatives.DC_GetMemberDisplayName(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberDiscriminator", (amx1, args1) => Natives.UserNatives.DC_GetMemberDiscriminator(amx1, args1, this));
+            m_Amx.Register("DC_BanGuildMember", (amx1, args1) => Natives.UserNatives.DC_BanGuildMember(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.UserNatives.DC_GetMemberAvatarURL(amx1, args1, this));
 
             //Channels
-            m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.DC_DeleteMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.DC_SendChannelMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendChannelMessageEx", (amx1, args1) => Natives.DC_SendChannelMessageEx(amx1, args1, this));
-            m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendPrivateMessageEx", (amx1, args1) => Natives.DC_SendPrivateMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendEmbed", (amx1, args1) => Natives.DC_SendEmbed(amx1, args1, this));
-            m_Amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.DC_DeletePrivateMessage(amx1, args1, this));
-            m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.DC_FindChannel(amx1, args1, this));
-            m_Amx.Register("DC_CreateChannel", (amx1, args1) => Natives.DC_CreateChannel(amx1, args1, this));
-            m_Amx.Register("DC_DeleteChannel", (amx1, args1) => Natives.DC_DeleteChannel(amx1, args1, this));
+            m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeleteMessage(amx1, args1, this));
+            m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendChannelMessage(amx1, args1, this));
+            m_Amx.Register("DC_SendChannelMessageEx", (amx1, args1) => Natives.ChannelNatives.DC_SendChannelMessageEx(amx1, args1, this));
+            m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessage(amx1, args1, this));
+            m_Amx.Register("DC_SendPrivateMessageEx", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessageEx(amx1, args1, this));
+            m_Amx.Register("DC_SendEmbed", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbed(amx1, args1, this));
+            m_Amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeletePrivateMessage(amx1, args1, this));
+            m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.ChannelNatives.DC_FindChannel(amx1, args1, this));
+            m_Amx.Register("DC_CreateChannel", (amx1, args1) => Natives.ChannelNatives.DC_CreateChannel(amx1, args1, this));
+            m_Amx.Register("DC_DeleteChannel", (amx1, args1) => Natives.ChannelNatives.DC_DeleteChannel(amx1, args1, this));
+            m_Amx.Register("DC_GetChannelName", (amx1, args1) => Natives.ChannelNatives.DC_GetChannelName(amx1, args1, this));
+            m_Amx.Register("DC_GetChannelTopic", (amx1, args1) => Natives.ChannelNatives.DC_GetChannelTopic(amx1, args1, this));
+            m_Amx.Register("DC_GetChannelMention", (amx1, args1) => Natives.ChannelNatives.DC_GetChannelMention(amx1, args1, this));
+            m_Amx.Register("DC_GetChannelType", (amx1, args1) => Natives.ChannelNatives.DC_GetChannelType(amx1, args1, this));
 
-            m_Amx.Register("DC_AddReaction", (amx1, args1) => Natives.DC_AddReaction(amx1, args1, this));
-            m_Amx.Register("DC_AddPrivateReaction", (amx1, args1) => Natives.DC_AddPrivateReaction(amx1, args1, this));
-            m_Amx.Register("DC_RemoveReaction", (amx1, args1) => Natives.DC_RemoveReaction(amx1, args1, this));
-            m_Amx.Register("DC_RemovePrivateReaction", (amx1, args1) => Natives.DC_RemovePrivateReaction(amx1, args1, this));
+            m_Amx.Register("DC_AddReaction", (amx1, args1) => Natives.DiscordNatives.DC_AddReaction(amx1, args1, this));
+            m_Amx.Register("DC_AddPrivateReaction", (amx1, args1) => Natives.DiscordNatives.DC_AddPrivateReaction(amx1, args1, this));
+            m_Amx.Register("DC_RemoveReaction", (amx1, args1) => Natives.DiscordNatives.DC_RemoveReaction(amx1, args1, this));
+            m_Amx.Register("DC_RemovePrivateReaction", (amx1, args1) => Natives.DiscordNatives.DC_RemovePrivateReaction(amx1, args1, this));
 
 
             return true;
