@@ -65,7 +65,7 @@ public OnMemberJoin(guildid, memberid)
 The whole project is still in its alpha, meaning there will be many changes and if you are not experienced in PAWN Scripting you should come back later! Leave a watch! 
 
 ## Testers
-The current RELEASE is meant for experienced scripters and is only for pure testing.
+The current previews are meant for experienced scripters and are only for pure testing.
 Run it on windows and make sure you have <b>[.NET Runtime 5.0.*](https://dotnet.microsoft.com/download/dotnet/5.0)</b> ! 
 
 **If you are an experienced PAWN coder, and you're interested in testing this (given you can thoroughly test the program on your discord)
@@ -93,7 +93,7 @@ Linux support is coming soon!
 * Music streaming support
 * User Functions (finding users by name or ID, sending and receiving PM's)
 * Better print function
-* More functions about detailed info/data (Channels, guilds, users/members)
+* More functions about detailed info/data (guilds, users/members)
 * LINUX SUPPORT
 
 ### Third party info
