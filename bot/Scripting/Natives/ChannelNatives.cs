@@ -39,7 +39,7 @@ namespace dcamx.Scripting.Natives
 
         public static int DC_SendEmbed(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length != 2) return 0;
+            if (args1.Length != 5) return 0;
 
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
             try
@@ -57,7 +57,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendChannelMessage' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
+                Utils.Log.Error("In native 'DC_SendEmbed' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
             }
 
             return 1;
@@ -224,7 +224,7 @@ namespace dcamx.Scripting.Natives
             }
             catch (Exception ex)
             {
-                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Exception(ex, caller_script); 
                 Utils.Log.Error("In native 'DC_GetChannelName'", caller_script);
                 return 0;
             }
