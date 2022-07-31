@@ -2,7 +2,7 @@
 
 Ein .NET Discord Bot scriptbar mit der [Pawn Scriptsprache](https://github.com/pawn-lang)! Das Projekt befindet sich noch in den Kinderschuhen!
 
-## :de: [English](https://github.com/michael-fa/DiscordAMX/blob/master/readme.md) translation is also available. (Am up-to-datestesten lol)
+## :de: [English](https://github.com/michael-fa/DiscordAMX/blob/master/readme.md) translation is also available. (Always up to date!)
 ## [Schau im Wiki nach wenn du Fragen hast.](https://github.com/michael-fa/DiscordAMX/wiki) (Aktuell leider nur in Englisch, tut mir leid!)
 ```
 #include <a_dcamx>
