@@ -8,8 +8,6 @@ A .NET Console App that lets you script your Discord Bots using the awesome [PAW
 The core goal is to make Discord Bots more easier for everyone!
 For more about PAWN [click here](https://www.compuphase.com/pawn/pawn.htm).
 This project depends heavily on [DSharpPlus](https://dsarpplus.github.io). A .NET Framework package allowing me to interact with Discord's API as easy as possible.
-Even tho the community (staff) is weird, totally arogant and ignorant at the same time. Full of troll-staff.
-Idk or its me not vibin'.
 ```
 #include <a_dcamx>
 
