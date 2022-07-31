@@ -20,9 +20,11 @@ namespace dcamx.Scripting.Natives
                 Utils.Log.Error(" [command] The script file " + args1[0].AsString() + ".amx does not exist in /Scripts/ folder.", caller_script);
                 return 0;
             }
+
             Script scr = new Script(args1[0].AsString(), true);
-            AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnInit");
+            AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnFilterscriptInit");
             if (pub != null) pub.Execute();
+            
             return 1;
         }
 

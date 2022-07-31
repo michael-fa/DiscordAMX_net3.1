@@ -97,7 +97,7 @@ namespace dcamx.Utils
                 return;
             }
             Script scr = new Script(args[0], true);
-            AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnInit");
+            AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnFilterscriptInit");
             if (pub != null) pub.Execute();
         }
 
