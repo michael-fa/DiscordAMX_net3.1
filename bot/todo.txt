@@ -3,8 +3,10 @@
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
  - (!!) Add functions to apply "properties" to users. 
  - gettimestamp (returning the unix timestamp if no params) return hour, sec, minute
+ - AddReaction + thread
+ - GetChannelMention for DM / thread
+ - GetChannelType for DM / thread
+ - GetChannelName / Topic for threads
 
- SendEmbed - return id if optional paramter has been set 
- ^ do the above for SendMessage and SendPrivateMessage functions, no longer need for *Ex natives 
- Change SendEmbed to SendEmbbedImage
+
  ReloadSCRIPT, check if each Oninit callback is called correct. FS - OnFSinit, Mainscript OnInit.

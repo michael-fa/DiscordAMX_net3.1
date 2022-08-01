@@ -170,6 +170,7 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_SendEmbeddedImage", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbeddedImage(amx1, args1, this));
             m_Amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeletePrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.ChannelNatives.DC_FindChannel(amx1, args1, this));
+            m_Amx.Register("DC_FindThread", (amx1, args1) => Natives.ChannelNatives.DC_FindThread(amx1, args1, this));
             m_Amx.Register("DC_CreateChannel", (amx1, args1) => Natives.ChannelNatives.DC_CreateChannel(amx1, args1, this));
             m_Amx.Register("DC_DeleteChannel", (amx1, args1) => Natives.ChannelNatives.DC_DeleteChannel(amx1, args1, this));
             m_Amx.Register("DC_GetChannelName", (amx1, args1) => Natives.ChannelNatives.DC_GetChannelName(amx1, args1, this));

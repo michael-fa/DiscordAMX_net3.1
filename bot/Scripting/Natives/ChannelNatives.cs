@@ -186,7 +186,47 @@ namespace dcamx.Scripting.Natives
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
             try
             {
+                //No guild found, check for dm channel
+                if(guild == null)
+                {
+                    foreach (DiscordDmChannel dc in Program.m_DmUsers)
+                    {
+                        if (dc.Name.Equals(args1[1].AsString()))
+                        {
+                            AMX.SetString(args1[2].AsCellPtr(), dc.Id.ToString(), true);
+                            return 1;
+                        }
+                    }
+                    return 0;
+                }
+
+
                 foreach (DiscordChannel dc in guild.Channels.Values)
+                {
+                    if (dc.Name.Equals(args1[1].AsString()))
+                    {
+                        AMX.SetString(args1[2].AsCellPtr(), dc.Id.ToString(), true);
+                        return 1;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_FindChannel'", caller_script);
+                return 0;
+            }
+            return 0;
+        }
+
+        public static int DC_FindThread(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            try
+            {
+                foreach (DiscordThreadChannel dc in guild.Threads.Values)
                 {
                     if (dc.Name.Equals(args1[1].AsString()))
                     {
@@ -198,7 +238,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_FindChannel'", caller_script);
+                Utils.Log.Error("In native 'DC_FindThread'", caller_script);
                 return 0;
             }
             return 0;
@@ -209,8 +249,13 @@ namespace dcamx.Scripting.Natives
             if (args1.Length != 3) return 0;
             try
             {
+                Console.WriteLine("\n1\n");
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-                DiscordChannel ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+                DiscordChannel ch = null;
+
+                ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+                if (ch == null) return 0;
+
                 AMX.SetString(args1[2].AsCellPtr(), ch.Name, true);
             }
             catch (Exception ex)
