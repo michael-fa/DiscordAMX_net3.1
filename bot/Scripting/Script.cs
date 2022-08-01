@@ -152,8 +152,7 @@ namespace dcamx.Scripting
 
             //Guilds
             m_Amx.Register("DC_GetGuildName", (amx1, args1) => Natives.GuildNatives.DC_GetGuildName(amx1, args1, this));
-            m_Amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.GuildNatives.DC_GetGuildCount(amx1, args1, this));
-            m_Amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.GuildNatives.DC_GetMemberCount(amx1, args1, this));
+            m_Amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.GuildNatives.DC_GetGuildCount(amx1, args1, this));   
 
             //Members
             m_Amx.Register("DC_GetGuildMemberID", (amx1, args1) => Natives.UserNatives.DC_GetGuildMemberID(amx1, args1, this));
@@ -162,14 +161,13 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_GetMemberDiscriminator", (amx1, args1) => Natives.UserNatives.DC_GetMemberDiscriminator(amx1, args1, this));
             m_Amx.Register("DC_BanGuildMember", (amx1, args1) => Natives.UserNatives.DC_BanGuildMember(amx1, args1, this));
             m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.UserNatives.DC_GetMemberAvatarURL(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.GuildNatives.DC_GetMemberCount(amx1, args1, this));
 
             //Channels
             m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeleteMessage(amx1, args1, this));
             m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendChannelMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendChannelMessageEx", (amx1, args1) => Natives.ChannelNatives.DC_SendChannelMessageEx(amx1, args1, this));
             m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendPrivateMessageEx", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessageEx(amx1, args1, this));
-            m_Amx.Register("DC_SendEmbed", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbed(amx1, args1, this));
+            m_Amx.Register("DC_SendEmbeddedImage", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbeddedImage(amx1, args1, this));
             m_Amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeletePrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.ChannelNatives.DC_FindChannel(amx1, args1, this));
             m_Amx.Register("DC_CreateChannel", (amx1, args1) => Natives.ChannelNatives.DC_CreateChannel(amx1, args1, this));

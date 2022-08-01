@@ -63,7 +63,6 @@ namespace dcamx.Discord.Events
 
         public static Task GuildAdded(DiscordClient c, GuildCreateEventArgs a)
         {
-            Console.WriteLine("added");
 
             Scripting.Guild _guild = new Scripting.Guild(a.Guild);
             Program.m_ScriptGuilds.Add(_guild);
