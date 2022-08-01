@@ -251,10 +251,19 @@ namespace dcamx.Scripting.Natives
             {
                 Console.WriteLine("\n1\n");
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-                DiscordChannel ch = null;
-
-                ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
-                if (ch == null) return 0;
+                DiscordChannel ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+                if (ch == null)
+                {
+                    foreach (DiscordThreadChannel dc in guild.Threads.Values)
+                    {
+                        if (dc.Id == Convert.ToUInt64(args1[1].AsString()))
+                        {
+                            AMX.SetString(args1[2].AsCellPtr(), dc.Name, true);
+                            return 1;
+                        }
+                    }
+                    return 0;
+                }
 
                 AMX.SetString(args1[2].AsCellPtr(), ch.Name, true);
             }
@@ -275,6 +284,8 @@ namespace dcamx.Scripting.Natives
             {
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
                 DiscordChannel ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+                if (ch == null) return 0;
+
                 if (ch.Type == ChannelType.Voice) return 0;
                 AMX.SetString(args1[2].AsCellPtr(), ch.Topic, true);
             }
@@ -289,10 +300,30 @@ namespace dcamx.Scripting.Natives
         public static int DC_GetChannelMention(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;
+
             try
             {
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+                if(guild == null)
+                {
+                    DiscordChannel dmch = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
+                    if (dmch == null) return 0;
+                    AMX.SetString(args1[2].AsCellPtr(), dmch.Mention, true);
+                    return 1;
+                }
                 DiscordChannel ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+                if (ch == null)
+                {
+                    foreach (DiscordThreadChannel dc in guild.Threads.Values)
+                    {
+                        if (dc.Id == Convert.ToUInt64(args1[1].AsString()))
+                        {
+                            AMX.SetString(args1[2].AsCellPtr(), dc.Mention, true);
+                            return 1;
+                        }
+                    }
+                    return 0;
+                }
                 AMX.SetString(args1[2].AsCellPtr(), ch.Mention, true);
             }
             catch (Exception ex)
@@ -319,6 +350,7 @@ namespace dcamx.Scripting.Natives
                     {
                         if (dtc.Id == Convert.ToUInt64(args1[1].AsString())) return (int)dtc.Type;
                     }
+                    return 0;
                 }
                 else return (int)ch.Type;
             }
