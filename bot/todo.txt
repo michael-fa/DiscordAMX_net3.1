@@ -4,10 +4,5 @@
  - (!!) Add functions to apply "properties" to users. 
  - gettimestamp (returning the unix timestamp if no params) return hour, sec, minute
  - AddReaction/RemovedReaction + thread
-
-
- Re-Translate emojis to :emoji: format before passing it to PAWN
- Find out how emojis work
-
-
- ReloadSCRIPT, check if each Oninit callback is called correct. FS - OnFSinit, Mainscript OnInit.
+ - Add OnGuildUpdated forward
+ - Add native "CallConsoleCommand"

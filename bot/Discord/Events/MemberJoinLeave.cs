@@ -46,14 +46,23 @@ namespace dcamx.Discord.Events
         public static Task Leave(DiscordClient c, GuildMemberRemoveEventArgs arg)
         {
             if (arg.Member == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
-            AMXPublic p = Program.m_Scripts[0].m_Amx.FindPublic("OnMemberLeave");
-            if (p != null)
+
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
             {
-                p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
-                p.AMX.Push(arg.Guild.Id.ToString());
-                p.Execute();
-                GC.Collect();
+                p = scr.m_Amx.FindPublic("OnMemberJoin");
+                if (p != null)
+                {
+                    p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                    p.AMX.Push(arg.Guild.Id.ToString());
+                    p.Execute();
+                    GC.Collect();
+                }
+                p = null;
             }
+
+            
+           
 
             Utils.Scripting.DCMember_ScrMember(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)).Remove();
 

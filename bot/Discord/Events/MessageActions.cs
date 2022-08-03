@@ -265,6 +265,7 @@ namespace dcamx.Discord.Events
                         p.AMX.Release(tmp2);
                         GC.Collect();
                     }
+                    p = null;
                 }
             }
             else if(arg.Message.Channel.Type == ChannelType.Text)
@@ -283,6 +284,7 @@ namespace dcamx.Discord.Events
                         p.AMX.Release(tmp2);
                         GC.Collect();
                     }
+                    p = null;
                 }
             }
             else if (arg.Channel.Type == ChannelType.PublicThread)
@@ -303,6 +305,7 @@ namespace dcamx.Discord.Events
                         p.AMX.Release(tmp3);
                         GC.Collect();
                     }
+                    p = null;
                 }
             }
             return Task.CompletedTask;
