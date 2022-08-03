@@ -142,6 +142,24 @@ namespace dcamx.Discord.Events
             return Task.CompletedTask;
         }
 
+        public static Task ChannelUpdated(DiscordClient c, ChannelUpdateEventArgs a)
+        {
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.m_Amx.FindPublic("OnChannelUpdated");
+                if (p != null)
+                {
+                    var tmp1 = p.AMX.Push(a.ChannelAfter.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp1);
+                }
+                p = null;
+            }
+            return Task.CompletedTask;
+        }
+
         public static Task ChannelDeleted(DiscordClient c, ChannelDeleteEventArgs a)
         {
             AMXPublic p = null;

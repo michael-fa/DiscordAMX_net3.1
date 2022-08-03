@@ -183,6 +183,8 @@ namespace dcamx
             dConfig = new DiscordConfiguration()
             {
                 TokenType = TokenType.Bot,
+                AlwaysCacheMembers = true,
+                MessageCacheSize = 4065,
                 Intents = DiscordIntents.DirectMessageReactions
          | DiscordIntents.DirectMessages
          | DiscordIntents.GuildMessageReactions

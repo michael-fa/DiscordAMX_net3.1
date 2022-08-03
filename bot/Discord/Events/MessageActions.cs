@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace dcamx.Discord.Events
 {
-    public static class MessageActions
+    public static class MessageActions 
     {
         static public bool SkipDeleteEvent = false;
         static public bool SkipDeleteEvent_DM = false;
@@ -58,6 +58,7 @@ namespace dcamx.Discord.Events
                         p.AMX.Release(tmp2);
                         p.AMX.Release(tmp3);
                         GC.Collect();
+                        
                     }
                     p = null;
                 }
@@ -82,6 +83,140 @@ namespace dcamx.Discord.Events
                         p.AMX.Release(tmp3);
                         p.AMX.Release(tmp4);
                         GC.Collect();
+                    }
+                    p = null;
+                }
+            }
+            return Task.CompletedTask;
+        }
+
+        public static Task MessageUpdated(DiscordClient c, MessageUpdateEventArgs arg)
+        {
+            if (arg.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
+            if (arg.Channel.IsPrivate)
+            {
+                AMXPublic p = null;
+                foreach (Scripting.Script scr in Program.m_Scripts)
+                {
+                    p = scr.m_Amx.FindPublic("OnPrivateMessageUpdated");
+                    if (p != null)
+                    {
+                        if (arg.MessageBefore == null) //Need to figure out message caching, idk yet..
+                        {
+                            var tmp1 = p.AMX.Push(arg.Message.Content);
+                            var tmp4 = p.AMX.Push("0");
+                            var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                            var tmp3 = p.AMX.Push(arg.Message.Channel.Id.ToString());
+                            p.Execute();
+                            p.AMX.Release(tmp3);
+                            p.AMX.Release(tmp1);
+                            p.AMX.Release(tmp2);
+                            if (arg.MessageBefore != null) p.AMX.Release(tmp4);
+                            GC.Collect();
+                        }
+                        else
+                        {
+                            var tmp1 = p.AMX.Push(arg.Message.Content);
+                            var tmp4 = p.AMX.Push(arg.MessageBefore.Content);
+                            var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                            var tmp3 = p.AMX.Push(arg.Message.Channel.Id.ToString());
+                            p.Execute();
+                            p.AMX.Release(tmp3);
+                            p.AMX.Release(tmp1);
+                            p.AMX.Release(tmp2);
+                            if (arg.MessageBefore != null) p.AMX.Release(tmp4);
+                            GC.Collect();
+                        }
+                           
+                    }
+                    p = null;
+                }
+            }
+            else if (arg.Channel.Type == ChannelType.Text)
+            {
+                AMXPublic p = null;
+                foreach (Scripting.Script scr in Program.m_Scripts)
+                {
+                    p = scr.m_Amx.FindPublic("OnChannelMessageUpdated");
+                    if (p != null)
+                    {
+                        if (arg.MessageBefore == null)
+                        {
+                            var tmp4 = p.AMX.Push(arg.Message.Content);
+                            var tmp2 = p.AMX.Push("0");
+                            var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
+                            p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                            var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+                            p.Execute();
+                            p.AMX.Release(tmp);
+                            p.AMX.Release(tmp2);
+                            p.AMX.Release(tmp3);
+                            p.AMX.Release(tmp4);
+                            GC.Collect();
+                        }
+                        else
+                        {
+                            var tmp4 = p.AMX.Push(arg.Message.Content);
+                            var tmp2 = p.AMX.Push(arg.MessageBefore.Content);
+                            var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
+                            p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                            var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+                            p.Execute();
+                            p.AMX.Release(tmp);
+                            p.AMX.Release(tmp2);
+                            p.AMX.Release(tmp3);
+                            p.AMX.Release(tmp4);
+                            GC.Collect();
+                        }
+                    }
+                    p = null;
+                }
+            }
+            else if (arg.Channel.Type == ChannelType.PublicThread)
+            {
+                AMXPublic p = null;
+                foreach (Scripting.Script scr in Program.m_Scripts)
+                {
+                    p = scr.m_Amx.FindPublic("OnThreadMessageUpdated");
+                    if (p != null)
+                    {
+                        if (arg.MessageBefore == null)
+                        {
+                            var tmp6 = p.AMX.Push(arg.Message.Content);
+                            var tmp2 = p.AMX.Push("0");
+                            var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
+                            p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                            var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                            var tmp4 = p.AMX.Push(arg.Message.Channel.Parent.ToString());
+                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+                            p.Execute();
+                            p.AMX.Release(tmp);
+                            p.AMX.Release(tmp2);
+                            p.AMX.Release(tmp3);
+                            p.AMX.Release(tmp4);
+                            p.AMX.Release(tmp6);
+                            GC.Collect();
+                        }
+                        else
+                        {
+                            var tmp6 = p.AMX.Push(arg.Message.Content);
+                            var tmp2 = p.AMX.Push(arg.MessageBefore.Content);
+                            var tmp3 = p.AMX.Push(arg.Message.Id.ToString());
+                            p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Author, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                            var tmp = p.AMX.Push(arg.Message.ChannelId.ToString());
+                            var tmp4 = p.AMX.Push(arg.Message.Channel.Parent.ToString());
+                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+                            p.Execute();
+                            p.AMX.Release(tmp);
+                            p.AMX.Release(tmp2);
+                            p.AMX.Release(tmp3);
+                            p.AMX.Release(tmp4);
+                            p.AMX.Release(tmp6);
+                            GC.Collect();
+                        }
+                        
                     }
                     p = null;
                 }

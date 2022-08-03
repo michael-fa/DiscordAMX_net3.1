@@ -52,6 +52,7 @@ namespace dcamx.Discord
             Client.GuildMemberAdded                     += Events.MemberJoinLeave.Join;
             Client.GuildMemberRemoved                   += Events.MemberJoinLeave.Leave;
             Client.MessageCreated                       += Events.MessageActions.MessageAdded;
+            Client.MessageUpdated                       += Events.MessageActions.MessageUpdated;
             Client.MessageDeleted                       += Events.MessageActions.MessageDeleted;
             Client.MessageReactionAdded                 += Events.MessageActions.ReactionAdded;
             Client.MessageReactionRemoved               += Events.MessageActions.ReactionRemoved;
@@ -60,6 +61,12 @@ namespace dcamx.Discord
             Client.GuildUpdated                         += Events.GuildActions.GuildUpdated;
             Client.ChannelCreated                       += Events.GuildActions.ChannelCreated;
             Client.ChannelDeleted                       += Events.GuildActions.ChannelDeleted;
+            Client.ChannelUpdated                       += Events.GuildActions.ChannelUpdated;
+            //Client.ThreadCreated                        += Events.GuildActions.ThreadCreated;
+            //Client.ThreadDeleted                        += Events.GuildActions.ThreadDeleted;
+            //Client.ThreadUpdated                        += Events.GuildActions.ThreadUpdated;
+            //Client.ThreadMemberUpdated                  += Events.GuildActions.ThreadMemberUpdated;
+            //Client.ThreadMembersUpdated                 += Events.GuildActions.ThreadMembersUpdated;
 
 
 

@@ -3,10 +3,11 @@
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
  - (!!) Add functions to apply "properties" to users. 
  - gettimestamp (returning the unix timestamp if no params) return hour, sec, minute
- - AddReaction + thread
- - GetChannelMention for DM / thread
- - GetChannelType for DM / thread
- - GetChannelName / Topic for threads
+ - AddReaction/RemovedReaction + thread
+
+
+ Re-Translate emojis to :emoji: format before passing it to PAWN
+ Find out how emojis work
 
 
  ReloadSCRIPT, check if each Oninit callback is called correct. FS - OnFSinit, Mainscript OnInit.
