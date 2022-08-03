@@ -30,13 +30,8 @@ namespace dcamx.Scripting
             this.m_Amx.LoadLibrary(AMXDefaultLibrary.Core | AMXDefaultLibrary.Float | AMXDefaultLibrary.String | AMXDefaultLibrary.Console | AMXDefaultLibrary.DGram | AMXDefaultLibrary.Time);
             this.RegisterNatives();
 
-            if (_isFilterscript)
-            {
-                this.m_isFs = _isFilterscript;
-                Utils.Log.Debug("Loading filterscript as ID: " + Program.m_Scripts.Count, this);
-                AMXPublic p = this.m_Amx.FindPublic("OnFilterscriptInit");
-                if (p != null)p.Execute();
-            }
+            if (!_isFilterscript) Program.m_MainAMX = this.m_Amx;
+
 
             Program.m_Scripts.Add(this);
             return;
@@ -49,6 +44,13 @@ namespace dcamx.Scripting
                 timer.KillTimer();
             }
 
+        }
+
+        public void _FSInit()
+        {
+                Utils.Log.Debug("Loading filterscript as ID: " + Program.m_Scripts.Count, this);
+                AMXPublic p = this.m_Amx.FindPublic("OnFilterscriptInit");
+                if (p != null) p.Execute();
         }
 
         /*public void RunTimerCallback(AMXArgumentList m_Args, string m_ArgFrmt, string m_Func)
