@@ -96,6 +96,16 @@ namespace dcamx.Utils
                 Log.Error(" [command] The script file " + args[0] + ".amx does not exist in /Scripts/ folder.");
                 return;
             }
+
+            foreach (Script x in Program.m_Scripts)
+            {
+                if (x.m_amxFile.Equals(args[0])) //There is a better way, but still; we can always do or a unhandled error here.
+                {
+                    Log.Error(" [command] Script " + args[0] + " is already loaded!");
+                    return;
+                }
+            }
+
             Script scr = new Script(args[0], true);
             AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnFilterscriptInit");
             if (pub != null) pub.Execute();
@@ -190,6 +200,13 @@ namespace dcamx.Utils
                     }
                     Script scr = new Script(args[0], _isFs);
 
+                    if (!_isFs)
+                    {
+                        AMXPublic p = scr.m_Amx.FindPublic("OnInit");
+                        if (p != null) p.Execute();
+                    }
+                    else sc._FSInit();
+
                     Log.Info("[CORE] Script '" + args[0] + "' reloaded.");
                     break;
                 }
@@ -241,7 +258,7 @@ namespace dcamx.Utils
                 {
                     if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
                     Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
-                    new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true);
+                    new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true)._FSInit();
                 }
             }
             catch (Exception ex)
