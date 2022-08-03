@@ -29,6 +29,7 @@ namespace dcamx
 
         //GuildAvailable gets called for every first initialised guild. We don't want that.
         public static bool m_ScriptingInited = false;
+        public static AMXWrapper.AMX m_MainAMX = null;
 
 
 
@@ -180,6 +181,11 @@ namespace dcamx
         //Setting everything up AFTER InitialChecks are done!
         static private void __InitialSetup()
         {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+
+#if DEBUG
+            Console.Title = "DiscordAMX Debug: " + Environment.UserName + " | " + DateTime.Now.ToString();
+#endif
             dConfig = new DiscordConfiguration()
             {
                 TokenType = TokenType.Bot,

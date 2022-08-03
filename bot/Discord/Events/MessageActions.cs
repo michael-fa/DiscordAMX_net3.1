@@ -5,6 +5,8 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using AMXWrapper;
 using System.Diagnostics;
+using System.Text;
+using System.IO;
 
 namespace dcamx.Discord.Events
 {
@@ -12,6 +14,15 @@ namespace dcamx.Discord.Events
     {
         static public bool SkipDeleteEvent = false;
         static public bool SkipDeleteEvent_DM = false;
+
+        private static string UnicodeToUTF8(string strFrom)
+        {
+            byte[] bytes = Encoding.Default.GetBytes(strFrom);
+
+            return Encoding.UTF8.GetString(bytes);
+
+        }
+
         public static Task MessageAdded(DiscordClient c, MessageCreateEventArgs arg)
         {
             if (arg.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;

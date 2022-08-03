@@ -27,7 +27,7 @@ namespace dcamx.Discord
 
         public DCBot()
         {
-            Program.m_Scripts[0].m_Amx.ExecuteMain();
+            Program.m_MainAMX.ExecuteMain();
         }
 
         public async Task RunAsync(DiscordConfiguration dConfig)
