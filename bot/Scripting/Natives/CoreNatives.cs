@@ -21,6 +21,15 @@ namespace dcamx.Scripting.Natives
                 return 0;
             }
 
+            foreach (Script x in Program.m_Scripts)
+            {
+                if (x.m_amxFile.Equals(args1[0].AsString())) //There is a better way, but still; we can always do or a unhandled error here.
+                {
+                    Utils.Log.Error(" [command] Script " + args1[0].AsString() + " is already loaded!");
+                    return 0;
+                }
+            }
+
             Script scr = new Script(args1[0].AsString(), true);
             AMXWrapper.AMXPublic pub = scr.m_Amx.FindPublic("OnFilterscriptInit");
             if (pub != null) pub.Execute();
@@ -45,7 +54,7 @@ namespace dcamx.Scripting.Natives
                     if (pub != null) pub.Execute();
                     sc.m_Amx.Dispose();
                     sc.m_Amx = null;
-                    Program.m_Scripts.Remove(sc);
+                    Program.m_Scripts.Remove(sc);   
                     Utils.Log.Info("[CORE] Script '" + args1[0].AsString() + "' unloaded.");
                     return 1;
                 }
