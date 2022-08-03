@@ -52,8 +52,14 @@ namespace dcamx.Discord.Events
 
             //Init main amx OnLoad
             AMXPublic p = null;
-            p = Program.m_Scripts[0].m_Amx.FindPublic("OnInit");
+            p = Program.m_MainAMX.FindPublic("OnInit");
             if (p != null) p.Execute();
+
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                if (scr.m_amxFile.Contains("main")) continue;
+                scr._FSInit();
+            }
 
             //While DownloadCompleted gets called more then once, we need only the first call (which we call our main script init, since atp all guilds and members are now available to script.)
             Program.m_ScriptingInited = true;
