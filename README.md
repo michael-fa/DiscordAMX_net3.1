@@ -83,9 +83,12 @@ Linux support is coming soon!
 * Setting timers
 * (INI) File Handling !!!
 * Private DM Handling
+* Thread Support (Messages+Edits, Reactions, ThreadUpdate)
 * Multiple guild support
 * Multiple script support
 * Members and Guilds can be handled via Script_IDs, so that it's easier without using the 18 digit ID.
+
+ .. see the [Wiki](https://github.com/michael-fa/DiscordAMX/wiki) **for more**!
 
 
 ## Planned for first release
