@@ -185,6 +185,51 @@ namespace dcamx.Discord.Events
             return Task.CompletedTask;
         }
 
+
+        public static Task ThreadCreated(DiscordClient c, ThreadCreateEventArgs a)
+        {
+            // if (!a.NewlyCreated) return Task.CompletedTask;
+
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.m_Amx.FindPublic("OnThreadCreated");
+                if (p != null)
+                {
+                    var tmp3 = p.AMX.Push(a.Thread.Id.ToString());
+
+                    var tmp2 = p.AMX.Push(a.Parent.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp2);
+                }
+                p = null;
+            }
+            return Task.CompletedTask;
+        }
+
+        public static Task ThreadDeleted(DiscordClient c, ThreadDeleteEventArgs a)
+        {
+            // if (!a.NewlyCreated) return Task.CompletedTask;
+
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.m_Amx.FindPublic("OnThreadDeleted");
+                if (p != null)
+                {
+                    var tmp3 = p.AMX.Push(a.Thread.Id.ToString());
+
+                    var tmp2 = p.AMX.Push(a.Parent.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp2);
+                }
+                p = null;
+            }
+            return Task.CompletedTask;
+        }
+
         public static Task GuildUpdated(DiscordClient c, GuildUpdateEventArgs a)
         {
             //What to pass to script:

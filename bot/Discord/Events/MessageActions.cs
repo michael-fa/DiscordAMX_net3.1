@@ -50,6 +50,7 @@ namespace dcamx.Discord.Events
                     }
                     p = null;
                 }
+
             }
             else if (arg.Channel.Type == ChannelType.Text)
             {
@@ -104,6 +105,7 @@ namespace dcamx.Discord.Events
         public static Task MessageUpdated(DiscordClient c, MessageUpdateEventArgs arg)
         {
             if (arg.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
+            if (arg.Message.Content == null) return Task.CompletedTask;
             if (arg.Channel.IsPrivate)
             {
                 AMXPublic p = null;
@@ -145,6 +147,10 @@ namespace dcamx.Discord.Events
             }
             else if (arg.Channel.Type == ChannelType.Text)
             {
+                if (arg.Channel.IsThread) return Task.CompletedTask;
+                
+                if (arg.Message == null) return Task.CompletedTask;
+
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
@@ -268,7 +274,7 @@ namespace dcamx.Discord.Events
                     p = null;
                 }
             }
-            else if(arg.Message.Channel.Type == ChannelType.Text)
+            else if (arg.Message.Channel.Type == ChannelType.Text)
             {
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
@@ -346,7 +352,7 @@ namespace dcamx.Discord.Events
                     p = null;
                 }
             }
-            else
+            else if (arg.Message.Channel.Type == ChannelType.Text)
             {
                 AMXPublic p = null;
                 foreach (Scripting.Script scr in Program.m_Scripts)
@@ -358,11 +364,7 @@ namespace dcamx.Discord.Events
                         p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
                         var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
                         var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
-                        if (!arg.Message.Channel.IsPrivate) p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
-                        else
-                        {
-                            p.AMX.Push(-1);
-                        }
+                        p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
 
 
                         p.Execute();
@@ -374,7 +376,33 @@ namespace dcamx.Discord.Events
                     p = null;
                 }
             }
-            
+            else if (arg.Channel.Type == ChannelType.PublicThread)
+            {
+                AMXPublic p = null;
+                foreach (Scripting.Script scr in Program.m_Scripts)
+                {
+                    p = scr.m_Amx.FindPublic("OnThreadMessageReactionAdded");
+                    if (p != null)
+                    {
+                        var tmp = p.AMX.Push(arg.Channel.Id.ToString());
+                        var tmp4 = p.AMX.Push(arg.Message.Channel.ParentId.ToString());
+                        p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                        var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                        var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
+                        p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+
+
+                        p.Execute();
+                        p.AMX.Release(tmp);
+                        p.AMX.Release(tmp2);
+                        p.AMX.Release(tmp3);
+                        p.AMX.Release(tmp4);
+                        GC.Collect();
+                    }
+                    p = null;
+                }
+            }
+
             return Task.CompletedTask;
         }
 
@@ -412,7 +440,7 @@ namespace dcamx.Discord.Events
                     p = null;
                 }
             }
-            else
+            else if (arg.Message.Channel.Type == ChannelType.Text)
             {
                 foreach (Scripting.Script scr in Program.m_Scripts)
                 {
@@ -436,7 +464,33 @@ namespace dcamx.Discord.Events
                     p = null;
                 }
             }
-            
+            else if (arg.Channel.Type == ChannelType.PublicThread)
+            {
+                foreach (Scripting.Script scr in Program.m_Scripts)
+                {
+                    p = scr.m_Amx.FindPublic("OnThreadMessageReactionRemoved");
+                    if (p != null)
+                    {
+                        var tmp = p.AMX.Push(arg.Channel.Id.ToString());
+                        var tmp4 = p.AMX.Push(arg.Message.Channel.ParentId.ToString());
+                        p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.User, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));
+                        var tmp2 = p.AMX.Push(arg.Message.Id.ToString());
+                        var tmp3 = p.AMX.Push(arg.Emoji.GetDiscordName());
+                        p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.Guild).m_ID);
+
+
+
+                        p.Execute();
+                        p.AMX.Release(tmp4);
+                        p.AMX.Release(tmp3);
+                        p.AMX.Release(tmp2);
+                        p.AMX.Release(tmp);
+                        GC.Collect();
+                    }
+                    p = null;
+                }
+            }
+
             return Task.CompletedTask;
         }
     }

@@ -62,8 +62,8 @@ namespace dcamx.Discord
             Client.ChannelCreated                       += Events.GuildActions.ChannelCreated;
             Client.ChannelDeleted                       += Events.GuildActions.ChannelDeleted;
             Client.ChannelUpdated                       += Events.GuildActions.ChannelUpdated;
-            //Client.ThreadCreated                        += Events.GuildActions.ThreadCreated;
-            //Client.ThreadDeleted                        += Events.GuildActions.ThreadDeleted;
+            Client.ThreadCreated                        += Events.GuildActions.ThreadCreated;
+            Client.ThreadDeleted                        += Events.GuildActions.ThreadDeleted;
             //Client.ThreadUpdated                        += Events.GuildActions.ThreadUpdated;
             //Client.ThreadMemberUpdated                  += Events.GuildActions.ThreadMemberUpdated;
             //Client.ThreadMembersUpdated                 += Events.GuildActions.ThreadMembersUpdated;
