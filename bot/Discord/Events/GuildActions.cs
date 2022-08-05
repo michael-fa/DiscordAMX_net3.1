@@ -264,8 +264,6 @@ namespace dcamx.Discord.Events
             //This is wrong, so we use an reference value and make sure once the roles have been updated, we actually can access
             //a correct IEnumerable List for the members roles. 
 
-
-            Console.WriteLine(arg.Member.DisplayName + " updated!\n");
             var guild = Utils.Scripting.DCGuild_ScrGuild(arg.Guild);
             guild.m_ScriptMembers[Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild))].m_Roles  = arg.RolesAfter;
             foreach (DiscordRole rl in arg.Member.Roles)

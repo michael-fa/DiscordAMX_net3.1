@@ -12,7 +12,7 @@ namespace dcamx.Scripting
         public DiscordMember m_DiscordMember;
         public int m_ID;
         public Scripting.Guild m_DiscordGuild;
-        public IEnumerable<DiscordRole> m_Roles;
+        public IEnumerable<DiscordRole> m_Roles; //Bypass for when roles aren't updated right during runtime
 
         public Member(DiscordMember _Member, Scripting.Guild _Guild)
         {
