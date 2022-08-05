@@ -182,6 +182,31 @@ namespace dcamx.Scripting.Natives
             return 0;
         }
 
+        public static int DC_SetMemberRole(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+
+
+            try
+            {
+                DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+
+                foreach(DiscordRole rl in guild.Roles.Values)
+                {
+                    if (rl.Name.Equals(args1[2].AsString())) Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild)).GrantRoleAsync(rl);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_SetMemberRole' (dest_string must be a array, or invalid parameters!)", caller_script);
+                return 0;
+            }
+
+            return 0;
+        }
+
         public static int DC_GetMemberAvatarURL(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 3) return 0;

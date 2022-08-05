@@ -167,6 +167,7 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_TimeoutGuildMember", (amx1, args1) => Natives.UserNatives.DC_TimeoutMember(amx1, args1, this));
             m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.UserNatives.DC_GetMemberAvatarURL(amx1, args1, this));
             m_Amx.Register("DC_MemberHasRole", (amx1, args1) => Natives.UserNatives.DC_MemberHasRole(amx1, args1, this));
+            m_Amx.Register("DC_SetMemberRole", (amx1, args1) => Natives.UserNatives.DC_SetMemberRole(amx1, args1, this));
 
             //Channels
             m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeleteMessage(amx1, args1, this));

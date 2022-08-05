@@ -202,6 +202,7 @@ namespace dcamx.Discord.Events
                     p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
                     p.Execute();
                     p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp3);
                 }
                 p = null;
             }
@@ -224,9 +225,94 @@ namespace dcamx.Discord.Events
                     p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
                     p.Execute();
                     p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp3);
                 }
                 p = null;
             }
+            return Task.CompletedTask;
+        }
+
+        public static Task ThreadUpdated(DiscordClient c, ThreadUpdateEventArgs a)
+        {
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.m_Amx.FindPublic("OnThreadUpdated");
+                if (p != null)
+                {
+                    var tmp4 = p.AMX.Push(a.ThreadAfter.Name.ToString());
+                    var tmp3 = p.AMX.Push(a.ThreadAfter.Id.ToString());
+
+                    var tmp2 = p.AMX.Push(a.Parent.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp3);
+                    p.AMX.Release(tmp4);
+                }
+                p = null;
+            }
+            return Task.CompletedTask;
+        }
+
+        public static Task ThreadMembersUpdated(DiscordClient c, ThreadMembersUpdateEventArgs a)
+        {
+            //This is fucking TRICKY!
+
+            //Are there added members in this event?
+            if (a.AddedMembers.Count > 0)
+            {
+                Console.WriteLine("\nThread Mem Joined 1\n");
+                //Yes, now lets loop through each new member from this thread
+                foreach (DiscordThreadChannelMember mem in a.AddedMembers)
+                {
+                    Console.WriteLine("\nThread Mem Joined LOOP " + mem.Member.DisplayName + "\n");
+                    //Basically call the AMX public for each new member. (Another loop since we do this for all scripts loaded, obviously..)
+                    AMXPublic p = null;
+                    foreach (Scripting.Script scr in Program.m_Scripts)
+                    {
+                        Console.WriteLine("\nThread Mem Joined - AMX  CALL\n");
+                        p = scr.m_Amx.FindPublic("OnThreadMemberJoined"); //<-- call it every time
+                        if (p != null)
+                        {
+                            p.AMX.Push(Utils.Scripting.DCMember_ScrMember(mem.Member, Utils.Scripting.DCGuild_ScrGuild(a.Guild)).m_ID);
+                            var tmp3 = p.AMX.Push(a.Thread.Id.ToString());
+                            var tmp2 = p.AMX.Push(a.Thread.Parent.Id.ToString());
+                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                            p.Execute();
+                            p.AMX.Release(tmp2);
+                            p.AMX.Release(tmp3);
+                        }
+                        p = null;
+                    }
+                }
+            }
+            //are there removed members in this event?
+            else if (a.RemovedMembers.Count > 0)
+            {
+                //Yes, now lets loop through each deleted member from this thread
+                foreach (DiscordThreadChannelMember mem in a.AddedMembers)
+                {
+                    //Calling the amx public for every member removed. This assures handling each one scriptsided.
+                    AMXPublic p = null;
+                    foreach (Scripting.Script scr in Program.m_Scripts)
+                    {
+                        p = scr.m_Amx.FindPublic("OnThreadMemberLeft"); //<-- call it for each removed member
+                        if (p != null)
+                        {
+                            p.AMX.Push(Utils.Scripting.DCMember_ScrMember(mem.Member, Utils.Scripting.DCGuild_ScrGuild(a.Guild)).m_ID);
+                            var tmp3 = p.AMX.Push(a.Thread.Id.ToString());
+                            var tmp2 = p.AMX.Push(a.Thread.Parent.Id.ToString());
+                            p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(a.Guild).m_ID);
+                            p.Execute();
+                            p.AMX.Release(tmp2);
+                            p.AMX.Release(tmp3);
+                        }
+                        p = null;
+                    }
+                }
+            }
+           
             return Task.CompletedTask;
         }
 
@@ -240,15 +326,11 @@ namespace dcamx.Discord.Events
                 {
                     var tmp1 = p.AMX.Push(arg.GuildAfter.Name);
                     var tmp2 = p.AMX.Push(arg.GuildBefore.Name);
-                    //var tmp = p.AMX.Push(arg.GuildAfter.Description.ToString());
-                    //var tmp3 = p.AMX.Push(arg.GuildBefore.Description.ToString());
                     p.AMX.Push(arg.GuildAfter.MemberCount);
                     var tmp4 = p.AMX.Push(arg.GuildAfter.Id.ToString());
                     p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.GuildAfter).m_ID);
                     p.Execute();
                     p.AMX.Release(tmp4);
-                    //p.AMX.Release(tmp3);
-                    //p.AMX.Release(tmp);
                     p.AMX.Release(tmp2);
                     p.AMX.Release(tmp1);
                     GC.Collect();
