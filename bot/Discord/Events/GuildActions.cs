@@ -230,15 +230,31 @@ namespace dcamx.Discord.Events
             return Task.CompletedTask;
         }
 
-        public static Task GuildUpdated(DiscordClient c, GuildUpdateEventArgs a)
+        public static Task GuildUpdated(DiscordClient c, GuildUpdateEventArgs arg)
         {
-            //What to pass to script:
-            /* new ID, old ID
-             * new NAME, old NAME
-             * new MaxMembers, old MaxMembers
-             * new Description, old Description
-             * new MembCount, old Membcount
-            */
+            AMXPublic p = null;
+            foreach (Scripting.Script scr in Program.m_Scripts)
+            {
+                p = scr.m_Amx.FindPublic("OnGuildUpdated");
+                if (p != null)
+                {
+                    var tmp1 = p.AMX.Push(arg.GuildAfter.Name);
+                    var tmp2 = p.AMX.Push(arg.GuildBefore.Name);
+                    //var tmp = p.AMX.Push(arg.GuildAfter.Description.ToString());
+                    //var tmp3 = p.AMX.Push(arg.GuildBefore.Description.ToString());
+                    p.AMX.Push(arg.GuildAfter.MemberCount);
+                    var tmp4 = p.AMX.Push(arg.GuildAfter.Id.ToString());
+                    p.AMX.Push(Utils.Scripting.DCGuild_ScrGuild(arg.GuildAfter).m_ID);
+                    p.Execute();
+                    p.AMX.Release(tmp4);
+                    //p.AMX.Release(tmp3);
+                    //p.AMX.Release(tmp);
+                    p.AMX.Release(tmp2);
+                    p.AMX.Release(tmp1);
+                    GC.Collect();
+                }
+                p = null;
+            }
             return Task.CompletedTask;
         }
     }
