@@ -12,10 +12,13 @@ namespace dcamx.Scripting
         public DiscordMember m_DiscordMember;
         public int m_ID;
         public Scripting.Guild m_DiscordGuild;
+        public IEnumerable<DiscordRole> m_Roles;
+
         public Member(DiscordMember _Member, Scripting.Guild _Guild)
         {
             this.m_DiscordMember = _Member;
             this.m_DiscordGuild = _Guild;
+            this.m_Roles = _Member.Roles;
 
             m_DiscordGuild.m_ScriptMembers.Add(this);
             this.m_ID = m_DiscordGuild.m_ScriptMembers.Count;

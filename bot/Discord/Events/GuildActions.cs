@@ -257,5 +257,20 @@ namespace dcamx.Discord.Events
             }
             return Task.CompletedTask;
         }
+
+        public static Task UserUpdated(DiscordClient c, GuildMemberUpdateEventArgs arg)
+        {
+            //Since retrieving the roles after they have been edited, the user still appears to have the same rules as before.
+            //This is wrong, so we use an reference value and make sure once the roles have been updated, we actually can access
+            //a correct IEnumerable List for the members roles. 
+
+
+            Console.WriteLine(arg.Member.DisplayName + " updated!\n");
+            var guild = Utils.Scripting.DCGuild_ScrGuild(arg.Guild);
+            guild.m_ScriptMembers[Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild))].m_Roles  = arg.RolesAfter;
+            foreach (DiscordRole rl in arg.Member.Roles)
+                Console.Write(rl.Name);
+            return Task.CompletedTask;
+        }
     }
 }
