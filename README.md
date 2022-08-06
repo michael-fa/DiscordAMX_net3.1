@@ -86,6 +86,7 @@ Linux support is coming soon!
 * Thread Support (Messages+Edits, Reactions, ThreadUpdate)
 * Multiple guild support
 * Multiple script support
+* Send embedded images!
 * Members and Guilds can be handled via Script_IDs, so that it's easier without using the 18 digit ID.
 
  .. see the [Wiki](https://github.com/michael-fa/DiscordAMX/wiki) **for more**!
@@ -93,13 +94,12 @@ Linux support is coming soon!
 
 ## Planned for first release
 * Music streaming support
-* User Functions (finding users by name or ID, sending and receiving PM's)
-* Better print function
-* More functions about detailed info/data (guilds, users/members)
-* LINUX SUPPORT
+* Embed support (more then images)
+* Linux support of the code.
+* Filehandling (downloading & sending files)
 
 ### Third party info
-* Using [PAWN Wrapper by ikkentim](https://github.com/ikkentim/AMXWrapper)
+* Using [PAWN Wrapper by ikkentim](https://github.com/ikkentim/AMXWrapper) **(He helped me a lot in finding out stuff about float support!)**
 * Using [DSharpPlus](https://github.com/DSharpPlus/DSharpPlus)
 
 [Visit CompuPhase Pawn Language](https://www.compuphase.com/pawn/pawn.htm) site for more info!
