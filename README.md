@@ -8,7 +8,7 @@ The core goal is to make Discord Bots more easier for everyone!
 For more about PAWN [click here](https://www.compuphase.com/pawn/pawn.htm).
 This project depends heavily on [DSharpPlus](https://dsarpplus.github.io). A .NET Framework package allowing me to interact with Discord's API as easy as possible.
 
-![alt text](https://imgur.com/a/04GxSH1)
+![alt text]([https://imgur.com/a/04GxSH1](https://i.imgur.com/3VDlmvp.png))
 
 ---
 
