@@ -88,6 +88,7 @@ Linux support is coming soon!
 * Multiple script support
 * Send embedded images!
 * Members and Guilds can be handled via Script_IDs, so that it's easier without using the 18 digit ID.
+  * Ban/Unban, Timeout, Role editing
 
  .. see the [Wiki](https://github.com/michael-fa/DiscordAMX/wiki) **for more**!
 
