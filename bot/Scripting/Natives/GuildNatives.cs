@@ -36,14 +36,30 @@ namespace dcamx.Scripting.Natives
             try
             {
                 guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+
+                //No guild found, check for dm channel
+                if (guild == null)
+                {
+                    foreach (DiscordDmChannel dc in Program.m_DmUsers)
+                    {
+                        if (dc.Name.Equals(args1[1].AsString()))
+                        {
+                            return dc.Users.Count;
+                        }
+                    }
+                    return 0;
+                }
+                else return guild.Members.Count;
+
             }
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
                 Utils.Log.Error("In native 'DC_GetMemberCount' (Invalid guildid?)", caller_script);
+                return 0;
             }
-            if (guild != null) return guild.MemberCount;
-            else return 0;
+            return 0;
         }
+        
     }
 }
