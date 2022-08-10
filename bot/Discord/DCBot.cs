@@ -66,7 +66,7 @@ namespace dcamx.Discord
             Client.ThreadDeleted                        += Events.GuildActions.ThreadDeleted;
             Client.GuildMemberUpdated                   += Events.GuildActions.UserUpdated;
             Client.ThreadUpdated                        += Events.GuildActions.ThreadUpdated;
-            Client.ThreadMembersUpdated += Events.GuildActions.ThreadMembersUpdated;
+            Client.ThreadMembersUpdated                 += Events.GuildActions.ThreadMembersUpdated;
 
 
 

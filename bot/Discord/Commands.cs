@@ -16,8 +16,8 @@ namespace dcamx.Discord.Commands
 {
     class AdminCommands : BaseCommandModule
     {
-
-        /*        [Command("spieler")]
+        /*
+               [Command("spieler")]
                 [Description("Zeigt die Spieleranzahl an.")]
                 public async Task CmdPrintPlayerCount(CommandContext ctx)
                 {
@@ -55,6 +55,8 @@ namespace dcamx.Discord.Commands
                 DBMysqlUtils.Update("whitelist", "banned", 1, "name = '" +  action[1].ToString() + "'");
                 await ctx.Channel.SendMessageAsync("Von der Whitelist gebannt").ConfigureAwait(false);
             }
-        }*/
+        }
+        */
+        
     }
 }

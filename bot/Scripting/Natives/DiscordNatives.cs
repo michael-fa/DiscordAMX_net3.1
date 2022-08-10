@@ -1,6 +1,7 @@
 ﻿using AMXWrapper;
 using DSharpPlus.Entities;
 using System;
+using DSharpPlus.SlashCommands;
 
 namespace dcamx.Scripting.Natives
 {
@@ -157,9 +158,16 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_DeletPrivateReaction' (Invalid PM channel, wrong ID format)", caller_script);
+                Utils.Log.Error("In native 'DC_RemovePrivateReaction' (Invalid PM channel, wrong ID format)", caller_script);
             }
             return 0;
+        }
+
+        public static int DC_RegisterCommand(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            
+            DSharpPlus.SlashCommands.S
+            return 1;
         }
     }
 }

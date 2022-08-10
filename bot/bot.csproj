@@ -106,14 +106,23 @@
     <Reference Include="DSharpPlus, Version=4.3.0.1116, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DSharpPlus.4.3.0-nightly-01116\lib\netstandard2.0\DSharpPlus.dll</HintPath>
     </Reference>
-    <Reference Include="DSharpPlus.CommandsNext, Version=4.3.0.1116, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DSharpPlus.CommandsNext.4.3.0-nightly-01116\lib\netstandard2.0\DSharpPlus.CommandsNext.dll</HintPath>
+    <Reference Include="DSharpPlus.CommandsNext, Version=3.0.198.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HSNXT.DSharpPlus.CommandsNext.Extended.3.0.198\lib\netstandard2.0\DSharpPlus.CommandsNext.dll</HintPath>
     </Reference>
     <Reference Include="DSharpPlus.Interactivity, Version=4.3.0.1116, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DSharpPlus.Interactivity.4.3.0-nightly-01116\lib\netstandard2.0\DSharpPlus.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="DSharpPlus.SlashCommands, Version=4.3.0.1116, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DSharpPlus.SlashCommands.4.3.0-nightly-01116\lib\netstandard2.0\DSharpPlus.SlashCommands.dll</HintPath>
+    </Reference>
     <Reference Include="Emzi0767.Common">
       <HintPath>..\packages\Emzi0767.Common.2.6.2\lib\net45\Emzi0767.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="HSNXT.DSharpPlus.Extended, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HSNXT.DSharpPlus.Extended.5.0.0-pre.208\lib\net47\HSNXT.DSharpPlus.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
