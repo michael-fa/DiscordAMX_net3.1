@@ -195,5 +195,19 @@ namespace dcamx.Scripting.Natives
             }
             return 1;
         }
+
+        public static int DC_GetBotPing(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            try
+            {
+                return Program.m_Discord.Client.Ping;
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_GetBotPing'! (m_Discord->Client NullReference)", caller_script);
+            }
+            return 1;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using DSharpPlus.Entities;
 using System;
 using DSharpPlus.SlashCommands;
+using System.Diagnostics;
 
 namespace dcamx.Scripting.Natives
 {
@@ -11,8 +12,9 @@ namespace dcamx.Scripting.Natives
         public static int DC_SetToken(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (Program.m_Discord != null) return 0;
-            if (String.IsNullOrEmpty(args1[0].AsString())) return 1;
+            if (String.IsNullOrEmpty(args1[0].AsString())) return 0;
             Program.dConfig.Token = args1[0].AsString();
+            
             return 1;
         }
 
@@ -165,8 +167,8 @@ namespace dcamx.Scripting.Natives
 
         public static int DC_RegisterCommand(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            
-            DSharpPlus.SlashCommands.S
+
+            // DSharpPlus.SlashCommands.S
             return 1;
         }
     }

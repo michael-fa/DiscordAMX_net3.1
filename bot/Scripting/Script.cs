@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace dcamx.Scripting
 {
@@ -19,7 +20,8 @@ namespace dcamx.Scripting
             this.m_amxFile = _amxFile;
             try
             {
-                m_Amx = new AMX("Scripts/" + _amxFile + ".amx");
+                m_Amx = new AMX(System.AppContext.BaseDirectory + "/Scripts/" + _amxFile + ".amx");
+                
             }
             catch (Exception e)
             {
@@ -132,6 +134,7 @@ namespace dcamx.Scripting
             m_Amx.Register("KillTimer", (amx1, args1) => Natives.CoreNatives.KillTimer(amx1, args1, this));
             m_Amx.Register("gettimestamp", (amx1, args1) => Natives.CoreNatives.gettimestamp(amx1, args1, this));
             m_Amx.Register("CallRemoteFunction", (amx1, args1) => Natives.CoreNatives.CallRemoteFunction(amx1, args1, this));
+            m_Amx.Register("DC_GetBotPing", (amx1, args1) => Natives.CoreNatives.DC_GetBotPing(amx1, args1, this));
 
             m_Amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DiscordNatives.DC_SetMinLogLevel(amx1, args1, this));
             m_Amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DiscordNatives.DC_SetActivityText(amx1, args1, this));

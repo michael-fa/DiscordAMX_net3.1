@@ -115,7 +115,7 @@ namespace dcamx
             //Now add all filterscripts (before main amx)
             try
             {
-                foreach (string fl in Directory.GetFiles("Scripts/"))
+                foreach (string fl in Directory.GetFiles(System.AppContext.BaseDirectory + "/Scripts/"))
                 {
                     // demand load main.amx     ||  skip this file
                     if (fl.StartsWith("!") || fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
@@ -131,7 +131,7 @@ namespace dcamx
             }
 
             //Load main.amx, or error out if not available
-            if (!File.Exists("Scripts/main.amx"))
+            if (!File.Exists(System.AppContext.BaseDirectory + "/Scripts/main.amx"))
             {
                 Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
                 StopSafely();
@@ -164,16 +164,16 @@ namespace dcamx
         static private void __InitialChecks()
         {
             //Check if LOG Dir exists
-            if (!Directory.Exists("Logs/"))
-                Directory.CreateDirectory("Logs/");
+            if (!Directory.Exists(System.AppContext.BaseDirectory + "Logs/"))
+                Directory.CreateDirectory(System.AppContext.BaseDirectory+ "Logs/");
 
             //Check if Plugins dir exists
-            if (!Directory.Exists("Plugins/"))
-                Directory.CreateDirectory("Plugins/");
+            if (!Directory.Exists(System.AppContext.BaseDirectory+ "Plugins/"))
+                Directory.CreateDirectory(System.AppContext.BaseDirectory +"Plugins/");
 
             //Check if Scripts dir exists
-            if (!Directory.Exists("Scripts/"))
-                Directory.CreateDirectory("Scripts/");
+            if (!Directory.Exists(System.AppContext.BaseDirectory + "Scripts/"))
+                Directory.CreateDirectory(System.AppContext.BaseDirectory + "Scripts/");
         }
 
 
@@ -249,9 +249,9 @@ namespace dcamx
                 Log.WriteLine("Script " + script.m_amxFile + " unloaded.");
             }
 
-            //copy current log txt to one with the date in name and delete the old one
-            File.Copy("Logs/current.txt", ("Logs/" + DateTime.Now.ToString().Replace(':', '-') + ".txt"));
-            if (File.Exists("Logs/current.txt")) File.Delete("Logs/current.txt");
+            //copy current log txt to one with the date in name and delete the old one | we also replace : or / to - so that theres no language based error in folder/file names
+            File.Copy(System.AppContext.BaseDirectory + "/Logs/current.txt", (System.AppContext.BaseDirectory+ "Logs/" + DateTime.Now.ToString().Replace(':', '-').Replace('/', '-') + ".txt"));
+            if (File.Exists(System.AppContext.BaseDirectory + "/Logs/current.txt")) File.Delete(System.AppContext.BaseDirectory + "/Logs/current.txt");
             Environment.Exit(0);
 
         }

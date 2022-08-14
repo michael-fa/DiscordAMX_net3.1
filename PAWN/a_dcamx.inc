@@ -8,7 +8,7 @@
 	#endinput
 #endif
 #define _dcamx_included
-#pragma library discordamx
+#pragma library dcamx
 
 //Remove this if you prefer to take care of core includes your own.
 #include <core>
@@ -45,6 +45,7 @@ native gettimestamp();
 native Loadscript(script[]);
 native Unloadscript(script[]);
 native CallRemoteFunction(function[], format[], {Float,_}:...);
+native DC_GetBotPing();
 
 //         - INIFile (DCAMX core)
 native INI_Delete(fileid);
