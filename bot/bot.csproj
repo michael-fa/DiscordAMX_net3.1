@@ -10,7 +10,7 @@
     <AssemblyName>discordamx</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
@@ -74,7 +74,9 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
-    <DefineConstants>FLOATPOINT;</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'debug_32|x86' ">
     <PlatformTarget>x86</PlatformTarget>

@@ -99,7 +99,7 @@ native DC_GetChannelTopic(guildid, channelid[], destination[]);
 native DC_GetChannelMention(guildid = -1, channelid[], destination[]);
 native DC_GetChannelType(guildid, channelid[]);
 
-//  Reactions
+//         Reactions
 native DC_AddReaction(guildid, channelid[], messageid[], reaction[]);
 native DC_AddPrivateReaction(channelid[], messageid[], reaction[]);
 native DC_RemoveReaction(guildid, channelid[], messageid[], reaction[]);

@@ -72,7 +72,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GetGuildMemberID' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_GetMemberID' (dest_string must be a array, or invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -96,7 +96,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_BanGuildMember' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_BanMember' (dest_string must be a array, or invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -119,7 +119,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_UnbanGuildMemberID' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_UnbanMember' (dest_string must be a array, or invalid parameters!)", caller_script);
                 return 0;
             }
 

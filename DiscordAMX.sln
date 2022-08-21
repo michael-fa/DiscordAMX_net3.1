@@ -13,12 +13,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Debug|Any CPU.ActiveCfg = debug_32|Any CPU
-		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Debug|Any CPU.Build.0 = debug_32|Any CPU
+		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Debug|Any CPU.ActiveCfg = debug_32|x86
+		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Debug|Any CPU.Build.0 = debug_32|x86
 		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Debug|x86.ActiveCfg = debug_32|x86
 		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Debug|x86.Build.0 = debug_32|x86
-		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Release|Any CPU.ActiveCfg = Release|x86
+		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Release|Any CPU.Build.0 = Release|x86
 		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Release|x86.ActiveCfg = Release|x86
 		{B6E90EA7-728E-435B-944C-2167E0338FE8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

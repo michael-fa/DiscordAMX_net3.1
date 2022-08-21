@@ -23,7 +23,14 @@ namespace dcamx.Scripting.Natives
                     foreach (DiscordThreadChannel dtc in guild.Threads.Values)
                     {
                         if (dtc.Id == Convert.ToUInt64(args1[1].AsString()))
-                            dtc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync().Wait();
+                        {
+                            DiscordMessage msg = null;
+                            msg = dtc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result;
+                            if(msg != null)
+                            {
+                                msg.DeleteAsync().Wait();
+                            }
+                        }
                     }
                 }
                 else channel.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync(args1[3].AsString()).Wait();
@@ -249,7 +256,6 @@ namespace dcamx.Scripting.Natives
             if (args1.Length != 3) return 0;
             try
             {
-                Console.WriteLine("\n1\n");
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
                 DiscordChannel ch = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
                 if (ch == null)

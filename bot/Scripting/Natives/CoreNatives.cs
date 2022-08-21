@@ -151,7 +151,7 @@ namespace dcamx.Scripting.Natives
             if (args1[2].AsInt32() > 1 || args1[2].AsInt32() < 0)
             {
                 Utils.Log.Error("SetTimer: Argument 'repeating' is boolean. Please pass 0 or 1 only!");
-                return 1;
+                return 0;
             }
 
             try
