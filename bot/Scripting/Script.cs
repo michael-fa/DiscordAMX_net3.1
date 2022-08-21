@@ -138,7 +138,6 @@ namespace dcamx.Scripting
 
             m_Amx.Register("DC_SetMinLogLevel", (amx1, args1) => Natives.DiscordNatives.DC_SetMinLogLevel(amx1, args1, this));
             m_Amx.Register("DC_SetActivityText", (amx1, args1) => Natives.DiscordNatives.DC_SetActivityText(amx1, args1, this));
-            m_Amx.Register("DC_SetToken", (amx1, args1) => Natives.DiscordNatives.DC_SetToken(amx1, args1, this));
 
             //Native ini IO
             m_Amx.Register("INI_Delete", (amx1, args1) => Natives.ININatives.INI_Delete(amx1, args1, this));

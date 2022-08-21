@@ -8,16 +8,6 @@ namespace dcamx.Scripting.Natives
 {
     public static class DiscordNatives
     {
-
-        public static int DC_SetToken(AMX amx1, AMXArgumentList args1, Script caller_script)
-        {
-            if (Program.m_Discord != null) return 0;
-            if (String.IsNullOrEmpty(args1[0].AsString())) return 0;
-            Program.dConfig.Token = args1[0].AsString();
-            
-            return 1;
-        }
-
         public static int DC_SetActivityText(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             try

@@ -64,7 +64,6 @@ native INI_DeleteKey(fileid, key[], section[]);
 
 //         - Discord / Bot
 native DC_SetMinLogLevel(lvl);
-native DC_SetToken(token[]); //This should be used in your first script, and only there.
 native DC_SetActivityText(text[], activity_type = DISCORD_ACTIVITY_PLAYING);
 
 //         - Guilds
