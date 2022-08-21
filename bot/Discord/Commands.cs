@@ -45,7 +45,8 @@ namespace dcamx.Discord.Commands
 
                 var cmd = new MySqlCommand();
                 cmd.CommandText = "INSERT INTO whitelist(id, name) VALUES(0, '" + action[1] + "')";
-                Console.WriteLine(cmd.CommandText);
+                
+        Line(cmd.CommandText);
                 cmd.Connection = Program.myCONN;
                 cmd.ExecuteNonQuery();
 

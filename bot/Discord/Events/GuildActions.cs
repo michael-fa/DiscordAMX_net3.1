@@ -262,16 +262,13 @@ namespace dcamx.Discord.Events
             //Are there added members in this event?
             if (a.AddedMembers.Count > 0)
             {
-                Console.WriteLine("\nThread Mem Joined 1\n");
                 //Yes, now lets loop through each new member from this thread
                 foreach (DiscordThreadChannelMember mem in a.AddedMembers)
                 {
-                    Console.WriteLine("\nThread Mem Joined LOOP " + mem.Member.DisplayName + "\n");
                     //Basically call the AMX public for each new member. (Another loop since we do this for all scripts loaded, obviously..)
                     AMXPublic p = null;
                     foreach (Scripting.Script scr in Program.m_Scripts)
                     {
-                        Console.WriteLine("\nThread Mem Joined - AMX  CALL\n");
                         p = scr.m_Amx.FindPublic("OnThreadMemberJoined"); //<-- call it every time
                         if (p != null)
                         {
@@ -348,8 +345,6 @@ namespace dcamx.Discord.Events
 
             var guild = Utils.Scripting.DCGuild_ScrGuild(arg.Guild);
             guild.m_ScriptMembers[Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild))].m_Roles  = arg.RolesAfter;
-            foreach (DiscordRole rl in arg.Member.Roles)
-                Console.Write(rl.Name);
             return Task.CompletedTask;
         }
     }

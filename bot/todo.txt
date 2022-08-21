@@ -1,7 +1,6 @@
  - TIMER: Make sure they work with any amount of arguments 
  - More functions regarding guild, channel, member data. (retrieving them)
  - Add "SetCVar:Float,Int,String", "GetCVar:Float,Int,String" Natives - automatically safe to file when written.
- - (!!) Add functions to apply "properties" to users. 
  - gettimestamp (returning the unix timestamp if no params) return hour, sec, minute
  - Add native "CallConsoleCommand"
  - Member functions for private dm users

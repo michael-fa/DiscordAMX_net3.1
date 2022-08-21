@@ -52,7 +52,7 @@ namespace dcamx.Scripting.Natives
             DiscordMessage msg = null;
             try
             {
-                if(guild == null)
+                if (guild == null)
                 {
                     var channel = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
 
@@ -70,7 +70,74 @@ namespace dcamx.Scripting.Natives
                 {
                     DiscordChannel channel = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
 
-                    if(channel == null)
+                    if (channel == null)
+                    {
+                        foreach (DiscordThreadChannel dtc in guild.Threads.Values)
+                        {
+                            if (dtc.Id == Convert.ToUInt64(args1[1].AsString()))
+                            {
+                                msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                                {
+                                    Title = args1[3].AsString(),
+                                    Description = args1[4].AsString(),
+                                    ImageUrl = args1[2].AsString(),
+                                    Color = DiscordColor.Blue
+
+                                }).Result;
+                            }
+                        }
+                        return 1;
+                    }
+
+                    msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Title = args1[3].AsString(),
+                        Description = args1[4].AsString(),
+                        ImageUrl = args1[2].AsString(),
+                        Color = DiscordColor.Blue
+
+                    }).Result;
+                }
+
+                if (!args1[5].AsString().Equals("0")) AMX.SetString(args1[5].AsCellPtr(), msg.Id.ToString(), true);
+
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_SendEmbeddedImage' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
+            }
+
+            return 1;
+        }
+
+        public static int DC_SendEmbeddedEx(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 5) return 0;
+
+            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+            DiscordMessage msg = null;
+            try
+            {
+                if (guild == null)
+                {
+                    var channel = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
+
+                    msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                    {
+                        Title = args1[3].AsString(),
+                        Description = args1[4].AsString(),
+                        ImageUrl = args1[2].AsString(),
+                        Color = DiscordColor.Blue
+
+                    }).Result;
+                    return 1;
+                }
+                else
+                {
+                    DiscordChannel channel = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+
+                    if (channel == null)
                     {
                         foreach (DiscordThreadChannel dtc in guild.Threads.Values)
                         {
