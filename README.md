@@ -14,7 +14,7 @@ This project depends heavily on [DSharpPlus](https://dsharpplus.github.io). A .N
 
 ## :construction: BETA 1.0 is here!
 
-This month, this github repo now is one year old, and has changed a lot. I learned things as I testing things out for the first time between the D#+ and AMX stuff. I had to go though a lot of points where things weren't how I imaged them, and had to make them act how I wanted. Though I kept it as direct as possible sometimes I later changed things up again because they were doing waaaay too many .."hacky" stuff. 
+This month, this github repo now is one year old, and has changed a lot. I learned things as I tested stuff out for the first time between the D#+ and AMX sides. I had to go though a lot of points where things weren't how I imaged them, and had to make them act how I wanted. Though I kept it as direct as possible sometimes I later changed things up again because they were doing waaaay too many .."hacky" stuff.
 
 ## The BETA 1.0 brings:
  - Many natives related to the guild members
