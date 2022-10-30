@@ -22,7 +22,6 @@ namespace dcamx
         public static List<Scripting.ScriptTimer> m_ScriptTimers = null;
         public static List<Plugins.Plugin> m_Plugins = null;
         public static List<Scripting.Script> m_Scripts = null;
-        public static List<Plugins.PluginNatives> m_PluginNatives = null;
         public static List<Scripting.Guild> m_ScriptGuilds = null;
         public static List<IniFile> m_ScriptINIFiles = null;
         public static List<DiscordChannel> m_DmUsers = null;
@@ -101,7 +100,8 @@ namespace dcamx
                 foreach (string fl in Directory.GetFiles("Plugins/"))
                 {
                     if (!fl.EndsWith(".dll")) continue;
-                    Utils.Log.Info("[CORE] Found plugin: '" + fl + "' !");
+                    Utils.Log.Info("\n---------------------------------------------\n[CORE] Found plugin: '" + fl + "' !");
+                    Utils.Log.Info("\n---------------------------------------------");
                     new Plugins.Plugin(fl);
                 }
             }
@@ -140,7 +140,8 @@ namespace dcamx
             else new Script("main");
 
             //We first want to prefetch (only call constructor methods, returning us the natives) and then, above, load all the scripts and finally "really load" the plugins.
-            PluginTools.LoadAllPlugins();
+            PluginTools.RegisterNatives_Late(); //AMXRegister
+            PluginTools.LoadAllPlugins(); //InvokeLoad
 
             m_Discord = new Discord.DCBot(); //AMX -> MAIN()
             m_Discord.RunAsync(dConfig).GetAwaiter().GetResult(); // AMX - OnLoad / OnConnect

@@ -1,13 +1,17 @@
 #include <a_dcamx>
 
 
-
 main()
 {
+    DC_SetMinLogLevel(1);
+    printf("DCAMX Essentials Core Script\n");
 }
 
 public OnInit()
 {
+    DC_SetActivityText("Initialiasing..", DISCORD_ACTIVITY_PLAYING);
+
+    if(
     return 1;
 }
 
@@ -101,6 +105,7 @@ public OnMemberLeave(guildid, memberid)
 
 public OnChannelMessage(guildid, channelid[], memberid, messageid[], content[])
 {
+
     return 1;
 }
 
