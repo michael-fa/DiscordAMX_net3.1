@@ -206,7 +206,7 @@ namespace dcamx.Scripting.Natives
             {
                 Utils.Log.Exception(ex, caller_script);
                 Utils.Log.Error("In native 'DC_GetBotPing'! (m_Discord->Client NullReference)", caller_script);
-            }
+            } 
             return 1;
         }
     }

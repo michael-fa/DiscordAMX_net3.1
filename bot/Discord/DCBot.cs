@@ -31,10 +31,6 @@ namespace dcamx.Discord
             //BETA 1.0: Instead of calling the main.amx main entry we now read a bot.token file
             //that the bot-admin needs to setup right. This removes the need for the DC_SetBotToken native.
 
-            //But still call main() from first amx here!
-            Program.m_MainAMX.ExecuteMain();
-
-
             if(!File.Exists(AppContext.BaseDirectory + "/bot.token"))
             {
                 Utils.Log.Error("Failed to set up the bot's token! Make sure you've put your bot token in the 'bot.token' file!");
@@ -52,6 +48,9 @@ namespace dcamx.Discord
                 }
                 else Program.dConfig.Token = File.ReadAllText(AppContext.BaseDirectory + "/bot.token");
             }
+
+            //But still call main() from first amx here!
+            Program.m_MainAMX.ExecuteMain();
         }
 
         public async Task RunAsync(DiscordConfiguration dConfig)
