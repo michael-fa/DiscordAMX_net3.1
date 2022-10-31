@@ -29,6 +29,14 @@ This month, this github repo now is one year old, and has changed a lot. I learn
  - **Many more functions (scripting natives) to control your bot!**
  .. Please refer yourself to the [Wiki](https://github.com/michael-fa/DiscordAMX/wiki) for more!
  
+ ## Planned for next releases
+  - Forum support
+  - More user functions, more channel functions like
+    - UpdateChannel
+    - UpdateMessage
+    - More embedded functions
+    
+ 
  ##  📢  Testers 👋 ♟️
  Looking for some Pawn Scripters who know how they can help testing me with this. I will provide an win32 server for temporary use.
  
