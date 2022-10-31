@@ -160,16 +160,19 @@ namespace dcamx.Scripting
 
             //Members
             m_Amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.GuildNatives.DC_GetMemberCount(amx1, args1, this));
-            m_Amx.Register("DC_GetGuildMemberID", (amx1, args1) => Natives.UserNatives.DC_GetMemberID(amx1, args1, this));
+            m_Amx.Register("DC_GetMemberID", (amx1, args1) => Natives.UserNatives.DC_GetMemberID(amx1, args1, this));
             m_Amx.Register("DC_GetMemberName", (amx1, args1) => Natives.UserNatives.DC_GetMemberName(amx1, args1, this));
             m_Amx.Register("DC_GetMemberDisplayName", (amx1, args1) => Natives.UserNatives.DC_GetMemberDisplayName(amx1, args1, this));
             m_Amx.Register("DC_GetMemberDiscriminator", (amx1, args1) => Natives.UserNatives.DC_GetMemberDiscriminator(amx1, args1, this));
-            m_Amx.Register("DC_BanGuildMember", (amx1, args1) => Natives.UserNatives.DC_BanMember(amx1, args1, this));
-            m_Amx.Register("DC_UnbanGuildMember", (amx1, args1) => Natives.UserNatives.DC_UnbanMember(amx1, args1, this));
+            m_Amx.Register("DC_BanMember", (amx1, args1) => Natives.UserNatives.DC_BanMember(amx1, args1, this));
+            m_Amx.Register("DC_UnbanMember", (amx1, args1) => Natives.UserNatives.DC_UnbanMember(amx1, args1, this));
             m_Amx.Register("DC_TimeoutGuildMember", (amx1, args1) => Natives.UserNatives.DC_TimeoutMember(amx1, args1, this));
             m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.UserNatives.DC_GetMemberAvatarURL(amx1, args1, this));
             m_Amx.Register("DC_MemberHasRole", (amx1, args1) => Natives.UserNatives.DC_MemberHasRole(amx1, args1, this));
             m_Amx.Register("DC_SetMemberRole", (amx1, args1) => Natives.UserNatives.DC_SetMemberRole(amx1, args1, this));
+            m_Amx.Register("DC_BanUser", (amx1, args1) => Natives.UserNatives.DC_BanUser(amx1, args1, this));
+            m_Amx.Register("DC_UnbanUser", (amx1, args1) => Natives.UserNatives.DC_UnbanUser(amx1, args1, this));
+            m_Amx.Register("DC_IsUserBanned", (amx1, args1) => Natives.UserNatives.DC_IsUserBanned(amx1, args1, this));
 
             //Channels
             m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeleteMessage(amx1, args1, this));

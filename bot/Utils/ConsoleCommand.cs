@@ -47,6 +47,12 @@ namespace dcamx.Utils
                     case "guilds":
                         ListGuilds();
                         break;
+                    case "banuser":
+                        UserBans.Add(cmd[1]);
+                        break;
+                    case "unbanuser":
+                        UserBans.Remove(cmd[1]);
+                        break;
 
                 }
             }
@@ -80,7 +86,9 @@ namespace dcamx.Utils
             Console.WriteLine("\n\nCommmands available from console:\n   help                                          (Shows a list of commands)\n   exit                                          (Stops the server safely)\n" +
                "   callpub <scriptfile> <public>                 (Calls a public inside a script via console)\n   loadscript <scriptfile>                       (Loads a script. Enter scriptfile without .amx)\n   unloadscript <scriptfile>                     (Unloads a script that is loaded)" +
                "\n   reload <scriptfile>                           (Reloads a script- Pass scriptfile without '.amx')\n   reloadall                                     (Reloads all scripts)\n" +
-               "   guilds                                        (Lists all the guilds available for the bot '" + Program.m_Discord.Client.CurrentUser.Username + "')");
+               "   guilds                                        (Lists all the guilds available for the bot '" + Program.m_Discord.Client.CurrentUser.Username + "')\n" +
+               "   banuser                                       (Bans a user, example: 'banuser 827273929278176', this prevents them from contacting the bot at all.)\n" + 
+               "   unbanuser                                     (Removes a user from the banlist)");
         }
 
         public static void LoadScript(string[] args)

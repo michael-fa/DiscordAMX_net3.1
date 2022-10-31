@@ -175,6 +175,14 @@ namespace dcamx
             //Check if Scripts dir exists
             if (!Directory.Exists(System.AppContext.BaseDirectory + "Scripts/"))
                 Directory.CreateDirectory(System.AppContext.BaseDirectory + "Scripts/");
+
+            //Internal banlist
+            if (!File.Exists(System.AppContext.BaseDirectory + "bans.txt"))
+            {
+                File.AppendAllText(System.AppContext.BaseDirectory + "bans.txt", "# ---------------- Private DM related bans ----------------\n# This file is written by the DiscordAMX program itself, since it uses it own private dm ban protection.\n# If you want to add a user manually, simply add his id in a new separate line at the bottom.");
+
+            }
+
         }
 
 

@@ -79,6 +79,36 @@ namespace dcamx.Scripting.Natives
             return 1;
         }
 
+        public static int DC_BanUser(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            if (args1[0].AsString().Length == 0) return 0;
+
+            Utils.UserBans.Add(args1[0].AsString());
+
+            return 1;
+        }
+
+        public static int DC_UnbanUser(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            if (args1[0].AsString().Length == 0) return 0;
+
+            Utils.UserBans.Remove(args1[0].AsString());
+
+            return 1;
+        }
+
+        public static int DC_IsUserBanned(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            if (args1[0].AsString().Length == 0) return 0;
+
+            if (!Utils.UserBans.IsBanned(args1[0].AsString())) return 0;
+
+            else return 1;
+        }
+
         public static int DC_BanMember(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 4) return 0;
@@ -89,7 +119,7 @@ namespace dcamx.Scripting.Natives
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
 
                 DiscordMember usr = Utils.Scripting.ScrMemberID_DCMember(args1[1].AsInt32(), Utils.Scripting.DCGuild_ScrGuild(guild));
-                if(args1[3].AsString().Equals("0")) usr.BanAsync(args1[2].AsInt32(), null); //no reason
+                if (args1[3].AsString().Equals("0")) usr.BanAsync(args1[2].AsInt32(), null); //no reason
                 else usr.BanAsync(args1[2].AsInt32(), args1[3].AsString());
 
             }
@@ -155,11 +185,10 @@ namespace dcamx.Scripting.Natives
             //For some reason, when editing member roles, during the runtime of the bot software, as of right now, it does not get updated for our api / bot until
             //it has been restarted.
 
-            //This is bypassed using by reusing OnMemberUpdate event to set and reference to the member's script_entity object
+            //This is bypassed by reusing OnMemberUpdate event to set and reference to the member's script_entity object
             //And so this is way we are doing it this way.
 
             if (args1.Length != 3) return 0;
-
 
             try
             {
@@ -170,7 +199,6 @@ namespace dcamx.Scripting.Natives
                     if (dr.Name.Equals(args1[2].AsString()))
                         return 1;
                 }
-
             }
             catch (Exception ex)
             {

@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using DSharpPlus;
-using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
-using DSharpPlus.EventArgs;
-using Newtonsoft.Json;
 using DSharpPlus.Interactivity.Extensions;
-using AMXWrapper;
-using System.Diagnostics;
 
 namespace dcamx.Discord
 {

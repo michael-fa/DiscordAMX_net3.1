@@ -26,6 +26,7 @@ namespace dcamx.Discord.Events
         public static Task MessageAdded(DiscordClient c, MessageCreateEventArgs arg)
         {
             if (arg.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
+            if (Utils.UserBans.IsBanned(arg.Author.Id.ToString())) return Task.CompletedTask;
             if (arg.Channel.IsPrivate)
             {
                 if (!Program.m_DmUsers.Contains((DiscordDmChannel)arg.Channel))
@@ -104,6 +105,7 @@ namespace dcamx.Discord.Events
 
         public static Task MessageUpdated(DiscordClient c, MessageUpdateEventArgs arg)
         {
+            if (Utils.UserBans.IsBanned(arg.Author.Id.ToString())) return Task.CompletedTask;
             if (arg.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
             if (arg.Message.Content == null) return Task.CompletedTask;
             if (arg.Channel.IsPrivate)
@@ -243,6 +245,7 @@ namespace dcamx.Discord.Events
 
         public static Task MessageDeleted(DiscordClient c, MessageDeleteEventArgs arg)
         {
+            if (Utils.UserBans.IsBanned(arg.Message.Author.Id.ToString())) return Task.CompletedTask;
             //If the trigger was the bot itself, skip calling the public
             if (c.CurrentUser == arg.Message.Author) return Task.CompletedTask;
             //if (arg.Message.Author == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
@@ -320,6 +323,7 @@ namespace dcamx.Discord.Events
 
         public static Task ReactionAdded(DiscordClient c, MessageReactionAddEventArgs arg)
         {
+            if (Utils.UserBans.IsBanned(arg.User.Id.ToString())) return Task.CompletedTask;
             //If the trigger was the bot itself, skip calling the public
             if (arg.User == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
 
@@ -408,6 +412,7 @@ namespace dcamx.Discord.Events
 
         public static Task ReactionRemoved(DiscordClient c, MessageReactionRemoveEventArgs arg)
         {
+            if (Utils.UserBans.IsBanned(arg.User.Id.ToString())) return Task.CompletedTask;
             //If the trigger was the bot itself, skip calling the public 
             if (arg.User == Program.m_Discord.Client.CurrentUser) return Task.CompletedTask;
             AMXPublic p = null;

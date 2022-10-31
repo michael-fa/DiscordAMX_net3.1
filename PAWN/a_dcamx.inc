@@ -82,6 +82,10 @@ native DC_UnbanMember(guildid, memberid);
 native DC_TimeoutMember(guildid, memberid, seconds, reason[]);
 native DC_MemberHasRole(guildid, memberid, role_name[]);
 native DC_SetMemberRole(guildid, memberid, role_name[]);
+//         - This is special for DM members only
+native DC_BanUser(userid[]);
+native DC_UnbanUser(userid);
+native DC_IsUserBanned(userid);
 
 //         - Channels / Threads / DM
 native DC_CreateChannel(guildid, channel_name[], channel_type = 0, parent[], topic[], nfsw = 0);
