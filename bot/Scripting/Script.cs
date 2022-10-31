@@ -170,6 +170,7 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_GetMemberAvatarURL", (amx1, args1) => Natives.UserNatives.DC_GetMemberAvatarURL(amx1, args1, this));
             m_Amx.Register("DC_MemberHasRole", (amx1, args1) => Natives.UserNatives.DC_MemberHasRole(amx1, args1, this));
             m_Amx.Register("DC_SetMemberRole", (amx1, args1) => Natives.UserNatives.DC_SetMemberRole(amx1, args1, this));
+            m_Amx.Register("DC_RevokeMemberRole", (amx1, args1) => Natives.UserNatives.DC_RevokeMemberRole(amx1, args1, this));
             m_Amx.Register("DC_BanUser", (amx1, args1) => Natives.UserNatives.DC_BanUser(amx1, args1, this));
             m_Amx.Register("DC_UnbanUser", (amx1, args1) => Natives.UserNatives.DC_UnbanUser(amx1, args1, this));
             m_Amx.Register("DC_IsUserBanned", (amx1, args1) => Natives.UserNatives.DC_IsUserBanned(amx1, args1, this));
