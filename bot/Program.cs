@@ -234,7 +234,7 @@ namespace dcamx
                 {
                     pl.Unload(0);
 
-                    Log.WriteLine("Script " + pl._File + " unloaded.");
+                    Log.WriteLine("Plugin " + pl._File + " unloaded.");
                 }
             }
             
