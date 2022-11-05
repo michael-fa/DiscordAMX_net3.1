@@ -50,7 +50,7 @@ namespace dcamx.Discord.Events
             AMXPublic p = null;
             foreach (Scripting.Script scr in Program.m_Scripts)
             {
-                p = scr.m_Amx.FindPublic("OnMemberJoin");
+                p = scr.m_Amx.FindPublic("OnMemberLeft");
                 if (p != null)
                 {
                     p.AMX.Push(Utils.Scripting.ScrMemberDCMember_ID(arg.Member, Utils.Scripting.DCGuild_ScrGuild(arg.Guild)));

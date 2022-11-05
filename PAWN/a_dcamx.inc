@@ -126,7 +126,7 @@ forward OnGuildUpdated(guildid, guild_id_string[], member_count, old_name[], new
 
 //           - Members
 forward OnMemberJoin(guildid, memberid);
-forward OnMemberLeave(guildid, memberid);
+forward OnMemberLeft(guildid, memberid);
 
 //           - Channels
 forward OnChannelMessage(guildid, channelid[], memberid, messageid[], content[]);
