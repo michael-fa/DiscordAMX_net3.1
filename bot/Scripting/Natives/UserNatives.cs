@@ -8,7 +8,7 @@ namespace dcamx.Scripting.Natives
     {
         public static int DC_GetMemberName(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length != 3) return 0;
+            if (args1.Length > 3) return 0;
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
 
             try

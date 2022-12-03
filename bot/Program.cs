@@ -25,6 +25,7 @@ namespace dcamx
         public static List<Scripting.Guild> m_ScriptGuilds = null;
         public static List<IniFile> m_ScriptINIFiles = null;
         public static List<DiscordChannel> m_DmUsers = null;
+        public static List<Scripting.DiscordEmbedBuilder> m_Embeds = null;
 
         //GuildAvailable gets called for every first initialised guild. We don't want that.
         public static bool m_ScriptingInited = false;
@@ -222,6 +223,7 @@ namespace dcamx
             Program.m_Plugins = new List<Plugins.Plugin>();   //Create list for plugins
             m_DmUsers = new List<DiscordChannel>();
             Program.m_ScriptINIFiles = new List<IniFile>();
+            Program.m_Embeds = new List<Scripting.DiscordEmbedBuilder>();
         }
 
 

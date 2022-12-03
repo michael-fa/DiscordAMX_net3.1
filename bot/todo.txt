@@ -1,4 +1,3 @@
  - TIMER: Make sure they work with any amount of arguments 
  - More functions regarding guild, channel, member data. (retrieving them)
  - Member functions for private dm users
- - internal DM User banlist

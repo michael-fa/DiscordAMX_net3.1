@@ -10,8 +10,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("DiscordAMX - A PAWN Scripting expansion for your Discord Application!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("fanter.eu")]
-[assembly: AssemblyProduct("DiscordAMX ALPHA BUILD")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyProduct("DiscordAMX BETA BUILD")]
+[assembly: AssemblyCopyright("Copyright 2022 © www.fanter.eu")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

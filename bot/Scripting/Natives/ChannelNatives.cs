@@ -56,13 +56,12 @@ namespace dcamx.Scripting.Natives
                 {
                     var channel = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
 
-                    msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                    msg = channel.SendMessageAsync(embed: new DSharpPlus.Entities.DiscordEmbedBuilder
                     {
                         Title = args1[3].AsString(),
                         Description = args1[4].AsString(),
                         ImageUrl = args1[2].AsString(),
                         Color = DiscordColor.Blue
-
                     }).Result;
                     return 1;
                 }
@@ -76,7 +75,7 @@ namespace dcamx.Scripting.Natives
                         {
                             if (dtc.Id == Convert.ToUInt64(args1[1].AsString()))
                             {
-                                msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                                msg = channel.SendMessageAsync(embed: new DSharpPlus.Entities.DiscordEmbedBuilder
                                 {
                                     Title = args1[3].AsString(),
                                     Description = args1[4].AsString(),
@@ -89,7 +88,7 @@ namespace dcamx.Scripting.Natives
                         return 1;
                     }
 
-                    msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
+                    msg = channel.SendMessageAsync(embed: new DSharpPlus.Entities.DiscordEmbedBuilder
                     {
                         Title = args1[3].AsString(),
                         Description = args1[4].AsString(),
@@ -111,70 +110,65 @@ namespace dcamx.Scripting.Natives
             return 1;
         }
 
-        public static int DC_SendEmbeddedEx(AMX amx1, AMXArgumentList args1, Script caller_script)
+        public static int DC_NewEmbedBuilder(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length < 5) return 0;
+            if (args1.Length < 2) return 0;
+            if (args1[0].AsString().Length == 0 || args1[1].AsString().Length == 0) return 0;
+            var b = new Scripting.DiscordEmbedBuilder(args1[0].AsString(), args1[1].AsString());
+            return b.m_ID;
+        }
 
-            DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
-            DiscordMessage msg = null;
-            try
+        public static int DC_SetEmbedAuthor(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 4) return 0;
+            if (args1[1].AsString().Length == 0) return 0;
+
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
             {
-                if (guild == null)
-                {
-                    var channel = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
-
-                    msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
-                    {
-                        Title = args1[3].AsString(),
-                        Description = args1[4].AsString(),
-                        ImageUrl = args1[2].AsString(),
-                        Color = DiscordColor.Blue
-
-                    }).Result;
-                    return 1;
-                }
-                else
-                {
-                    DiscordChannel channel = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
-
-                    if (channel == null)
-                    {
-                        foreach (DiscordThreadChannel dtc in guild.Threads.Values)
-                        {
-                            if (dtc.Id == Convert.ToUInt64(args1[1].AsString()))
-                            {
-                                msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
-                                {
-                                    Title = args1[3].AsString(),
-                                    Description = args1[4].AsString(),
-                                    ImageUrl = args1[2].AsString(),
-                                    Color = DiscordColor.Blue
-
-                                }).Result;
-                            }
-                        }
-                        return 1;
-                    }
-
-                    msg = channel.SendMessageAsync(embed: new DiscordEmbedBuilder
-                    {
-                        Title = args1[3].AsString(),
-                        Description = args1[4].AsString(),
-                        ImageUrl = args1[2].AsString(),
-                        Color = DiscordColor.Blue
-
-                    }).Result;
-                }
-
-                if (!args1[5].AsString().Equals("0")) AMX.SetString(args1[5].AsCellPtr(), msg.Id.ToString(), true);
-
-            }
-            catch (Exception ex)
-            {
-                Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SendEmbeddedImage' (Invalid Channel, wrong ID format, or you have not the right role permissions)", caller_script);
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.SetAuthor(args1[1].AsString(), args1[2].AsString(), args1[3].AsString());
+                break;
             }
 
+            return 1;
+        }
+
+        public static int DC_SendEmbed(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 3) return 0;
+            if (args1[2].AsString().Length == 0) return 0;
+            DiscordChannel channel = null;
+            if (args1[1].AsInt32() == 0)
+            {
+                DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[1].AsInt32());
+
+                channel = guild.GetChannel(Convert.ToUInt64(args1[2].AsString()));
+            }
+            else
+            {
+                channel = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[2].AsString())).Result;
+            }
+            if (channel == null) return 0;
+
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.Send(channel);
+                break;
+            }
+            return 1;
+        }
+
+        public static int DC_UpdateEmbed(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.Update();
+                break;
+            }
             return 1;
         }
 
@@ -182,7 +176,7 @@ namespace dcamx.Scripting.Natives
         public static int DC_SendChannelMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length < 3) return 0;
-            
+
             DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
             try
             {
