@@ -28,32 +28,31 @@ namespace dcamx.Scripting
 
         public void SetThumbnail(string szUrl, int iH = 0, int iW = 0)
         {
-            m_Builder.AddField("field", "field").WithThumbnail(szUrl, iH, iW);
+            m_Builder.WithThumbnail(szUrl, iH, iW);
         }
 
-        public void SetAuthor(string szAuthor, string szUrl, string szIconUrl)
+        public void SetAuthor(string szAuthor, string szUrl = null)
         {
-            m_Builder.AddField("field", "field").WithAuthor(szAuthor);
-            m_Builder.RemoveFieldAt(m_Builder.Fields.Count-1);
+            m_Builder.WithAuthor(szAuthor, szUrl);
         }
 
         public void SetFooter(string szText, string szIconUrl)
         {
-            m_Builder.AddField("", "").WithFooter(szText, szIconUrl);
+            m_Builder.WithFooter(szText, szIconUrl);
         }
 
         public void SetImageUrl(string szUrl)
         {
-            m_Builder.AddField("", "").WithImageUrl(szUrl);
+            m_Builder.WithImageUrl(szUrl);
         }
         public void SetUrl(string szUrl)
         {
-            m_Builder.AddField("", "").WithUrl(szUrl);
+            m_Builder.WithUrl(szUrl);
         }
 
-        public void AddText(string szTitle, string szText)
+        public void AddText(string szTitle, string szText, bool bInline = false)
         {
-            m_Builder.AddField(szTitle, szText);
+            m_Builder.AddField(szTitle, szText, bInline);
         }
 
         public void ToggleTimestamp()

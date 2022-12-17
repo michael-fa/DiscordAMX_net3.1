@@ -3,6 +3,7 @@ using DSharpPlus.Entities;
 using System;
 using DSharpPlus;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace dcamx.Scripting.Natives
 {
@@ -117,16 +118,95 @@ namespace dcamx.Scripting.Natives
             var b = new Scripting.DiscordEmbedBuilder(args1[0].AsString(), args1[1].AsString());
             return b.m_ID;
         }
-
         public static int DC_SetEmbedAuthor(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
-            if (args1.Length < 4) return 0;
+            if (args1.Length < 2) return 0;
             if (args1[1].AsString().Length == 0) return 0;
+            string _Url = null;
+            if (args1.Length > 1) _Url = args1[2].AsString();
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.SetAuthor(args1[1].AsString(), _Url);
+                break;
+            }
+
+            return 1;
+        }
+
+        public static int DC_SetEmbedFooter(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 2) return 0;
+            if (args1[1].AsString().Length == 0) return 0;
+            string _Url = null;
+            if (args1.Length > 1) _Url = args1[2].AsString();
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.SetFooter(args1[1].AsString(), _Url);
+                break;
+            }
+
+            return 1;
+        }
+
+        public static int DC_SetEmbedImage(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            if (args1[1].AsString().Length == 0) return 0;
+            string _Url = null;
+            if (args1.Length > 1) _Url = args1[2].AsString();
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.SetImageUrl(args1[1].AsString());
+                break;
+            }
+
+            return 1;
+        }
+
+        public static int DC_SetEmbedUrl(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            if (args1[1].AsString().Length == 0) return 0;
+            string _Url = null;
+            if (args1.Length > 1) _Url = args1[2].AsString();
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.SetUrl(args1[1].AsString());
+                break;
+            }
+
+            return 1;
+        }
+
+        public static int DC_AddEmbedText(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length < 3) return 0;
+            if (args1[1].AsString().Length == 0) return 0;
+            if (args1[2].AsString().Length == 0) return 0;
+
+            if (args1[3].AsInt32() < 0 || args1[3].AsInt32() > 1) return 0;
 
             foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
             {
                 if (x.m_ID != args1[0].AsInt32()) continue;
-                x.SetAuthor(args1[1].AsString(), args1[2].AsString(), args1[3].AsString());
+                x.AddText(args1[1].AsString(), args1[2].AsString(), Convert.ToBoolean(args1[3].AsInt32()));
+                break;
+            }
+
+            return 1;
+        }
+
+        public static int DC_ToggleEmbedTimestamp(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 1) return 0;
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.ToggleTimestamp();
                 break;
             }
 

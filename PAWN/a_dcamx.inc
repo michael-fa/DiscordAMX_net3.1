@@ -39,7 +39,7 @@
 
 
 // Natives - DCAMX Core
-native SetTimer(callback[], interval, bool:repeat);
+native SetTimer(callback[], interval, bool:repeat = false);
 native KillTimer(timerid);
 native gettimestamp();
 native Loadscript(script[]);
@@ -91,15 +91,22 @@ native DC_IsUserBanned(userid);
 //         - Channels / Threads / DM
 native DC_CreateChannel(guildid, channel_name[], channel_type = 0, parent[], topic[], nfsw = 0);
 native DC_DeleteChannel(guildid, channelid[], reason[]);
-native DC_SendPrivateMessage(channelid[], message[], out_id[] = '0');
+native DC_SendPrivateMessage(channelid[], message[], out_id[] = '\0');
 native DC_DeletePrivateMessage(channelid[], messageid[], reason[]);
-native DC_SendChannelMessage(guildid, channelid[], message[], out_id[] = '0');
-native DC_DeleteMessage(guildid, channelid[], messageid[], reason[] = '0');
-native DC_SendEmbeddedImage(guildid = -1, channelid[], image_url[], title[], description[], out_id[] = '0'); //THIS FUNCTION WORKS FOR THREADS, DMs and TEXT CHANNELS!
+native DC_SendChannelMessage(guildid, channelid[], message[], out_id[] = '\0');
+native DC_DeleteMessage(guildid, channelid[], messageid[], reason[] = '\0');
+native DC_SendEmbeddedImage(guildid = -1, channelid[], image_url[], title[], description[], out_id[] = '\0'); //THIS FUNCTION WORKS FOR THREADS, DMs and TEXT CHANNELS!
+
 native DC_NewEmbedBuilder(title[], text[]); //THIS FUNCTION WORKS FOR THREADS, DMs and TEXT CHANNELS!
-native DC_SetEmbedAuthor(embedid, author[], url[] = '0', iconurl[] = '0');
+native DC_SetEmbedAuthor(embedid, author[], url[] = '\0');
+native DC_SetEmbedFooter(embedid, footer_text[], icon_url[] = '\0');
+native DC_SetEmbedImage(embedid, img_url[]);
+native DC_SetEmbedUrl(embedid, url[]);
+native DC_AddEmbedText(embedid, title[], text[], bool:inline = false);
+native DC_ToggleEmbedTimestamp(embedid);
 native DC_SendEmbed(embedid, guildid, channelid[]);
 native DC_UpdateEmbed(embedid);
+
 native DC_FindChannel(guildid = -1, channel_name[], destination[]);
 native DC_FindThread(guildid, channel_name[], destination[]);
 native DC_GetChannelName(guildid, channelid[], destination[]);

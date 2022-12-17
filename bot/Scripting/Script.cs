@@ -180,10 +180,17 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendChannelMessage(amx1, args1, this));
             m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_SendEmbeddedImage", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbeddedImage(amx1, args1, this));
+            
             m_Amx.Register("DC_NewEmbedBuilder", (amx1, args1) => Natives.ChannelNatives.DC_NewEmbedBuilder(amx1, args1, this));
             m_Amx.Register("DC_SetEmbedAuthor", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedAuthor(amx1, args1, this));
+            m_Amx.Register("DC_SetEmbedFooter", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedFooter(amx1, args1, this));
+            m_Amx.Register("DC_SetEmbedImage", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedImage(amx1, args1, this));
+            m_Amx.Register("DC_SetEmbedUrl", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedUrl(amx1, args1, this));
+            m_Amx.Register("DC_AddEmbedText", (amx1, args1) => Natives.ChannelNatives.DC_AddEmbedText(amx1, args1, this));
+            m_Amx.Register("DC_ToggleEmbedTimestamp", (amx1, args1) => Natives.ChannelNatives.DC_ToggleEmbedTimestamp(amx1, args1, this));
             m_Amx.Register("DC_SendEmbed", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbed(amx1, args1, this));
             m_Amx.Register("DC_UpdateEmbed", (amx1, args1) => Natives.ChannelNatives.DC_UpdateEmbed(amx1, args1, this));
+            
             m_Amx.Register("DC_DeletePrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeletePrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_FindChannel", (amx1, args1) => Natives.ChannelNatives.DC_FindChannel(amx1, args1, this));
             m_Amx.Register("DC_FindThread", (amx1, args1) => Natives.ChannelNatives.DC_FindThread(amx1, args1, this));
