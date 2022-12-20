@@ -38,6 +38,53 @@
 #define INVALID_TIMER_ID               -1
 
 
+const DISCORD_COLORS: {
+    Aquamarine = 0,
+    Azure,
+    Black,
+    Blue,
+    Blurple,
+    Brown,
+    Chartreuse,
+    CornflowerBlue,
+    Cyan,
+    DarkBlue,
+    DarkButNotBlack,
+    DarkGray,
+    DarkGreen,
+    DarkRed,
+    Gold,
+    Goldenrod,
+    Gray,
+    Grayple,
+    Green,
+    HotPink,
+    IndianRed,
+    LightGray,
+    Lilac,
+    Magenta,
+    MidnightBlue,
+    NotQuiteBlack,
+    Orange,
+    PhthaloBlue,
+    PhthaloGreen,
+    Purple,
+    Red,
+    Rose,
+    SapGreen,
+    Sienna,
+    SpringGreen,
+    Teal,
+    Turquoise,
+    VeryDarkGray,
+    Violet,
+    Wheat,
+    White,
+    Yellow,
+    ColorViolet
+};
+
+
 // Natives - DCAMX Core
 native SetTimer(callback[], interval, bool:repeat = false);
 native KillTimer(timerid);
@@ -103,6 +150,7 @@ native DC_SetEmbedAuthor(embedid, author[], url[] = '\0');
 native DC_SetEmbedFooter(embedid, footer_text[], icon_url[] = '\0');
 native DC_SetEmbedImage(embedid, img_url[]);
 native DC_SetEmbedUrl(embedid, url[]);
+native DC_SetEmbedColor(embedid, DISCORD_COLORS:color);
 native DC_AddEmbedText(embedid, title[], text[], bool:inline = false);
 native DC_ToggleEmbedTimestamp(embedid);
 native DC_SendEmbed(embedid, guildid, channelid[]);

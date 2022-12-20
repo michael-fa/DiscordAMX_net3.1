@@ -41,6 +41,11 @@ namespace dcamx.Scripting
             m_Builder.WithFooter(szText, szIconUrl);
         }
 
+        public void SetColor(DiscordColor color)
+        {
+            m_Builder.WithColor(color);
+        }
+
         public void SetImageUrl(string szUrl)
         {
             m_Builder.WithImageUrl(szUrl);

@@ -182,6 +182,68 @@ namespace dcamx.Scripting.Natives
             return 1;
         }
 
+        public static int DC_SetEmbedColor(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+            DiscordColor col = DiscordColor.Aquamarine;
+            switch(args1[1].AsInt32())
+            {
+                case 0: col = DiscordColor.Aquamarine; break;
+                case 1: col = DiscordColor.Azure; break;
+                case 2: col = DiscordColor.Black; break;
+                case 3: col = DiscordColor.Blue; break;
+                case 4: col = DiscordColor.Blurple; break;
+                case 5: col = DiscordColor.Brown; break;
+                case 6: col = DiscordColor.Chartreuse; break;
+                case 7: col = DiscordColor.CornflowerBlue; break;
+                case 8: col = DiscordColor.Cyan; break;
+                case 9: col = DiscordColor.DarkBlue; break;
+                case 10: col = DiscordColor.DarkButNotBlack; break;
+                case 11: col = DiscordColor.DarkGray; break;
+                case 12: col = DiscordColor.DarkGreen; break;
+                case 13: col = DiscordColor.DarkRed; break;
+                case 14: col = DiscordColor.Gold; break;
+                case 15: col = DiscordColor.Goldenrod; break;
+                case 16: col = DiscordColor.Gray; break;
+                case 17: col = DiscordColor.Grayple; break;
+                case 18: col = DiscordColor.Green; break;
+                case 19: col = DiscordColor.HotPink; break;
+                case 20: col = DiscordColor.IndianRed; break;
+                case 21: col = DiscordColor.LightGray; break;
+                case 22: col = DiscordColor.Lilac; break;
+                case 23: col = DiscordColor.Magenta; break;
+                case 24: col = DiscordColor.MidnightBlue; break;
+                case 25: col = DiscordColor.NotQuiteBlack; break;
+                case 26: col = DiscordColor.Orange; break;
+                case 27: col = DiscordColor.PhthaloBlue; break;
+                case 28: col = DiscordColor.PhthaloGreen; break;
+                case 29: col = DiscordColor.Purple; break;
+                case 30: col = DiscordColor.Red; break;
+                case 31: col = DiscordColor.Rose; break;
+                case 32: col = DiscordColor.SapGreen; break;
+                case 33: col = DiscordColor.Sienna; break;
+                case 34: col = DiscordColor.SpringGreen; break;
+                case 35: col = DiscordColor.Teal; break;
+                case 36: col = DiscordColor.Turquoise; break;
+                case 37: col = DiscordColor.VeryDarkGray; break;
+                case 38: col = DiscordColor.Violet; break;
+                case 39: col = DiscordColor.Wheat; break;
+                case 40: col = DiscordColor.White; break;
+                case 41: col = DiscordColor.Yellow; break;
+                case 42: col = DiscordColor.Violet; break;
+            }
+
+
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                if (x.m_ID != args1[0].AsInt32()) continue;
+                x.SetColor(col);
+                break;
+            }
+
+            return 1;
+        }
+
         public static int DC_AddEmbedText(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length < 3) return 0;

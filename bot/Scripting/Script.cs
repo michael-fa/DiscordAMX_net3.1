@@ -187,6 +187,7 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_SetEmbedFooter", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedFooter(amx1, args1, this));
             m_Amx.Register("DC_SetEmbedImage", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedImage(amx1, args1, this));
             m_Amx.Register("DC_SetEmbedUrl", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedUrl(amx1, args1, this));
+            m_Amx.Register("DC_SetEmbedColor", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedColor(amx1, args1, this));
             m_Amx.Register("DC_AddEmbedText", (amx1, args1) => Natives.ChannelNatives.DC_AddEmbedText(amx1, args1, this));
             m_Amx.Register("DC_ToggleEmbedTimestamp", (amx1, args1) => Natives.ChannelNatives.DC_ToggleEmbedTimestamp(amx1, args1, this));
             m_Amx.Register("DC_SendEmbed", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbed(amx1, args1, this));
