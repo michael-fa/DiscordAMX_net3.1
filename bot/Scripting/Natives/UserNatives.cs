@@ -79,6 +79,32 @@ namespace dcamx.Scripting.Natives
             return 1;
         }
 
+        public static int DC_IsMemberValid(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 2) return 0;
+
+            DiscordGuild guild = null;
+            if (args1[0].AsInt32() > -1)guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+
+            if(guild == null)
+            {
+                DiscordChannel user = null;
+                user = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[1].AsString())).Result;
+                if (user != null) return 1;
+            }
+            else
+            {
+                foreach(DiscordMember mem in guild.Members.Values)
+                {
+                    Console.WriteLine(mem.DisplayName);
+                    if (mem.Id == Convert.ToUInt64(args1[1].AsString()) || guild.Owner.Id == Convert.ToUInt64(args1[1].AsString()))
+                        return 1;
+                }
+            }
+
+            return 0;
+        }
+
         public static int DC_BanUser(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length != 1) return 0;
@@ -126,7 +152,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_BanMember' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_BanMember' (invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -149,7 +175,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_UnbanMember' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_UnbanMember' (invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -172,7 +198,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_TimeoutMember' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_TimeoutMember' (invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -203,7 +229,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_GuildMemberHasRole' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_GuildMemberHasRole' (invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -232,7 +258,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_SetMemberRole' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_SetMemberRole' (invalid parameters!)", caller_script);
                 return 0;
             }
 
@@ -261,7 +287,7 @@ namespace dcamx.Scripting.Natives
             catch (Exception ex)
             {
                 Utils.Log.Exception(ex, caller_script);
-                Utils.Log.Error("In native 'DC_RemoveMemberRole' (dest_string must be a array, or invalid parameters!)", caller_script);
+                Utils.Log.Error("In native 'DC_RemoveMemberRole' (invalid parameters!)", caller_script);
                 return 0;
             }
 

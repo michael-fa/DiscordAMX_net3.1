@@ -159,6 +159,7 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_GetGuildCount", (amx1, args1) => Natives.GuildNatives.DC_GetGuildCount(amx1, args1, this));
 
             //Members
+            m_Amx.Register("DC_IsMemberValid", (amx1, args1) => Natives.UserNatives.DC_IsMemberValid(amx1, args1, this));
             m_Amx.Register("DC_GetMemberCount", (amx1, args1) => Natives.GuildNatives.DC_GetMemberCount(amx1, args1, this));
             m_Amx.Register("DC_GetMemberID", (amx1, args1) => Natives.UserNatives.DC_GetMemberID(amx1, args1, this));
             m_Amx.Register("DC_GetMemberName", (amx1, args1) => Natives.UserNatives.DC_GetMemberName(amx1, args1, this));

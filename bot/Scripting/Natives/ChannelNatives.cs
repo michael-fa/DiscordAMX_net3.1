@@ -223,6 +223,19 @@ namespace dcamx.Scripting.Natives
                 DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[1].AsInt32());
 
                 channel = guild.GetChannel(Convert.ToUInt64(args1[2].AsString()));
+
+
+                if (channel == null)
+                {
+                    foreach (DiscordThreadChannel dtc in guild.Threads.Values)
+                    {
+                        if (dtc.Id == Convert.ToUInt64(args1[1].AsString()))
+                        {
+                            channel = dtc;
+                        }
+                    }
+                    return 1;
+                }
             }
             else
             {
@@ -251,7 +264,6 @@ namespace dcamx.Scripting.Natives
             }
             return 1;
         }
-
 
         public static int DC_SendChannelMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
@@ -507,7 +519,6 @@ namespace dcamx.Scripting.Natives
                 Utils.Log.Error("In native 'DC_GetChannelType'", caller_script);
                 return 0;
             }
-            return 0;
         }
 
         public static int DC_CreateChannel(AMX amx1, AMXArgumentList args1, Script caller_script)

@@ -101,7 +101,8 @@ namespace dcamx
                 foreach (string fl in Directory.GetFiles("Plugins/"))
                 {
                     if (!fl.EndsWith(".dll")) continue;
-                    Utils.Log.Info("\n---------------------------------------------\n[CORE] Found plugin: '" + fl + "' !");
+                    Utils.Log.Info("\n---------------------------------------------\n" +
+                                                   "[CORE] Found plugin: '" + fl + "' !");
                     Utils.Log.Info("\n---------------------------------------------");
                     new Plugins.Plugin(fl);
                 }
@@ -218,9 +219,9 @@ namespace dcamx
 
             //Setting everything up
             Program.m_ScriptTimers = new List<Scripting.ScriptTimer>();
-            Program.m_Scripts = new List<Scripting.Script>();   //Create list for scripts
-            Program.m_ScriptGuilds = new List<Scripting.Guild>();   //Create list for scripts
-            Program.m_Plugins = new List<Plugins.Plugin>();   //Create list for plugins
+            Program.m_Scripts = new List<Scripting.Script>(); 
+            Program.m_ScriptGuilds = new List<Scripting.Guild>();
+            Program.m_Plugins = new List<Plugins.Plugin>(); 
             m_DmUsers = new List<DiscordChannel>();
             Program.m_ScriptINIFiles = new List<IniFile>();
             Program.m_Embeds = new List<Scripting.DiscordEmbedBuilder>();

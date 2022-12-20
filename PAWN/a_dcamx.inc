@@ -72,6 +72,7 @@ native DC_GetMemberCount(guildid);
 native DC_GetGuildCount();
 
 //         - Members
+native DC_IsMemberValid(guildid = -1, memberid[]); //If you want to check for a dm channel thats valid, leave guildid to -1 | memberid is supposed be an 17-18 digit discord snowflake id.
 native DC_GetMemberName(guildid, memberid, dest_string[]);
 native DC_GetMemberDisplayName(guildid, memberid, dest_string[]);
 native DC_GetMemberDiscriminator(guildid, memberid, dest_string[]);
