@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("DiscordAMX - A PAWN Scripting expansion for your Discord Application!")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("fanter.eu")]
-[assembly: AssemblyProduct("DiscordAMX BETA BUILD")]
+[assembly: AssemblyProduct("DiscordAMX BETA 1 PREVIEW 1")]
 [assembly: AssemblyCopyright("Copyright 2022 © www.fanter.eu")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder Standardwerte für die Build- und Revisionsnummern verwenden,
 // indem Sie "*" wie unten gezeigt eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.117.1")]
-[assembly: AssemblyFileVersion("0.0.117.1")]
+[assembly: AssemblyVersion("0.0.208.1")]
+[assembly: AssemblyFileVersion("0.0.208.1")]
 [assembly: NeutralResourcesLanguage("en")]
