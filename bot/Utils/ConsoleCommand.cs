@@ -266,7 +266,6 @@ namespace dcamx.Utils
                 {
                     if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
                     Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
-                    Console.WriteLine("\n" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1));
                     new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true)._FSInit();
                 }
             }
