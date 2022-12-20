@@ -178,7 +178,7 @@ namespace dcamx.Scripting
 
             //Channels
             m_Amx.Register("DC_DeleteMessage", (amx1, args1) => Natives.ChannelNatives.DC_DeleteMessage(amx1, args1, this));
-            m_Amx.Register("DC_SendChannelMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendChannelMessage(amx1, args1, this));
+            m_Amx.Register("DC_SendMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendMessage(amx1, args1, this));
             m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_SendEmbeddedImage", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbeddedImage(amx1, args1, this));
             

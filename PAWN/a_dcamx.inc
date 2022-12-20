@@ -141,7 +141,7 @@ native DC_CreateChannel(guildid, channel_name[], channel_type = 0, parent[], top
 native DC_DeleteChannel(guildid, channelid[], reason[]);
 native DC_SendPrivateMessage(channelid[], message[], out_id[] = '\0');
 native DC_DeletePrivateMessage(channelid[], messageid[], reason[]);
-native DC_SendChannelMessage(guildid, channelid[], message[], out_id[] = '\0');
+native DC_SendMessage(guildid, channelid[], message[], out_id[] = '\0');
 native DC_DeleteMessage(guildid, channelid[], messageid[], reason[] = '\0');
 native DC_SendEmbeddedImage(guildid = -1, channelid[], image_url[], title[], description[], out_id[] = '\0'); //THIS FUNCTION WORKS FOR THREADS, DMs and TEXT CHANNELS!
 

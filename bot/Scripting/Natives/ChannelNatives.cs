@@ -327,7 +327,7 @@ namespace dcamx.Scripting.Natives
             return 1;
         }
 
-        public static int DC_SendChannelMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
+        public static int DC_SendMessage(AMX amx1, AMXArgumentList args1, Script caller_script)
         {
             if (args1.Length < 3) return 0;
 
