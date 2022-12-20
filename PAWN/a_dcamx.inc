@@ -175,6 +175,7 @@ native DC_RemovePrivateReaction(channelid[], messageid[], reaction);
 
 // Callbacks - DCAMX Core
 forward OnInit();
+forward OnFilterscriptInit();
 forward OnUnload();
 forward OnHeartbeat(ping);
 forward OnConsoleInput(input[]);

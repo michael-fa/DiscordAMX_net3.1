@@ -20,7 +20,7 @@ namespace dcamx.Scripting
             this.m_amxFile = _amxFile;
             try
             {
-                m_Amx = new AMX(System.AppContext.BaseDirectory + "/Scripts/" + _amxFile + ".amx");
+                m_Amx = new AMX(_amxFile + ".amx");
                 
             }
             catch (Exception e)

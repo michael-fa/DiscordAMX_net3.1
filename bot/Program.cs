@@ -121,8 +121,8 @@ namespace dcamx
                 {
                     // demand load main.amx     ||  skip this file
                     if (fl.StartsWith("!") || fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
-                    Log.Info("[CORE] Found filterscript: '" + fl.Remove(0, 8).Replace(".amx", "") + "' !");
-                    new Script(fl.Remove(0, 8).Replace(".amx", ""), true);
+                    Log.Info("[CORE] Found filterscript: '" + fl + "' !");
+                    new Script(fl.Replace(".amx", ""), true);
                 }
             }
             catch (Exception ex)
@@ -139,7 +139,10 @@ namespace dcamx
                 StopSafely();
                 return;
             }
-            else new Script("main");
+            else
+            {
+                new Script(System.AppContext.BaseDirectory + "/Scripts/main");
+            }
 
             //We first want to prefetch (only call constructor methods, returning us the natives) and then, above, load all the scripts and finally "really load" the plugins.
             PluginTools.RegisterNatives_Late(); //AMXRegister

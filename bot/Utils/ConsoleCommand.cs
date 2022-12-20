@@ -242,14 +242,14 @@ namespace dcamx.Utils
 
 
             //Load main.amx, or error out if not available
-            if (!File.Exists("Scripts/main.amx"))
+            if (!File.Exists(AppContext.BaseDirectory + "/Scripts/main.amx"))
             {
                 Log.Error("No 'main.amx' file found. Make sure there is at least one script called main!");
                 return;
             }
             else
             {
-                Script scr = new Script("main");
+                Script scr = new Script(AppContext.BaseDirectory + "/Scripts/main");
                 AMXPublic p = null;
                 p = scr.m_Amx.FindPublic("OnInit");
                 if (p != null)
@@ -262,10 +262,11 @@ namespace dcamx.Utils
             //Now add all other scripts
             try
             {
-                foreach (string fl in Directory.GetFiles("Scripts/"))
+                foreach (string fl in Directory.GetFiles(AppContext.BaseDirectory + "/Scripts/"))
                 {
                     if (fl.Contains("main.amx") || !fl.EndsWith(".amx")) continue;
                     Log.Info("[CORE] Found filterscript: '" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1) + "' !");
+                    Console.WriteLine("\n" + Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1));
                     new Script(Regex.Match(fl, "(?=/).*(?=.amx)").Value.ToString().Remove(0, 1), true)._FSInit();
                 }
             }
