@@ -33,7 +33,6 @@
 #define CHANNEL_TYPE_THREAD                             (11)
 
 #define MAX_USERS                      50000
-#define MAX_GAMES                      200
 #define INVALID_USER_ID                -1
 #define INVALID_TIMER_ID               -1
 
@@ -144,6 +143,7 @@ native DC_DeletePrivateMessage(channelid[], messageid[], reason[]);
 native DC_SendMessage(guildid, channelid[], message[], out_id[] = '\0');
 native DC_DeleteMessage(guildid, channelid[], messageid[], reason[] = '\0');
 native DC_SendEmbeddedImage(guildid = -1, channelid[], image_url[], title[], description[], out_id[] = '\0'); //THIS FUNCTION WORKS FOR THREADS, DMs and TEXT CHANNELS!
+native DC_MessageValid(guildid = -1, channeldid[], messageid[]);
 
 native DC_NewEmbedBuilder(title[], text[]); //THIS FUNCTION WORKS FOR THREADS, DMs and TEXT CHANNELS!
 native DC_SetEmbedAuthor(embedid, author[], url[] = '\0');

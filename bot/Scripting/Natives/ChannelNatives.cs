@@ -27,15 +27,31 @@ namespace dcamx.Scripting.Natives
                         {
                             DiscordMessage msg = null;
                             msg = dtc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result;
-                            if(msg != null)
+                            if (msg != null)
                             {
+                                foreach (Scripting.DiscordEmbedBuilder embed in Program.m_Embeds)
+                                {
+                                    if (!embed.m_MessageID.Id.Equals(msg.Id)) continue;
+                                    embed.Dispose();
+                                    break;
+                                }
                                 msg.DeleteAsync().Wait();
                             }
                         }
                     }
                 }
-                else channel.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result.DeleteAsync(args1[3].AsString()).Wait();
+                else
+                {
+                    var result = channel.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result;
+                    foreach (Scripting.DiscordEmbedBuilder embed in Program.m_Embeds)
+                    {
+                        if (!embed.m_MessageID.Id.Equals(result.Id)) continue;
+                        embed.Dispose();
+                        break;
+                    }
+                    result.DeleteAsync(args1[3].AsString()).Wait();
 
+                }
             }
             catch (Exception ex)
             {
@@ -390,6 +406,14 @@ namespace dcamx.Scripting.Natives
                 DiscordChannel dc = Program.m_Discord.Client.GetChannelAsync(Convert.ToUInt64(args1[0].AsString())).Result;
                 Task<DiscordMessage> x = dc.GetMessageAsync(Convert.ToUInt64(args1[1].AsString()));
                 if (x == null) return 0;
+
+                foreach (Scripting.DiscordEmbedBuilder embed in Program.m_Embeds)
+                {
+                    if (!embed.m_MessageID.Id.Equals(x.Id)) continue;
+                    embed.Dispose();
+                    break;
+                }
+
                 //if (x.Result.Author != Program.m_Discord.Client.CurrentUser) return 0;
                 x.Result.DeleteAsync(args1[2].AsString());
             }
@@ -400,6 +424,51 @@ namespace dcamx.Scripting.Natives
                 return 0;
             }
             return 1;
+        }
+
+        public static int DC_MessageValid(AMX amx1, AMXArgumentList args1, Script caller_script)
+        {
+            if (args1.Length != 3) return 0;
+            try
+            {
+                DiscordGuild guild = Utils.Scripting.ScrGuild_DCGuild(args1[0].AsInt32());
+                if(guild == null)
+                {
+
+                }
+                else
+                {
+                    var channel = guild.GetChannel(Convert.ToUInt64(args1[1].AsString()));
+
+                    //null exception; are we looking for an thread?
+                    if (channel == null)
+                    {
+                        foreach (DiscordThreadChannel dtc in guild.Threads.Values)
+                        {
+                            if (dtc.Id == Convert.ToUInt64(args1[1].AsString()))
+                            {
+                                DiscordMessage msg = null;
+                                msg = dtc.GetMessageAsync(Convert.ToUInt64(args1[2].AsString())).Result;
+                                if (msg == null) continue;
+                                else return 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var result = channel.GetMessageAsync(Convert.ToUInt64(args1[2].AsString()));
+                        if (result.IsFaulted) return 0;
+                        else if(result.Result != null) return 1;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Exception(ex, caller_script);
+                Utils.Log.Error("In native 'DC_MessageValid' (Invalid Channel ID, wrong ID format)", caller_script);
+            }
+            return 0;
         }
 
         public static int DC_FindChannel(AMX amx1, AMXArgumentList args1, Script caller_script)

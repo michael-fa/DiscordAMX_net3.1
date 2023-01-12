@@ -250,6 +250,11 @@ namespace dcamx
                 Log.Warning("[INI FILE] Unclosed ini file handler found for \"" + x.Path  + "\"");
             }
 
+            foreach (Scripting.DiscordEmbedBuilder x in Program.m_Embeds)
+            {
+                x.Dispose();
+            }
+
             foreach (Script script in m_Scripts)
             {
                 if (script.m_Amx == null) continue;

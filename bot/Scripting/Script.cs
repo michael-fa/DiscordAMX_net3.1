@@ -181,7 +181,8 @@ namespace dcamx.Scripting
             m_Amx.Register("DC_SendMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendMessage(amx1, args1, this));
             m_Amx.Register("DC_SendPrivateMessage", (amx1, args1) => Natives.ChannelNatives.DC_SendPrivateMessage(amx1, args1, this));
             m_Amx.Register("DC_SendEmbeddedImage", (amx1, args1) => Natives.ChannelNatives.DC_SendEmbeddedImage(amx1, args1, this));
-            
+            m_Amx.Register("DC_MessageValid", (amx1, args1) => Natives.ChannelNatives.DC_MessageValid(amx1, args1, this));
+
             m_Amx.Register("DC_NewEmbedBuilder", (amx1, args1) => Natives.ChannelNatives.DC_NewEmbedBuilder(amx1, args1, this));
             m_Amx.Register("DC_SetEmbedAuthor", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedAuthor(amx1, args1, this));
             m_Amx.Register("DC_SetEmbedFooter", (amx1, args1) => Natives.ChannelNatives.DC_SetEmbedFooter(amx1, args1, this));
