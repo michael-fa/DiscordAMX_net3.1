@@ -3,7 +3,7 @@
 ## [Read the Wiki for help](https://github.com/michael-fa/DiscordAMX/wiki)
 
 # THIS PROJECT HAS REACHED IT'S END. 
-###But DiscordAMX and TelePawn will soon be reworked with NET 7.0 and higher as it's platform to support linux hosting.
+### But DiscordAMX and TelePawn will soon be reworked with NET 7.0 and higher as it's platform to support linux hosting.
 
 
 
